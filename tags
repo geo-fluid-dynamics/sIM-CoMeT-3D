@@ -1,6 +1,11 @@
 !_TAG_FILE_SORTED	2	/0=unsorted, 1=sorted, 2=foldcase/
 add	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/field.cpp	/^		void add(Field& field)$/;"	f	language:C++	class:Field
 copy	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/field.cpp	/^		Field copy(Field& field)$/;"	f	language:C++	class:Field
+cpL	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/model.cpp	/^		double cpL = 4222.22;$/;"	m	language:C++	class:Model	file:
+cpS	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/model.cpp	/^		double cpS = 2049.41;$/;"	m	language:C++	class:Model	file:
+deltaCoeffMax	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/model.cpp	/^		double deltaCoeffMax = 1.3;$/;"	m	language:C++	class:Model	file:
+deltaCoeffMin	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/model.cpp	/^		double deltaCoeffMin = 0.7;$/;"	m	language:C++	class:Model	file:
+deltaRelax	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/model.cpp	/^		double deltaRelax = 0.01;$/;"	m	language:C++	class:Model	file:
 differentiate	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/field.cpp	/^		Field differentiate(Field& field, dMode mode, dDir dir)$/;"	f	language:C++	class:Field
 dx	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/field.cpp	/^		double dx;$/;"	m	language:C++	class:Field	file:
 dy	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/field.cpp	/^		double dy;$/;"	m	language:C++	class:Field	file:
@@ -8,17 +13,38 @@ dz	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/field.cpp	/^		double dz;$/;"	
 Field	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/field.cpp	/^		Field(int inx, int iny, int inz, double iLx, double iLy, double iLz)$/;"	f	language:C++	class:Field
 Field	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/field.cpp	/^		Field(Model&  model)$/;"	f	language:C++	class:Field
 Field	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/field.cpp	/^class Field {$/;"	c	language:C++	file:
+Fscrew	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/model.cpp	/^		double Fscrew = 800;$/;"	m	language:C++	class:Model	file:
+FTol	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/model.cpp	/^		double FTol = 1e-6;$/;"	m	language:C++	class:Model	file:
 get	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/field.cpp	/^		double get(int i, int j, int k)$/;"	f	language:C++	class:Field
 getSubfield	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/field.cpp	/^		Field getSubfield(Field& field, int i1, int i2, int j1, int j2, int k1, int k2)$/;"	f	language:C++	class:Field
+hm	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/model.cpp	/^		double hm = 3.337e5;$/;"	m	language:C++	class:Model	file:
 integrate	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/field.cpp	/^		double integrate(Field& field)$/;"	f	language:C++	class:Field
 isFinite	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/field.cpp	/^		bool isFinite(Field& field)$/;"	f	language:C++	class:Field
+kL	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/model.cpp	/^		double kL = 0.57;$/;"	m	language:C++	class:Model	file:
 Lx	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/field.cpp	/^		double Lx;$/;"	m	language:C++	class:Field	file:
+Lx	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/model.cpp	/^		double Lx = 0.075;$/;"	m	language:C++	class:Model	file:
 Ly	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/field.cpp	/^		double Ly;$/;"	m	language:C++	class:Field	file:
+Ly	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/model.cpp	/^		double Ly = 0.075;$/;"	m	language:C++	class:Model	file:
 Lz	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/field.cpp	/^		double Lz;$/;"	m	language:C++	class:Field	file:
+maxFluxError	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/model.cpp	/^		double maxFluxError = 100;$/;"	m	language:C++	class:Model	file:
+maxLoopIter	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/model.cpp	/^		int maxLoopIter = 100;$/;"	m	language:C++	class:Model	file:
+Model	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/model.cpp	/^class Model {$/;"	c	language:C++	file:
+MTol	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/model.cpp	/^		double MTol = 1e-10;$/;"	m	language:C++	class:Model	file:
+mu	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/model.cpp	/^		double mu = 0.001;$/;"	m	language:C++	class:Model	file:
 multiply	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/field.cpp	/^		void multiply(double factor)$/;"	f	language:C++	class:Field
 multiply	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/field.cpp	/^		void multiply(Field& field)$/;"	f	language:C++	class:Field
 nx	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/field.cpp	/^		int nx;$/;"	m	language:C++	class:Field	file:
+nx	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/model.cpp	/^		int nx = 30;$/;"	m	language:C++	class:Model	file:
 ny	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/field.cpp	/^		int ny;$/;"	m	language:C++	class:Field	file:
+ny	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/model.cpp	/^		int ny = 30;$/;"	m	language:C++	class:Model	file:
 nz	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/field.cpp	/^		int nz;$/;"	m	language:C++	class:Field	file:
+nz	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/model.cpp	/^		int nz = 20;$/;"	m	language:C++	class:Model	file:
+qwExp	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/model.cpp	/^		string qwExp = "10";$/;"	m	language:C++	class:Model	file:
+rhoS	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/model.cpp	/^		double rhoS = 920;$/;"	m	language:C++	class:Model	file:
 set	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/field.cpp	/^		void set(int i, int j, int k, double value)$/;"	f	language:C++	class:Field
+sidesBC	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/model.cpp	/^		boundary sidesBC = NEUMANN;$/;"	m	language:C++	class:Model	file:
+southBC	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/model.cpp	/^		boundary southBC = DIRICHLET;$/;"	m	language:C++	class:Model	file:
+Tinf	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/model.cpp	/^		double Tinf = -20;$/;"	m	language:C++	class:Model	file:
+Tm	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/model.cpp	/^		double Tm = 0;$/;"	m	language:C++	class:Model	file:
+TwExp	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/model.cpp	/^		string TwExp = "30+10*x\/L_x";$/;"	m	language:C++	class:Model	file:
 values	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/field.cpp	/^		std::vector<double> values;$/;"	m	language:C++	class:Field	file:
