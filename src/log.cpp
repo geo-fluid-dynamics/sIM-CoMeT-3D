@@ -24,6 +24,7 @@ Log::Log()
 		mkdir("outputs", 0755);
 
 	ptr = fopen(logFileName, "w");
+	filename = std::string(logFileName);
 	free(logFileName);
 
 

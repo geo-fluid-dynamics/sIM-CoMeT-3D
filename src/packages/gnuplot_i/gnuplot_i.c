@@ -500,7 +500,7 @@ void gnuplot_plot_slope(
 )
 {
     char const *    cmd    = (handle->nplots > 0) ? "replot" : "plot";
-    title                  = (title == NULL)      ? "(none)" : title;
+    /* title                  = (title == NULL)      ? "(none)" : title; */
 
     gnuplot_cmd(handle, "%s %.18e * x + %.18e title \"%s\" with %s",
                   cmd, a, b, title, handle->pstyle) ;
@@ -517,7 +517,7 @@ void gnuplot_plot_equation(
 )
 {
     char const *    cmd    = (h->nplots > 0) ? "replot" : "plot";
-    title                  = (title == NULL)      ? "(none)" : title;
+    /* title                  = (title == NULL)      ? "(none)" : title; */
 
     gnuplot_cmd(h, "%s %s title \"%s\" with %s",
                   cmd, equation, title, h->pstyle) ;

@@ -1,10 +1,12 @@
 !_TAG_FILE_SORTED	2	/0=unsorted, 1=sorted, 2=foldcase/
 Abort	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.cpp	/^    void ParserTester::Abort() const$/;"	f	language:C++	class:mu::Test::ParserTester
+Abort	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.h	/^        void Abort() const;$/;"	p	language:C++	class:mu::Test::ParserTester
 Abs	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParser.cpp	/^  value_type Parser::Abs(value_type v)  { return MathImpl<value_type>::Abs(v);  }$/;"	f	language:C++	class:mu::Parser
 Abs	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserInt.cpp	/^value_type ParserInt::Abs(value_type v)  { return (value_type)Round(fabs((double)v)); }$/;"	f	language:C++	class:mu::ParserInt
 ACos	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParser.cpp	/^  value_type Parser::ACos(value_type v)  { return MathImpl<value_type>::ACos(v); }$/;"	f	language:C++	class:mu::Parser
 ACosh	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParser.cpp	/^  value_type Parser::ACosh(value_type v) { return MathImpl<value_type>::ACosh(v); }$/;"	f	language:C++	class:mu::Parser
 Add	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserInt.cpp	/^value_type ParserInt::Add(value_type v1, value_type v2) { return Round(v1)  + Round(v2); }$/;"	f	language:C++	class:mu::ParserInt
+add	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.h	/^        static value_type add(value_type v1, value_type v2) { return v1+v2; }$/;"	f	language:C++	class:mu::Test::ParserTester
 AddAssignOp	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserBytecode.cpp	/^  void ParserByteCode::AddAssignOp(value_type *a_pVar)$/;"	f	language:C++	class:mu::ParserByteCode
 AddBulkFun	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserBytecode.cpp	/^  void ParserByteCode::AddBulkFun(generic_fun_type a_pFun, int a_iArgc)$/;"	f	language:C++	class:mu::ParserByteCode
 AddCallback	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserBase.cpp	/^  void ParserBase::AddCallback( const string_type &a_strName,$/;"	f	language:C++	class:mu::ParserBase
@@ -13,6 +15,7 @@ AddIfElse	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/
 AddOp	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserBytecode.cpp	/^  void ParserByteCode::AddOp(ECmdCode a_Oprt)$/;"	f	language:C++	class:mu::ParserByteCode
 AddStrFun	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserBytecode.cpp	/^  void ParserByteCode::AddStrFun(generic_fun_type a_pFun, int a_iArgc, int a_iIdx)$/;"	f	language:C++	class:mu::ParserByteCode
 AddTest	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.cpp	/^    void ParserTester::AddTest(testfun_type a_pFun)$/;"	f	language:C++	class:mu::Test::ParserTester
+AddTest	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.h	/^	      void AddTest(testfun_type a_pFun);$/;"	p	language:C++	class:mu::Test::ParserTester
 AddVal	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserBytecode.cpp	/^  void ParserByteCode::AddVal(value_type a_fVal)$/;"	f	language:C++	class:mu::ParserByteCode
 AddValIdent	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserBase.cpp	/^  void ParserBase::AddValIdent(identfun_type a_pCallback)$/;"	f	language:C++	class:mu::ParserBase
 AddValIdent	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTokenReader.cpp	/^  void ParserTokenReader::AddValIdent(identfun_type a_pCallback)$/;"	f	language:C++	class:mu::ParserTokenReader
@@ -53,6 +56,7 @@ Cosh	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muPar
 CreateRPN	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserBase.cpp	/^  void ParserBase::CreateRPN() const$/;"	f	language:C++	class:mu::ParserBase
 c_DefaultOprt	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserBase.cpp	/^  const char_type* ParserBase::c_DefaultOprt[] = $/;"	m	language:C++	class:mu::ParserBase	file:
 c_iCount	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.cpp	/^    int ParserTester::c_iCount = 0;$/;"	m	language:C++	class:mu::Test::ParserTester	file:
+c_iCount	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.h	/^        static int c_iCount;$/;"	m	language:C++	class:mu::Test::ParserTester
 DefineConst	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserBase.cpp	/^  void ParserBase::DefineConst(const string_type &a_sName, value_type a_fVal)$/;"	f	language:C++	class:mu::ParserBase
 DefineInfixOprt	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserBase.cpp	/^  void ParserBase::DefineInfixOprt(const string_type &a_sName, $/;"	f	language:C++	class:mu::ParserBase
 DefineInfixOprtChars	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserBase.cpp	/^  void ParserBase::DefineInfixOprtChars(const char_type *a_szCharset)$/;"	f	language:C++	class:mu::ParserBase
@@ -70,9 +74,13 @@ EnableDebugDump	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/mup
 EnableOptimizer	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserBase.cpp	/^  void ParserBase::EnableOptimizer(bool a_bIsOn)$/;"	f	language:C++	class:mu::ParserBase
 EnableOptimizer	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserBytecode.cpp	/^  void ParserByteCode::EnableOptimizer(bool bStat)$/;"	f	language:C++	class:mu::ParserByteCode
 EqnTest	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.cpp	/^    int ParserTester::EqnTest(const string_type &a_str, double a_fRes, bool a_fPass)$/;"	f	language:C++	class:mu::Test::ParserTester
+EqnTest	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.h	/^        int EqnTest(const string_type& a_str, double a_fRes, bool a_fPass);$/;"	p	language:C++	class:mu::Test::ParserTester
 EqnTestBulk	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.cpp	/^    int ParserTester::EqnTestBulk(const string_type &a_str, double a_fRes[4], bool a_fPass)$/;"	f	language:C++	class:mu::Test::ParserTester
+EqnTestBulk	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.h	/^        int EqnTestBulk(const string_type& a_str, double a_fRes[4], bool a_fPass);$/;"	p	language:C++	class:mu::Test::ParserTester
 EqnTestInt	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.cpp	/^    int ParserTester::EqnTestInt(const string_type &a_str, double a_fRes, bool a_fPass)$/;"	f	language:C++	class:mu::Test::ParserTester
-EqnTestWithVarChange	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.cpp	/^    int ParserTester::EqnTestWithVarChange(const string_type &a_str, $/;"	f	language:C++	class:mu::Test::ParserTester
+EqnTestInt	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.h	/^        int EqnTestInt(const string_type& a_str, double a_fRes, bool a_fPass);$/;"	p	language:C++	class:mu::Test::ParserTester
+EqnTestWithVarChange	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.cpp	/^    int ParserTester::EqnTestWithVarChange(const string_type &a_str,$/;"	f	language:C++	class:mu::Test::ParserTester
+EqnTestWithVarChange	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.h	/^        int EqnTestWithVarChange(const string_type& a_str,$/;"	p	language:C++	class:mu::Test::ParserTester
 EQN_TEST_BULK	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.cpp	166;"	d	language:C++	file:
 EQN_TEST_BULK	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.cpp	184;"	d	language:C++	file:
 Equal	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserInt.cpp	/^value_type ParserInt::Equal(value_type v1, value_type v2)     { return Round(v1) == Round(v2); }$/;"	f	language:C++	class:mu::ParserInt
@@ -86,7 +94,23 @@ exc	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muPars
 Exp	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParser.cpp	/^  value_type Parser::Exp(value_type v)  { return MathImpl<value_type>::Exp(v);  }$/;"	f	language:C++	class:mu::Parser
 ExtractOperatorToken	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTokenReader.cpp	/^  int ParserTokenReader::ExtractOperatorToken(string_type &a_sTok,$/;"	f	language:C++	class:mu::ParserTokenReader
 ExtractToken	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTokenReader.cpp	/^  int ParserTokenReader::ExtractToken(const char_type *a_szCharSet,$/;"	f	language:C++	class:mu::ParserTokenReader
+f1of1	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.h	/^        static value_type f1of1(value_type v) { return v;};$/;"	f	language:C++	class:mu::Test::ParserTester
+f1of2	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.h	/^        static value_type f1of2(value_type v, value_type  ) {return v;};$/;"	f	language:C++	class:mu::Test::ParserTester
+f1of3	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.h	/^        static value_type f1of3(value_type v, value_type  , value_type  ) {return v;};$/;"	f	language:C++	class:mu::Test::ParserTester
+f1of4	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.h	/^        static value_type f1of4(value_type v, value_type,   value_type  , value_type  ) {return v;}$/;"	f	language:C++	class:mu::Test::ParserTester
+f1of5	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.h	/^        static value_type f1of5(value_type v, value_type,   value_type  , value_type  , value_type  ) { return v; }$/;"	f	language:C++	class:mu::Test::ParserTester
+f2of2	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.h	/^        static value_type f2of2(value_type  , value_type v) {return v;};$/;"	f	language:C++	class:mu::Test::ParserTester
+f2of3	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.h	/^        static value_type f2of3(value_type  , value_type v, value_type  ) {return v;};$/;"	f	language:C++	class:mu::Test::ParserTester
+f2of4	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.h	/^        static value_type f2of4(value_type  , value_type v, value_type  , value_type  ) {return v;}$/;"	f	language:C++	class:mu::Test::ParserTester
+f2of5	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.h	/^        static value_type f2of5(value_type  , value_type v, value_type  , value_type  , value_type  ) { return v; }$/;"	f	language:C++	class:mu::Test::ParserTester
+f3of3	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.h	/^        static value_type f3of3(value_type  , value_type  , value_type v) {return v;};$/;"	f	language:C++	class:mu::Test::ParserTester
+f3of4	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.h	/^        static value_type f3of4(value_type  , value_type,   value_type v, value_type  ) {return v;}$/;"	f	language:C++	class:mu::Test::ParserTester
+f3of5	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.h	/^        static value_type f3of5(value_type  , value_type,   value_type v, value_type  , value_type  ) { return v; }$/;"	f	language:C++	class:mu::Test::ParserTester
+f4of4	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.h	/^        static value_type f4of4(value_type  , value_type,   value_type  , value_type v) {return v;}$/;"	f	language:C++	class:mu::Test::ParserTester
+f4of5	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.h	/^        static value_type f4of5(value_type  , value_type,   value_type  , value_type v, value_type  ) { return v; }$/;"	f	language:C++	class:mu::Test::ParserTester
+f5of5	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.h	/^        static value_type f5of5(value_type  , value_type,   value_type  , value_type  , value_type v) { return v; }$/;"	f	language:C++	class:mu::Test::ParserTester
 Finalize	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserBytecode.cpp	/^  void ParserByteCode::Finalize()$/;"	f	language:C++	class:mu::ParserByteCode
+FirstArg	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.h	/^        static value_type FirstArg(const value_type* a_afArg, int a_iArgc)$/;"	f	language:C++	class:mu::Test::ParserTester
 GetAddr	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserCallback.cpp	/^  void* ParserCallback::GetAddr() const $/;"	f	language:C++	class:mu::ParserCallback
 GetArgc	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserCallback.cpp	/^  int ParserCallback::GetArgc() const $/;"	f	language:C++	class:mu::ParserCallback
 GetArgSep	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserBase.cpp	/^  char_type ParserBase::GetArgSep() const$/;"	f	language:C++	class:mu::ParserBase
@@ -141,6 +165,7 @@ IsEOF	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muPa
 IsFunTok	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTokenReader.cpp	/^  bool ParserTokenReader::IsFunTok(token_type &a_Tok)$/;"	f	language:C++	class:mu::ParserTokenReader
 IsHexVal	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserInt.cpp	/^int ParserInt::IsHexVal(const char_type *a_szExpr, int *a_iPos, value_type *a_fVal)$/;"	f	language:C++	class:mu::ParserInt
 IsHexVal	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.cpp	/^    int ParserTester::IsHexVal(const char_type *a_szExpr, int *a_iPos, value_type *a_fVal)$/;"	f	language:C++	class:mu::Test::ParserTester
+IsHexVal	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.h	/^        static int IsHexVal(const char_type *a_szExpr, int *a_iPos, value_type *a_fVal);$/;"	p	language:C++	class:mu::Test::ParserTester
 IsInfixOpTok	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTokenReader.cpp	/^  bool ParserTokenReader::IsInfixOpTok(token_type &a_Tok)$/;"	f	language:C++	class:mu::ParserTokenReader
 IsOprt	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTokenReader.cpp	/^  bool ParserTokenReader::IsOprt(token_type &a_Tok)$/;"	f	language:C++	class:mu::ParserTokenReader
 IsOptimizable	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserCallback.cpp	/^  bool ParserCallback::IsOptimizable() const  $/;"	f	language:C++	class:mu::ParserCallback
@@ -153,6 +178,8 @@ IsVal	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muPa
 IsValTok	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTokenReader.cpp	/^  bool ParserTokenReader::IsValTok(token_type &a_Tok)$/;"	f	language:C++	class:mu::ParserTokenReader
 IsVarTok	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTokenReader.cpp	/^  bool ParserTokenReader::IsVarTok(token_type &a_Tok)$/;"	f	language:C++	class:mu::ParserTokenReader
 Ite	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserInt.cpp	/^value_type ParserInt::Ite(value_type v1, $/;"	f	language:C++	class:mu::ParserInt
+land	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.h	/^        static value_type land(value_type v1, value_type v2) { return (int)v1 & (int)v2; }$/;"	f	language:C++	class:mu::Test::ParserTester
+LastArg	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.h	/^        static value_type LastArg(const value_type* a_afArg, int a_iArgc)$/;"	f	language:C++	class:mu::Test::ParserTester
 Less	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserInt.cpp	/^value_type ParserInt::Less(value_type v1, value_type v2)      { return Round(v1)  < Round(v2); }$/;"	f	language:C++	class:mu::ParserInt
 LessEq	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserInt.cpp	/^value_type ParserInt::LessEq(value_type v1, value_type v2)    { return Round(v1) <= Round(v2); }$/;"	f	language:C++	class:mu::ParserInt
 Ln	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParser.cpp	/^  value_type Parser::Ln(value_type v)$/;"	f	language:C++	class:mu::Parser
@@ -162,8 +189,13 @@ LogAnd	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muP
 LogOr	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserInt.cpp	/^value_type ParserInt::LogOr(value_type v1, value_type v2)  { return Round(v1) | Round(v2); }$/;"	f	language:C++	class:mu::ParserInt
 Max	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParser.cpp	/^  value_type Parser::Max(const value_type *a_afArg, int a_iArgc)$/;"	f	language:C++	class:mu::Parser
 Max	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserInt.cpp	/^value_type ParserInt::Max(const value_type* a_afArg, int a_iArgc)$/;"	f	language:C++	class:mu::ParserInt
+Max	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.h	/^  	    static value_type Max(value_type a_fVal1, value_type a_fVal2) { return (a_fVal1>a_fVal2) ? a_fVal1 : a_fVal2; }$/;"	f	language:C++	class:mu::Test::ParserTester
+Mega	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.h	/^        static value_type Mega(value_type a_fVal)  { return a_fVal * (value_type)1e6; }$/;"	f	language:C++	class:mu::Test::ParserTester
+Micro	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.h	/^        static value_type Micro(value_type a_fVal) { return a_fVal * (value_type)1e-6; }$/;"	f	language:C++	class:mu::Test::ParserTester
+Milli	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.h	/^        static value_type Milli(value_type a_fVal) { return a_fVal \/ (value_type)1e3; }$/;"	f	language:C++	class:mu::Test::ParserTester
 Min	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParser.cpp	/^  value_type Parser::Min(const value_type *a_afArg, int a_iArgc)$/;"	f	language:C++	class:mu::Parser
 Min	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserInt.cpp	/^value_type ParserInt::Min(const value_type* a_afArg, int a_iArgc)$/;"	f	language:C++	class:mu::ParserInt
+Min	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.h	/^        static value_type Min(value_type a_fVal1, value_type a_fVal2) { return (a_fVal1<a_fVal2) ? a_fVal1 : a_fVal2; }$/;"	f	language:C++	class:mu::Test::ParserTester
 Mod	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserInt.cpp	/^value_type ParserInt::Mod(value_type v1, value_type v2) { return Round(v1)  % Round(v2); }$/;"	f	language:C++	class:mu::ParserInt
 mu	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParser.cpp	/^namespace mu$/;"	n	language:C++	file:
 mu	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserBase.cpp	/^namespace mu$/;"	n	language:C++	file:
@@ -172,6 +204,7 @@ mu	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParse
 mu	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserError.cpp	/^namespace mu$/;"	n	language:C++	file:
 mu	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserInt.cpp	/^namespace mu$/;"	n	language:C++	file:
 mu	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.cpp	/^namespace mu$/;"	n	language:C++	file:
+mu	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.h	/^namespace mu$/;"	n	language:C++
 mu	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTokenReader.cpp	/^namespace mu$/;"	n	language:C++	file:
 muError_t	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserDLL.cpp	/^typedef mu::ParserBase::exception_type muError_t;$/;"	t	language:C++	file:
 Mul	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserInt.cpp	/^value_type ParserInt::Mul(value_type v1, value_type v2) { return Round(v1)  * Round(v2); }$/;"	f	language:C++	class:mu::ParserInt
@@ -247,9 +280,11 @@ mupSetExpr	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser
 mupSetThousandsSep	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserDLL.cpp	/^API_EXPORT(void) mupSetThousandsSep(muParserHandle_t a_hParser, const muChar_t cThousandsSep)$/;"	f	language:C++
 mupSetVarFactory	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserDLL.cpp	/^API_EXPORT(void) mupSetVarFactory(muParserHandle_t a_hParser, muFacFun_t a_pFactory, void *pUserData)$/;"	f	language:C++
 MU_CATCH	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserDLL.cpp	42;"	d	language:C++	file:
+MU_PARSER_TEST_H	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.h	27;"	d	language:C++
 MU_TRY	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserDLL.cpp	38;"	d	language:C++	file:
 m_Instance	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserError.cpp	/^  const ParserErrorMsg ParserErrorMsg::m_Instance;$/;"	m	language:C++	class:mu::ParserErrorMsg	file:
 m_nParserType	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserDLL.cpp	/^    int m_nParserType;$/;"	m	language:C++	class:ParserTag	file:
+m_vTestFun	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.h	/^        std::vector<testfun_type> m_vTestFun;$/;"	m	language:C++	class:mu::Test::ParserTester
 Not	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserInt.cpp	/^value_type ParserInt::Not(value_type v) { return !Round(v); }$/;"	f	language:C++	class:mu::ParserInt
 NotEqual	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserInt.cpp	/^value_type ParserInt::NotEqual(value_type v1, value_type v2)  { return Round(v1) != Round(v2); }$/;"	f	language:C++	class:mu::ParserInt
 OnDetectVar	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParser.cpp	/^  void Parser::OnDetectVar(string_type * \/*pExpr*\/, int & \/*nStart*\/, int & \/*nEnd*\/)$/;"	f	language:C++	class:mu::Parser
@@ -312,6 +347,8 @@ ParserTag	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/
 ParserTag	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserDLL.cpp	/^    ParserTag(int nType)$/;"	f	language:C++	class:ParserTag
 ParserTag	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserDLL.cpp	/^class ParserTag$/;"	c	language:C++	file:
 ParserTester	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.cpp	/^    ParserTester::ParserTester()$/;"	f	language:C++	class:mu::Test::ParserTester
+ParserTester	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.h	/^	      ParserTester();$/;"	p	language:C++	class:mu::Test::ParserTester
+ParserTester	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.h	/^    class ParserTester \/\/ final$/;"	c	language:C++	namespace:mu::Test
 ParserTokenReader	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTokenReader.cpp	/^  ParserTokenReader::ParserTokenReader(const ParserTokenReader &a_Reader)$/;"	f	language:C++	class:mu::ParserTokenReader
 ParserTokenReader	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTokenReader.cpp	/^  ParserTokenReader::ParserTokenReader(ParserBase *a_pParent)$/;"	f	language:C++	class:mu::ParserTokenReader
 PARSER_CONST_E	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParser.cpp	38;"	d	language:C++	file:
@@ -321,6 +358,8 @@ PARSER_CONST_PI	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/mup
 PARSER_THROWCHECK	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.cpp	341;"	d	language:C++	file:
 PARSER_THROWCHECK	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.cpp	429;"	d	language:C++	file:
 ParseString	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserBase.cpp	/^  value_type ParserBase::ParseString() const$/;"	f	language:C++	class:mu::ParserBase
+Ping	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.h	/^        static value_type Ping()$/;"	f	language:C++	class:mu::Test::ParserTester
+plus2	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.h	/^        static value_type plus2(value_type v1) { return v1+2; }$/;"	f	language:C++	class:mu::Test::ParserTester
 Pow	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserInt.cpp	/^value_type ParserInt::Pow(value_type v1, value_type v2) $/;"	f	language:C++	class:mu::ParserInt
 pParser	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserDLL.cpp	/^    mu::ParserBase *pParser;$/;"	m	language:C++	class:ParserTag	file:
 ReadNextToken	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTokenReader.cpp	/^  ParserTokenReader::token_type ParserTokenReader::ReadNextToken()$/;"	f	language:C++	class:mu::ParserTokenReader
@@ -331,7 +370,10 @@ ReplaceSubString	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/mu
 Reset	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserError.cpp	/^  void ParserError::Reset()$/;"	f	language:C++	class:mu::ParserError
 ResetLocale	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserBase.cpp	/^  void ParserBase::ResetLocale()$/;"	f	language:C++	class:mu::ParserBase
 Rint	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParser.cpp	/^  value_type Parser::Rint(value_type v) { return MathImpl<value_type>::Rint(v); }$/;"	f	language:C++	class:mu::Parser
+Rnd	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.h	/^        static value_type Rnd(value_type v)$/;"	f	language:C++	class:mu::Test::ParserTester
+RndWithString	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.h	/^        static value_type RndWithString(const char_type*)$/;"	f	language:C++	class:mu::Test::ParserTester
 Run	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.cpp	/^    void ParserTester::Run()$/;"	f	language:C++	class:mu::Test::ParserTester
+Run	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.h	/^	      void Run();$/;"	p	language:C++	class:mu::Test::ParserTester
 SaveBeforeReturn	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTokenReader.cpp	/^  ParserTokenReader::token_type& ParserTokenReader::SaveBeforeReturn(const token_type &tok)$/;"	f	language:C++	class:mu::ParserTokenReader
 SetArgSep	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserBase.cpp	/^  void ParserBase::SetArgSep(char_type cArgSep)$/;"	f	language:C++	class:mu::ParserBase
 SetArgSep	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTokenReader.cpp	/^  void ParserTokenReader::SetArgSep(char_type cArgSep)$/;"	f	language:C++	class:mu::ParserTokenReader
@@ -347,38 +389,63 @@ Shl	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muPars
 Shr	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserInt.cpp	/^value_type ParserInt::Shr(value_type v1, value_type v2) { return Round(v1) >> Round(v2); }$/;"	f	language:C++	class:mu::ParserInt
 Sign	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParser.cpp	/^  value_type Parser::Sign(value_type v) { return MathImpl<value_type>::Sign(v); }$/;"	f	language:C++	class:mu::Parser
 Sign	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserInt.cpp	/^value_type ParserInt::Sign(value_type v) { return (Round(v)<0) ? -1 : (Round(v)>0) ? 1 : 0; }$/;"	f	language:C++	class:mu::ParserInt
+sign	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.h	/^        static value_type sign(value_type v) { return -v; }$/;"	f	language:C++	class:mu::Test::ParserTester
 Sin	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParser.cpp	/^  value_type Parser::Sin(value_type v)   { return MathImpl<value_type>::Sin(v);  }$/;"	f	language:C++	class:mu::Parser
 Sinh	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParser.cpp	/^  value_type Parser::Sinh(value_type v)  { return MathImpl<value_type>::Sinh(v); }$/;"	f	language:C++	class:mu::Parser
+sqr	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.h	/^        static value_type sqr(value_type v1) { return v1*v1; }$/;"	f	language:C++	class:mu::Test::ParserTester
 Sqrt	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParser.cpp	/^  value_type Parser::Sqrt(value_type v)$/;"	f	language:C++	class:mu::Parser
 StackDump	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserBase.cpp	/^  void ParserBase::StackDump(const ParserStack<token_type> &a_stVal, $/;"	f	language:C++	class:mu::ParserBase
+StrFun1	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.h	/^        static value_type StrFun1(const char_type* v1)$/;"	f	language:C++	class:mu::Test::ParserTester
+StrFun2	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.h	/^        static value_type StrFun2(const char_type* v1, value_type v2)$/;"	f	language:C++	class:mu::Test::ParserTester
+StrFun3	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.h	/^        static value_type StrFun3(const char_type* v1, value_type v2, value_type v3)$/;"	f	language:C++	class:mu::Test::ParserTester
+StrToFloat	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.h	/^        static value_type StrToFloat(const char_type* a_szMsg)$/;"	f	language:C++	class:mu::Test::ParserTester
 Sub	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserInt.cpp	/^value_type ParserInt::Sub(value_type v1, value_type v2) { return Round(v1)  - Round(v2); }$/;"	f	language:C++	class:mu::ParserInt
 Sum	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParser.cpp	/^  value_type Parser::Sum(const value_type *a_afArg, int a_iArgc)$/;"	f	language:C++	class:mu::Parser
 Sum	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserInt.cpp	/^value_type ParserInt::Sum(const value_type* a_afArg, int a_iArgc)$/;"	f	language:C++	class:mu::ParserInt
+Sum	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.h	/^        static value_type Sum(const value_type* a_afArg, int a_iArgc)$/;"	f	language:C++	class:mu::Test::ParserTester
 s_locale	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserBase.cpp	/^  std::locale ParserBase::s_locale = std::locale(std::locale::classic(), new change_dec_sep<char_type>('.'));$/;"	m	language:C++	class:mu::ParserBase	file:
 s_tmpOutBuf	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserDLL.cpp	/^static muChar_t s_tmpOutBuf[2048];$/;"	v	language:C++	file:
 Tan	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParser.cpp	/^  value_type Parser::Tan(value_type v)   { return MathImpl<value_type>::Tan(v);  }$/;"	f	language:C++	class:mu::Parser
 Tanh	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParser.cpp	/^  value_type Parser::Tanh(value_type v)  { return MathImpl<value_type>::Tanh(v); }$/;"	f	language:C++	class:mu::Parser
 Test	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.cpp	/^  namespace Test$/;"	n	language:C++	namespace:mu	file:
+Test	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.h	/^  namespace Test$/;"	n	language:C++	namespace:mu
 TestBinOprt	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.cpp	/^    int ParserTester::TestBinOprt()$/;"	f	language:C++	class:mu::Test::ParserTester
+TestBinOprt	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.h	/^        int TestBinOprt();$/;"	p	language:C++	class:mu::Test::ParserTester
 TestBulkMode	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.cpp	/^    int ParserTester::TestBulkMode()$/;"	f	language:C++	class:mu::Test::ParserTester
+TestBulkMode	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.h	/^        int TestBulkMode();$/;"	p	language:C++	class:mu::Test::ParserTester
 TestException	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.cpp	/^    int ParserTester::TestException()$/;"	f	language:C++	class:mu::Test::ParserTester
+TestException	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.h	/^        int TestException();$/;"	p	language:C++	class:mu::Test::ParserTester
 TestExpression	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.cpp	/^    int ParserTester::TestExpression()$/;"	f	language:C++	class:mu::Test::ParserTester
+TestExpression	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.h	/^        int TestExpression();$/;"	p	language:C++	class:mu::Test::ParserTester
+testfun_type	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.h	/^        typedef int (ParserTester::*testfun_type)();$/;"	t	language:C++	class:mu::Test::ParserTester
 TestIfThenElse	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.cpp	/^    int ParserTester::TestIfThenElse()$/;"	f	language:C++	class:mu::Test::ParserTester
+TestIfThenElse	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.h	/^        int TestIfThenElse();$/;"	p	language:C++	class:mu::Test::ParserTester
 TestInfixOprt	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.cpp	/^    int ParserTester::TestInfixOprt()$/;"	f	language:C++	class:mu::Test::ParserTester
+TestInfixOprt	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.h	/^        int TestInfixOprt();$/;"	p	language:C++	class:mu::Test::ParserTester
 TestInterface	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.cpp	/^    int ParserTester::TestInterface()$/;"	f	language:C++	class:mu::Test::ParserTester
+TestInterface	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.h	/^        int TestInterface();$/;"	p	language:C++	class:mu::Test::ParserTester
 TestMultiArg	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.cpp	/^    int ParserTester::TestMultiArg()$/;"	f	language:C++	class:mu::Test::ParserTester
+TestMultiArg	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.h	/^        int TestMultiArg();$/;"	p	language:C++	class:mu::Test::ParserTester
 TestNames	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.cpp	/^    int ParserTester::TestNames()$/;"	f	language:C++	class:mu::Test::ParserTester
+TestNames	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.h	/^        int TestNames();$/;"	p	language:C++	class:mu::Test::ParserTester
 TestPostFix	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.cpp	/^    int ParserTester::TestPostFix()$/;"	f	language:C++	class:mu::Test::ParserTester
+TestPostFix	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.h	/^        int TestPostFix();$/;"	p	language:C++	class:mu::Test::ParserTester
 TestStrArg	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.cpp	/^    int ParserTester::TestStrArg()$/;"	f	language:C++	class:mu::Test::ParserTester
+TestStrArg	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.h	/^        int TestStrArg();$/;"	p	language:C++	class:mu::Test::ParserTester
 TestSyntax	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.cpp	/^    int ParserTester::TestSyntax()$/;"	f	language:C++	class:mu::Test::ParserTester
+TestSyntax	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.h	/^        int TestSyntax();$/;"	p	language:C++	class:mu::Test::ParserTester
 TestVarConst	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.cpp	/^    int ParserTester::TestVarConst()$/;"	f	language:C++	class:mu::Test::ParserTester
+TestVarConst	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.h	/^        int TestVarConst();$/;"	p	language:C++	class:mu::Test::ParserTester
 ThrowTest	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.cpp	/^    int ParserTester::ThrowTest(const string_type &a_str, int a_iErrc, bool a_bFail)$/;"	f	language:C++	class:mu::Test::ParserTester
+ThrowTest	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.h	/^        int ThrowTest(const string_type& a_str, int a_iErrc, bool a_bFail = true);$/;"	p	language:C++	class:mu::Test::ParserTester
+times3	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.h	/^        static value_type times3(value_type v1) { return v1*3; }$/;"	f	language:C++	class:mu::Test::ParserTester
 UnaryMinus	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParser.cpp	/^  value_type Parser::UnaryMinus(value_type v)$/;"	f	language:C++	class:mu::Parser
 UnaryMinus	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserInt.cpp	/^value_type ParserInt::UnaryMinus(value_type v) $/;"	f	language:C++	class:mu::ParserInt
 UnaryPlus	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParser.cpp	/^  value_type Parser::UnaryPlus(value_type v)$/;"	f	language:C++	class:mu::Parser
 ValidInfixOprtChars	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserBase.cpp	/^  const char_type* ParserBase::ValidInfixOprtChars() const$/;"	f	language:C++	class:mu::ParserBase
 ValidNameChars	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserBase.cpp	/^  const char_type* ParserBase::ValidNameChars() const$/;"	f	language:C++	class:mu::ParserBase
 ValidOprtChars	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserBase.cpp	/^  const char_type* ParserBase::ValidOprtChars() const$/;"	f	language:C++	class:mu::ParserBase
+ValueOf	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserTest.h	/^        static value_type ValueOf(const char_type*)$/;"	f	language:C++	class:mu::Test::ParserTester
 WIN32_LEAN_AND_MEAN	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserDLL.cpp	28;"	d	language:C++	file:
 _CRT_SECURE_NO_DEPRECATE	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserDLL.cpp	126;"	d	language:C++	file:
 ~ParserBase	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/muparser/muParserBase.cpp	/^  ParserBase::~ParserBase()$/;"	f	language:C++	class:mu::ParserBase

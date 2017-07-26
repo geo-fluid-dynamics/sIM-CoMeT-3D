@@ -66,6 +66,7 @@ class Model {
 		double F;
 
 		/* FILE * logFilePtr; */
+		/* Log log; */
 
 		double dx = 2.0*Lx/(nx-1);
 		double dy = 2.0*Ly/(ny-1);

@@ -10,18 +10,23 @@
  *
  */
 #include "model.hpp"
+
 #include <cmath>
 #include <iostream>
 #include <vector>
+#include <assert.h>
+#include <time.h>
+
 #include "PDE.hpp"
 #include "solver.hpp"
 #include "estimator.hpp"
-#include <assert.h>
-#include <time.h>
+#include "log.hpp"
+#include "plot.hpp"
+
 #include "packages/muparser/muParser.h"
 #include "packages/inih/INIReader.h"
+#include "packages/gnuplot_i/gnuplot_i.h"
 
-#include "log.hpp"
 
 Model::Model()
 {
@@ -76,14 +81,9 @@ Model::Model(std::string iniPath)
 	TwExp   = reader.Get("boundaryConditions", "TwExp", TwExp);
 	qwExp   = reader.Get("boundaryConditions", "qwExp", qwExp);
 
-
 	nx = reader.GetInteger("gridSizes", "nx", nx);
 	ny = reader.GetInteger("gridSizes", "ny", ny);
 	nz = reader.GetInteger("gridSizes", "nz", nz);
-
-	/* theta   = reader.GetReal("boundaryConditions", "theta", theta); */
-
-
 
 	MTol                = reader.GetReal("parameters", "MTol", MTol);
 	FTol                = reader.GetReal("parameters", "FTol", FTol);
@@ -99,6 +99,8 @@ Model::Model(std::string iniPath)
 
 	hmStar = hm + cpS*(Tm-Tinf);
 	alpha = kL/(rhoL*cpL);
+
+	/* theta   = reader.GetReal("boundaryConditions", "theta", theta); */
 	/* radianTheta = theta*3.1415927/180; */
 
 	Tw      = new Field(nx, ny, 1, Lx, Ly, 0);
@@ -117,9 +119,6 @@ Model::Model(std::string iniPath)
 	radianTheta = (std::isnan(arg))? 0 : atan(arg);
 	theta = radianTheta * 180 / M_PI;
 
-	/* std::cout <<bcSouth->differentiate(CX2, Y)->average() << bcSouth->differentiate(CX2, X)->average() << std::endl; */
-	/* std::cout << radianTheta << "\t" << theta << std::endl; */
-	/* exit(-1); */
 }
 
 
@@ -193,13 +192,16 @@ void Model::solve()
 {
 	clock_t start = clock();
 
-	/* init_fields(); */
-	int iter=0;
-
-	/* log(); */
 	Log log;
-	log.writeHeader();
-	fprintf(log.ptr, "U0\t\t\t\tr\t\t\t\tdelta\t\t\t\tp\t\t\t\tT\t\t\t\tu\t\t\t\tv\t\t\t\tw\t\t\t\tMFE\t\t\t\trelMFE\n");
+	/* log.writeHeader(); */
+	fprintf(log.ptr, "iter\t\t\t\tU0\t\t\t\tr\t\t\t\tdelta\t\t\t\tp\t\t\t\tT\t\t\t\tu\t\t\t\tv\t\t\t\tw\t\t\t\tMFE\t\t\t\trelMFE\n");
+
+	Plot plot;
+
+	char * gnucmd = (char*)malloc(100);
+	snprintf(gnucmd, 100, "plot '%s' using 1:10 w l", log.filename.c_str());
+
+	int iter=0;
 
 	while(1)
 	{
@@ -246,15 +248,18 @@ void Model::solve()
 		recalcDelta = 0;
 
 		dumper();
-		fprintf(log.ptr, "%e\t%e\t%e\t%e\t%e\t%e\t%e\t%e\t%e\t%e\n", U0, r, delta->average(), p->average(), T->average(), u->average(),
+		fprintf(log.ptr, "%4d\t%e\t%e\t%e\t%e\t%e\t%e\t%e\t%e\t%e\t%e\n", iter, U0, r, delta->average(), p->average(), T->average(), u->average(),
 				v->average(), w->average(), maxFluxError, relativeMFE);
+
+		/* plot.image(delta); */
+		gnuplot_cmd(plot.gnu, gnucmd);
 
 	}
 
 	double duration = (double) (clock() - start)/CLOCKS_PER_SEC;
 	printf("Time of Exec = %.2fs\n", duration);
 
-	log.writeFooter();
+	/* log.writeFooter(); */
 
 }
 
@@ -418,41 +423,3 @@ void Model::print()
 	cout << "theta = " << theta << "\n";
 
 }
-
-/* void Model::log() */
-/* { */
-/* 	char * timestr = (char*)malloc(16); */
-/* 	char * logFileName = (char*)malloc(30); */
-
-/* 	time_t timestamp; */
-/* 	timestamp = time(NULL); */
-/* 	strftime(timestr, 16, "%Y%m%d_%H%M%S", localtime(&timestamp)); */
-
-/* 	assert(logFileName); */
-/* 	snprintf(logFileName, 30, "logs/log_%s.dat", timestr); */
-
-/* 	free(timestr); */
-
-/* 	struct stat st = {0}; */
-/* 	if (stat("logs", &st) == -1) */
-/* 		mkdir("logs", 0755); */
-/* 	if (stat("outputs", &st) == -1) */
-/* 		mkdir("outputs", 0755); */
-
-/* 	logFilePtr = fopen(logFileName, "w"); */
-/* 	fprintf(logFilePtr, "##### BEGIN HEADER #####\n"); */
-/* 	FILE *inputFile; */
-
-/* 	inputFile = fopen( "inputs.ini", "r"); */
-/* 	char ch; */
-/* 	if(inputFile) */
-/* 	{ */
-/* 		while((ch = fgetc(inputFile)) != EOF) */
-/* 		{ */
-/* 			fputc(ch, logFilePtr); */
-/* 		} */
-/* 	} */
-/* 	fclose(inputFile); */
-/* 	fprintf(logFilePtr, "##### END HEADER #####\n\n"); */
-/* 	free(logFileName); */
-/* } */

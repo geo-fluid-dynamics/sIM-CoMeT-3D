@@ -6,10 +6,8 @@
 
 class Log
 {
-	private:
-		std::string filename;
-
 	public:
+		std::string filename;
 		FILE * ptr;
 		Log();
 		~Log();
