@@ -1,0 +1,23 @@
+!_TAG_FILE_SORTED	2	/0=unsorted, 1=sorted, 2=foldcase/
+Get	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/inih/INIReader.cpp	/^string INIReader::Get(const string& section, const string& name, const string& default_value) const$/;"	f	language:C++	class:INIReader
+Get	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/inih/INIReader.h	/^    std::string Get(const std::string& section, const std::string& name,$/;"	p	language:C++	class:INIReader
+GetBoolean	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/inih/INIReader.cpp	/^bool INIReader::GetBoolean(const string& section, const string& name, bool default_value) const$/;"	f	language:C++	class:INIReader
+GetBoolean	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/inih/INIReader.h	/^    bool GetBoolean(const std::string& section, const std::string& name, bool default_value) const;$/;"	p	language:C++	class:INIReader
+GetBoundary	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/inih/INIReader.cpp	/^boundary INIReader::GetBoundary(const string& section, const string& name, boundary default_value) const$/;"	f	language:C++	class:INIReader
+GetBoundary	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/inih/INIReader.h	/^	boundary GetBoundary(const std::string& section, const std::string& name, boundary default_value) const;$/;"	p	language:C++	class:INIReader
+GetInteger	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/inih/INIReader.cpp	/^long INIReader::GetInteger(const string& section, const string& name, long default_value) const$/;"	f	language:C++	class:INIReader
+GetInteger	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/inih/INIReader.h	/^    long GetInteger(const std::string& section, const std::string& name, long default_value) const;$/;"	p	language:C++	class:INIReader
+GetReal	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/inih/INIReader.cpp	/^double INIReader::GetReal(const string& section, const string& name, double default_value) const$/;"	f	language:C++	class:INIReader
+GetReal	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/inih/INIReader.h	/^    double GetReal(const std::string& section, const std::string& name, double default_value) const;$/;"	p	language:C++	class:INIReader
+INIReader	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/inih/INIReader.cpp	/^INIReader::INIReader(const string& filename)$/;"	f	language:C++	class:INIReader
+INIReader	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/inih/INIReader.h	/^    INIReader(const std::string& filename);$/;"	p	language:C++	class:INIReader
+INIReader	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/inih/INIReader.h	/^class INIReader$/;"	c	language:C++
+MakeKey	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/inih/INIReader.cpp	/^string INIReader::MakeKey(const string& section, const string& name)$/;"	f	language:C++	class:INIReader
+MakeKey	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/inih/INIReader.h	/^    static std::string MakeKey(const std::string& section, const std::string& name);$/;"	p	language:C++	class:INIReader
+ParseError	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/inih/INIReader.cpp	/^int INIReader::ParseError() const$/;"	f	language:C++	class:INIReader
+ParseError	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/inih/INIReader.h	/^    int ParseError() const;$/;"	p	language:C++	class:INIReader
+ValueHandler	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/inih/INIReader.cpp	/^int INIReader::ValueHandler(void* user, const char* section, const char* name,$/;"	f	language:C++	class:INIReader
+ValueHandler	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/inih/INIReader.h	/^    static int ValueHandler(void* user, const char* section, const char* name,$/;"	p	language:C++	class:INIReader
+_error	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/inih/INIReader.h	/^    int _error;$/;"	m	language:C++	class:INIReader
+_values	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/inih/INIReader.h	/^    std::map<std::string, std::string> _values;$/;"	m	language:C++	class:INIReader
+__INIREADER_H__	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/packages/inih/INIReader.h	9;"	d	language:C++
