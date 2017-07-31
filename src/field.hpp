@@ -56,7 +56,7 @@ class Field {
 		Field * multiply(Field * field);
 		Field * copy();
 		Field * replicateZ(int inz);
-		Field * pow(int n);
+		Field * pow(double n);
 		Field * divide(Field * field);
 		Field * divide(double value);
 		void print();

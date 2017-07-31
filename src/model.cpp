@@ -203,6 +203,12 @@ void Model::solve()
 
 	int iter=0;
 
+	Field * u2;
+	Field * v2;
+	Field * w2;
+	Field * mag;
+	Field * slice;
+
 	while(1)
 	{
 		printf("Main Loop: %d\n", ++iter);
@@ -252,9 +258,27 @@ void Model::solve()
 				v->average(), w->average(), maxFluxError, relativeMFE);
 
 		/* plot.image(delta); */
-		gnuplot_cmd(plot.gnu, gnucmd);
+
+		u2 = u->copy()->pow(2);
+		v2 = v->copy()->pow(2);
+		w2 = w->copy()->pow(2);
+		mag = u2->copy()->add(v2)->add(w2)->pow(0.5);
+
+		slice = mag->getSubfield(0, nx-1, 0, ny-1, 15, 15);
+		/* slice = u->getSubfield(0, nx-1, 0, ny-1, 15, 15); */
+
+		plot.image(slice);
+		/* plot.pallete(mag); */
+		/* gnuplot_cmd(plot.gnu, gnucmd); */
+
+		delete u2;
+		delete v2;
+		delete w2;
+		delete mag;
 
 	}
+
+
 
 	double duration = (double) (clock() - start)/CLOCKS_PER_SEC;
 	printf("Time of Exec = %.2fs\n", duration);

@@ -618,7 +618,7 @@ void Model::combinedUpdate2()
 	double rOld, U0Old;
 	int iter =0;
 
-	r = -1;
+	r = 0.1;
 
 	while(1)
 	{
@@ -638,25 +638,25 @@ void Model::combinedUpdate2()
 		double vector;
 		double value;
 
-		double dr = 1e-6;
-		double dU0 = 1e-6;
-		Field * Ddelta_DU0 = new Field(delta);
-		Field * Ddelta_Dr = new Field(delta);
-		for(int i=0; i<nx; i++)
-			for(int j=0; j<ny; j++)
-			{
-				vector = cos(radianTheta) * xVal(i) + sin(radianTheta) * yVal(j);
-				value = (kL*(Tw->get(i,j) - Tm)/(rhoS * hmStar * (U0+dU0) * (1-vector/r) ) - kL*(Tw->get(i,j) - Tm)/(rhoS * hmStar * (U0-dU0) * (1-vector/r) ) ) / (2*dU0);
-				Ddelta_DU0->set(i,j, value );
-			}
+		/* double dr = 1e-6; */
+		/* double dU0 = 1e-6; */
+		/* Field * Ddelta_DU0 = new Field(delta); */
+		/* Field * Ddelta_Dr = new Field(delta); */
+		/* for(int i=0; i<nx; i++) */
+		/* 	for(int j=0; j<ny; j++) */
+		/* 	{ */
+		/* 		vector = cos(radianTheta) * xVal(i) + sin(radianTheta) * yVal(j); */
+		/* 		value = (kL*(Tw->get(i,j) - Tm)/(rhoS * hmStar * (U0+dU0) * (1-vector/r) ) - kL*(Tw->get(i,j) - Tm)/(rhoS * hmStar * (U0-dU0) * (1-vector/r) ) ) / (2*dU0); */
+		/* 		Ddelta_DU0->set(i,j, value ); */
+		/* 	} */
 
-		for(int i=0; i<nx; i++)
-			for(int j=0; j<ny; j++)
-			{
-				vector = cos(radianTheta) * xVal(i) + sin(radianTheta) * yVal(j);
-				value =( kL*(Tw->get(i,j) - Tm)/(rhoS * hmStar * (U0) * (1-vector/(r+dr) )) - kL*(Tw->get(i,j) - Tm)/(rhoS * hmStar * (U0) * (1-vector/(r-dr) )) )/ (2*dr);
-				Ddelta_DU0->set(i,j, value );
-			}
+		/* for(int i=0; i<nx; i++) */
+		/* 	for(int j=0; j<ny; j++) */
+		/* 	{ */
+		/* 		vector = cos(radianTheta) * xVal(i) + sin(radianTheta) * yVal(j); */
+		/* 		value =( kL*(Tw->get(i,j) - Tm)/(rhoS * hmStar * (U0) * (1-vector/(r+dr) )) - kL*(Tw->get(i,j) - Tm)/(rhoS * hmStar * (U0) * (1-vector/(r-dr) )) )/ (2*dr); */
+		/* 		Ddelta_DU0->set(i,j, value ); */
+		/* 	} */
 
 		std::cout << r << "\t" << U0 << "\n";
 
@@ -689,14 +689,14 @@ void Model::combinedUpdate2()
 		pSolver.init();
 		pSolver.solve(p);
 
-		/* Field * Ddelta_DU0 = delta->copy()->divide(-U0); */
-		/* Field * Ddelta_Dr = delta->copy(); */
-		/* for(int i=0; i<nx; i++) */
-		/* 	for(int j=0; j<ny; j++) */
-		/* 	{ */
-		/* 		vector = cos(radianTheta) * xVal(i) + sin(radianTheta) * yVal(j); */
-		/* 		Ddelta_Dr->set(i,j, Ddelta_Dr->get(i,j) * (-vector)/(r * (r - vector))); */
-		/* 	} */
+		Field * Ddelta_DU0 = delta->copy()->divide(-U0);
+		Field * Ddelta_Dr = delta->copy();
+		for(int i=0; i<nx; i++)
+			for(int j=0; j<ny; j++)
+			{
+				vector = cos(radianTheta) * xVal(i) + sin(radianTheta) * yVal(j);
+				Ddelta_Dr->set(i,j, Ddelta_Dr->get(i,j) * (-vector)/(r * (r - vector)));
+			}
 
 		Field * Dp_Ddelta = new Field(p);
 		Field * Dp_DU0 = new Field(p);
@@ -821,7 +821,7 @@ void Model::combinedUpdate2()
 		delete y_coeff;
 		delete rhs;
 
-		exit(-1);
+		/* exit(-1); */
 
 
 	}

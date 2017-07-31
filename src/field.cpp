@@ -437,7 +437,7 @@ Field * Field::divide(double value)
 	return this;
 }
 
-Field * Field::pow(int n)
+Field * Field::pow(double n)
 {
 
 	for(int i=0; i<nx*ny*nz; i++)
