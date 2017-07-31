@@ -16,7 +16,6 @@ Field::Field(int inx, int iny, int inz, double iLx, double iLy, double iLz)
 	dz = 1.0/(nz-1);
 
 	values.reserve(nx*ny*nz);
-	/* std::fill(values.begin(), values.end(), 0); */
 	this->setAll(0);
 }
 
@@ -48,7 +47,6 @@ Field::Field(Field * field)
 	dz = 1.0/(nz-1);
 
 	values.reserve(nx*ny*nz);
-	/* std::fill(values.begin(), values.end(), 0); */
 	this->setAll(0);
 
 	/* values = field.values; */
@@ -75,6 +73,19 @@ void Field::init(int inx, int iny, int inz, double iLx, double iLy, double iLz)
 void Field::set(int i, int j, int k, double value)
 {
 	values[i + nx*j + nx*ny*k] = value;
+}
+
+void Field::set(Side side, double value)
+{
+	for(int i=0; i<nx; i++)
+		for(int j=0; j<ny; j++)
+			for(int k=0; k<nz; k++)
+			{
+				if(this->getSide(i,j,k) == side)
+				{
+					this->set(i,j,k, value);
+				}
+			}
 }
 
 void Field::set(int i, int j, double value)
@@ -114,6 +125,17 @@ Field * Field::getSubfield(int i1, int i2, int j1, int j2, int k1, int k2)
 			}
 
 	return subfield;
+}
+
+Field * Field::setSubfield(int i1, int i2, int j1, int j2, int k1, int k2, Field * field)
+{
+	for(int i = i1; i <= i2; i++)
+		for(int j = j1; j <= j2; j++)
+			for(int k = k1; k <= k2; k++)
+			{
+				this->set(i, j, k, field->get(i,j,k));
+			}
+
 }
 
 bool Field::isFinite()
@@ -397,7 +419,7 @@ Field * Field::multiply(double factor)
 
 Field * Field::multiply(Field * field)
 {
-	Field * newField = new Field(nx, ny, nz, Lx, Ly, 0);
+	/* Field * newField = new Field(nx, ny, nz, Lx, Ly, 0); */
 
 	for(int i=0; i<nx; i++)
 		for(int j=0; j<ny; j++)
@@ -405,11 +427,12 @@ Field * Field::multiply(Field * field)
 			{
 				/* printf("2:%e\n", this->get(i,j,k)); */
 				/* printf("1:%e\n", field.get(i,j,k)); */
-				newField->set(i,j,k, this->get(i,j,k) * field->get(i,j,k));
+				/* newField->set(i,j,k, this->get(i,j,k) * field->get(i,j,k)); */
+				this->set(i,j,k, this->get(i,j,k) * field->get(i,j,k));
 			}
 
-
-	return newField;
+	return this;
+	/* return newField; */
 
 }
 

@@ -11,26 +11,34 @@ Ai	old/sparse.hpp	/^		std::vector<int> Ai;$/;"	m	class:Sparse
 Aj	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/sparse.hpp	/^		std::vector<int> Aj;$/;"	m	language:C++	class:Sparse
 Aj	old/sparse.hpp	/^		std::vector<int> Aj;$/;"	m	class:Sparse
 BACK	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/enum.hpp	/^	BACK = 5,$/;"	e	language:C++	enum:side
+BACK	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/enum.hpp	/^	BACK = 5,$/;"	e	language:C++	enum:side
 BASE	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/Makefile	/^BASE=estimator.cpp field.cpp log.cpp model.cpp modules.cpp PDE.cpp solver.cpp sparse.cpp stencil.cpp$/;"	m	language:Make
 BASE	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/Makefile	/^BASE=estimator.cpp field.cpp log.cpp model.cpp modules.cpp PDE.cpp plot.cpp solver.cpp sparse.cpp stencil.cpp$/;"	m	language:Make
 BCFlag	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/solver.hpp	/^		Field * BCFlag;$/;"	m	language:C++	class:Solver
 BX1	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/enum.hpp	/^	BX1 = 6,$/;"	e	language:C++	enum:dMode
+BX1	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/enum.hpp	/^	BX1 = 6,$/;"	e	language:C++	enum:dMode
 BX1	old/enum.hpp	/^	BX1,$/;"	e	enum:dMode
 BX2	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/enum.hpp	/^	BX2 = 2,$/;"	e	language:C++	enum:dMode
+BX2	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/enum.hpp	/^	BX2 = 2,$/;"	e	language:C++	enum:dMode
 BX2	old/enum.hpp	/^	BX2,$/;"	e	enum:dMode
 BXX1	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/enum.hpp	/^	BXX1 = 3$/;"	e	language:C++	enum:dMode
+BXX1	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/enum.hpp	/^	BXX1 = 3$/;"	e	language:C++	enum:dMode
 BXX1	old/enum.hpp	/^	BXX1,$/;"	e	enum:dMode
 CC	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/Makefile	/^CC=g++$/;"	m	language:Make
 CC	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/Makefile	/^CC=g++$/;"	m	language:Make
 CCFLAGS	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/Makefile	/^CCFLAGS=-O3 #-pedantic$/;"	m	language:Make
 CCFLAGS	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/Makefile	/^CCFLAGS=-O3 #-pedantic$/;"	m	language:Make
 CX2	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/enum.hpp	/^	CX2 = 7,$/;"	e	language:C++	enum:dMode
+CX2	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/enum.hpp	/^	CX2 = 7,$/;"	e	language:C++	enum:dMode
 CX2	old/enum.hpp	/^	CX2,$/;"	e	enum:dMode
 CXX2	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/enum.hpp	/^	CXX2 = 4,$/;"	e	language:C++	enum:dMode
+CXX2	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/enum.hpp	/^	CXX2 = 4,$/;"	e	language:C++	enum:dMode
 CXX2	old/enum.hpp	/^	CXX2,$/;"	e	enum:dMode
 DIRICHLET	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/enum.hpp	/^	DIRICHLET = 0,$/;"	e	language:C++	enum:boundary
+DIRICHLET	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/enum.hpp	/^	DIRICHLET = 0,$/;"	e	language:C++	enum:boundary
 DIRICHLET	old/enum.hpp	/^	DIRICHLET = 0,$/;"	e	enum:boundary
 ENUM_H	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/enum.hpp	2;"	d	language:C++
+ENUM_H	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/enum.hpp	2;"	d	language:C++
 ENUM_H	old/enum.hpp	2;"	d
 ESTIMATOR_H	estimator.hpp	2;"	d
 ESTIMATOR_H	old/estimator.hpp	2;"	d
@@ -47,14 +55,18 @@ FIELD_H	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/field.hpp	2;"	d	language
 FIELD_H	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/field.hpp	2;"	d	language:C++
 FIELD_H	old/field.hpp	2;"	d
 FRONT	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/enum.hpp	/^	FRONT = 4,$/;"	e	language:C++	enum:side
+FRONT	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/enum.hpp	/^	FRONT = 4,$/;"	e	language:C++	enum:side
 FTol	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/model.hpp	/^		double FTol = 1e-6;$/;"	m	language:C++	class:Model
 FTol	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/model.hpp	/^		double FTol = 1e-6;$/;"	m	language:C++	class:Model
 FTol	old/model.hpp	/^		double FTol = 1e-6;$/;"	m	class:Model
 FX1	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/enum.hpp	/^	FX1 = 8,$/;"	e	language:C++	enum:dMode
+FX1	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/enum.hpp	/^	FX1 = 8,$/;"	e	language:C++	enum:dMode
 FX1	old/enum.hpp	/^	FX1,$/;"	e	enum:dMode
 FX2	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/enum.hpp	/^	FX2 = 1,$/;"	e	language:C++	enum:dMode
+FX2	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/enum.hpp	/^	FX2 = 1,$/;"	e	language:C++	enum:dMode
 FX2	old/enum.hpp	/^	FX2,$/;"	e	enum:dMode
 FXX1	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/enum.hpp	/^	FXX1 = 5,$/;"	e	language:C++	enum:dMode
+FXX1	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/enum.hpp	/^	FXX1 = 5,$/;"	e	language:C++	enum:dMode
 FXX1	old/enum.hpp	/^	FXX1,$/;"	e	enum:dMode
 Field	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/field.cpp	/^Field::Field()$/;"	f	language:C++	class:Field
 Field	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/field.cpp	/^Field::Field(Field * field)$/;"	f	language:C++	class:Field
@@ -96,7 +108,9 @@ INIReader	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/INIReader.cpp	/^INIRea
 INIReader	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/INIReader.h	/^    INIReader(const std::string& filename);$/;"	p	language:C++	class:INIReader
 INIReader	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/INIReader.h	/^class INIReader$/;"	c	language:C++
 INTERIOR	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/enum.hpp	/^	INTERIOR = 9$/;"	e	language:C++	enum:side
+INTERIOR	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/enum.hpp	/^	INTERIOR = 9$/;"	e	language:C++	enum:side
 LEFT	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/enum.hpp	/^	LEFT = 2,$/;"	e	language:C++	enum:side
+LEFT	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/enum.hpp	/^	LEFT = 2,$/;"	e	language:C++	enum:side
 LIBS	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/Makefile	/^LIBS=-lm -lumfpack$/;"	m	language:Make
 LIBS	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/Makefile	/^LIBS=-lm -lumfpack$/;"	m	language:Make
 LOG_H	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/log.hpp	2;"	d	language:C++
@@ -153,11 +167,14 @@ My	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/model.hpp	/^		double My;$/;"	
 My	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/model.hpp	/^		double My;$/;"	m	language:C++	class:Model
 My	old/model.hpp	/^		double My;$/;"	m	class:Model
 NEUMANN	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/enum.hpp	/^	NEUMANN = 3$/;"	e	language:C++	enum:boundary
+NEUMANN	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/enum.hpp	/^	NEUMANN = 3$/;"	e	language:C++	enum:boundary
 NEUMANN	old/enum.hpp	/^	NEUMANN = 1$/;"	e	enum:boundary
 NORTH	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/enum.hpp	/^	NORTH = 7,$/;"	e	language:C++	enum:side
+NORTH	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/enum.hpp	/^	NORTH = 7,$/;"	e	language:C++	enum:side
 OBJ	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/Makefile	/^OBJ=$(SRC:.cpp=.o)$/;"	m	language:Make
 OBJ	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/Makefile	/^OBJ=$(SRC:.cpp=.o)$/;"	m	language:Make
 ONE	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/enum.hpp	/^	ONE = 0,$/;"	e	language:C++	enum:dMode
+ONE	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/enum.hpp	/^	ONE = 0,$/;"	e	language:C++	enum:dMode
 PDE	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/PDE.cpp	/^PDE::PDE()$/;"	f	language:C++	class:PDE
 PDE	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/PDE.cpp	/^PDE::PDE(Field * field)$/;"	f	language:C++	class:PDE
 PDE	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/PDE.cpp	/^PDE::PDE(int nx, int ny, int nz, double dx, double dy, double dz)$/;"	f	language:C++	class:PDE
@@ -185,9 +202,11 @@ Plot	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/plot.cpp	/^Plot::Plot()
 Plot	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/plot.hpp	/^		Plot();$/;"	p	language:C++	class:Plot
 Plot	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/plot.hpp	/^class Plot$/;"	c	language:C++
 RIGHT	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/enum.hpp	/^	RIGHT = 3,$/;"	e	language:C++	enum:side
+RIGHT	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/enum.hpp	/^	RIGHT = 3,$/;"	e	language:C++	enum:side
 SOLVER_H	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/solver.hpp	2;"	d	language:C++
 SOLVER_H	old/solver.hpp	2;"	d
 SOUTH	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/enum.hpp	/^	SOUTH = 6,$/;"	e	language:C++	enum:side
+SOUTH	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/enum.hpp	/^	SOUTH = 6,$/;"	e	language:C++	enum:side
 SPARSE_H	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/sparse.hpp	2;"	d	language:C++
 SPARSE_H	old/sparse.hpp	2;"	d
 SRC	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/Makefile	/^SRC=$(BASE) $(TEST_BASE) $(EXTRA_SRC) main.cpp$/;"	m	language:Make
@@ -195,6 +214,7 @@ SRC	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/Makefile	/^SRC=$(BASE) $
 STENCIL_H	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/stencil.hpp	2;"	d	language:C++
 STENCIL_H	old/stencil.hpp	2;"	d
 Side	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/enum.hpp	/^} Side;$/;"	t	language:C++	typeref:enum:side
+Side	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/enum.hpp	/^} Side;$/;"	t	language:C++	typeref:enum:side
 Solver	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/solver.cpp	/^Solver::Solver(PDE * ipde, Field * bc, Field * bcflag)$/;"	f	language:C++	class:Solver
 Solver	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/solver.hpp	/^		Solver(PDE * ipde, Field * field, Field * bcflag);$/;"	p	language:C++	class:Solver
 Solver	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/solver.hpp	/^class Solver {$/;"	c	language:C++
@@ -245,16 +265,22 @@ UVal	old/model.cpp	/^double Model::UVal(int i, int j)$/;"	f	class:Model
 ValueHandler	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/INIReader.cpp	/^int INIReader::ValueHandler(void* user, const char* section, const char* name,$/;"	f	language:C++	class:INIReader
 ValueHandler	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/INIReader.h	/^    static int ValueHandler(void* user, const char* section, const char* name,$/;"	p	language:C++	class:INIReader
 X	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/enum.hpp	/^	X = 1,$/;"	e	language:C++	enum:dDir
+X	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/enum.hpp	/^	X = 1,$/;"	e	language:C++	enum:dDir
 X	old/enum.hpp	/^	X,$/;"	e	enum:dDir
 XY	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/enum.hpp	/^	XY = 9,$/;"	e	language:C++	enum:dDir
+XY	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/enum.hpp	/^	XY = 9,$/;"	e	language:C++	enum:dDir
 XY	old/enum.hpp	/^	XY,$/;"	e	enum:dDir
 Y	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/enum.hpp	/^	Y = 2,$/;"	e	language:C++	enum:dDir
+Y	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/enum.hpp	/^	Y = 2,$/;"	e	language:C++	enum:dDir
 Y	old/enum.hpp	/^	Y,$/;"	e	enum:dDir
 YZ	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/enum.hpp	/^	YZ = 8,$/;"	e	language:C++	enum:dDir
+YZ	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/enum.hpp	/^	YZ = 8,$/;"	e	language:C++	enum:dDir
 YZ	old/enum.hpp	/^	YZ,$/;"	e	enum:dDir
 Z	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/enum.hpp	/^	Z = 3,$/;"	e	language:C++	enum:dDir
+Z	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/enum.hpp	/^	Z = 3,$/;"	e	language:C++	enum:dDir
 Z	old/enum.hpp	/^	Z,$/;"	e	enum:dDir
 ZX	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/enum.hpp	/^	ZX = 7$/;"	e	language:C++	enum:dDir
+ZX	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/enum.hpp	/^	ZX = 7$/;"	e	language:C++	enum:dDir
 ZX	old/enum.hpp	/^	ZX$/;"	e	enum:dDir
 __INIREADER_H__	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/INIReader.h	9;"	d	language:C++
 _error	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/INIReader.h	/^    int _error;$/;"	m	language:C++	class:INIReader
@@ -294,6 +320,8 @@ bcSouth	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/model.hpp	/^		Field 
 bcSouth	old/model.hpp	/^		Field * bcSouth;$/;"	m	class:Model
 boundary	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/enum.hpp	/^typedef enum boundary {$/;"	g	language:C++
 boundary	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/enum.hpp	/^} boundary;$/;"	t	language:C++	typeref:enum:boundary
+boundary	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/enum.hpp	/^typedef enum boundary {$/;"	g	language:C++
+boundary	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/enum.hpp	/^} boundary;$/;"	t	language:C++	typeref:enum:boundary
 boundary	old/enum.hpp	/^typedef enum boundary {$/;"	g
 boundary	old/enum.hpp	/^} boundary;$/;"	t	typeref:enum:boundary
 buildb	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/solver.cpp	/^void Solver::buildb()$/;"	f	language:C++	class:Solver
@@ -329,10 +357,14 @@ cpS	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/model.hpp	/^		double cpS
 cpS	old/model.hpp	/^		double cpS = 2049.41;$/;"	m	class:Model
 dDir	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/enum.hpp	/^typedef enum dDir {$/;"	g	language:C++
 dDir	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/enum.hpp	/^} dDir;$/;"	t	language:C++	typeref:enum:dDir
+dDir	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/enum.hpp	/^typedef enum dDir {$/;"	g	language:C++
+dDir	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/enum.hpp	/^} dDir;$/;"	t	language:C++	typeref:enum:dDir
 dDir	old/enum.hpp	/^typedef enum dDir {$/;"	g
 dDir	old/enum.hpp	/^} dDir;$/;"	t	typeref:enum:dDir
 dMode	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/enum.hpp	/^typedef enum dMode {$/;"	g	language:C++
 dMode	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/enum.hpp	/^} dMode;$/;"	t	language:C++	typeref:enum:dMode
+dMode	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/enum.hpp	/^typedef enum dMode {$/;"	g	language:C++
+dMode	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/enum.hpp	/^} dMode;$/;"	t	language:C++	typeref:enum:dMode
 dMode	old/enum.hpp	/^typedef enum dMode {$/;"	g
 dMode	old/enum.hpp	/^} dMode;$/;"	t	typeref:enum:dMode
 delta	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/model.hpp	/^		Field * delta;$/;"	m	language:C++	class:Model
@@ -627,8 +659,10 @@ set	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/field.cpp	/^void Field::set(
 set	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/field.cpp	/^void Field::set(int i, int j, int k, double value)$/;"	f	language:C++	class:Field
 set	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/field.hpp	/^		void set(int i, int j, double value);$/;"	p	language:C++	class:Field
 set	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/field.hpp	/^		void set(int i, int j, int k, double value);$/;"	p	language:C++	class:Field
+set	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/field.cpp	/^void Field::set(Side side, double value)$/;"	f	language:C++	class:Field
 set	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/field.cpp	/^void Field::set(int i, int j, double value)$/;"	f	language:C++	class:Field
 set	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/field.cpp	/^void Field::set(int i, int j, int k, double value)$/;"	f	language:C++	class:Field
+set	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/field.hpp	/^		void set(Side side, double value);$/;"	p	language:C++	class:Field
 set	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/field.hpp	/^		void set(int i, int j, double value);$/;"	p	language:C++	class:Field
 set	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/field.hpp	/^		void set(int i, int j, int k, double value);$/;"	p	language:C++	class:Field
 set	old/field.cpp	/^void Field::set(int i, int j, double value)$/;"	f	class:Field
@@ -641,9 +675,12 @@ setAll	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/field.hpp	/^		void setAll
 setAll	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/field.cpp	/^void Field::setAll(double value)$/;"	f	language:C++	class:Field
 setAll	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/field.hpp	/^		void setAll(double value);$/;"	p	language:C++	class:Field
 setAll	old/field.cpp	/^void Field::setAll(double value)$/;"	f	class:Field
+setSubfield	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/field.cpp	/^Field * Field::setSubfield(int i1, int i2, int j1, int j2, int k1, int k2, Field * field)$/;"	f	language:C++	class:Field
+setSubfield	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/field.hpp	/^		Field * setSubfield(int i1, int i2, int j1, int j2, int k1, int k2, Field * field);$/;"	p	language:C++	class:Field
 setSurface	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/plot.cpp	/^void Plot::setSurface()$/;"	f	language:C++	class:Plot
 setSurface	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/plot.hpp	/^		void setSurface();$/;"	p	language:C++	class:Plot
 side	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/enum.hpp	/^typedef enum side {$/;"	g	language:C++
+side	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/enum.hpp	/^typedef enum side {$/;"	g	language:C++
 sidesBC	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/model.hpp	/^		boundary sidesBC = NEUMANN;$/;"	m	language:C++	class:Model
 sidesBC	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/model.hpp	/^		boundary sidesBC = NEUMANN;$/;"	m	language:C++	class:Model
 sidesBC	old/model.hpp	/^		boundary sidesBC = NEUMANN;$/;"	m	class:Model

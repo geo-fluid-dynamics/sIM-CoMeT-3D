@@ -40,6 +40,7 @@ class Field {
 		Field(int inx, int iny, int inz, double iLx, double iLy, double iLz);
 		void init(int inx, int iny, int inz, double iLx, double iLy, double iLz);
 		void set(int i, int j, int k, double value);
+		void set(Side side, double value);
 		double get(int i, int j, int k);
 		double get(int i, int j);
 		void set(int i, int j, double value);
@@ -48,6 +49,7 @@ class Field {
 		double integrateXY();
 		double average();
 		Field * getSubfield(int i1, int i2, int j1, int j2, int k1, int k2);
+		Field * setSubfield(int i1, int i2, int j1, int j2, int k1, int k2, Field * field);
 		Field * differentiate(dMode mode, dDir dir);
 		Field * add(Field * field);
 		Field * subtract(Field * field);

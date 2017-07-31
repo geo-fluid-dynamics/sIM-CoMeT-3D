@@ -36,6 +36,7 @@ Model::Model()
 	delta   = new Field(nx, ny, 1, Lx, Ly, 0);
 	p       = new Field(nx, ny, 1, Lx, Ly, 0);
 	qStefan = new Field(nx, ny, 1, Lx, Ly, 0);
+	qNorth  = new Field(nx, ny, 1, Lx, Ly, 0);
 
 	T = new Field(nx, ny, nz, Lx, Ly, 0);
 	u = new Field(nx, ny, nz, Lx, Ly, 0);
@@ -108,6 +109,7 @@ Model::Model(std::string iniPath)
 	delta   = new Field(nx, ny, 1, Lx, Ly, 0);
 	p       = new Field(nx, ny, 1, Lx, Ly, 0);
 	qStefan = new Field(nx, ny, 1, Lx, Ly, 0);
+	qNorth  = new Field(nx, ny, 1, Lx, Ly, 0);
 	T       = new Field(nx, ny, nz, Lx, Ly, 0);
 	u       = new Field(nx, ny, nz, Lx, Ly, 0);
 	v       = new Field(nx, ny, nz, Lx, Ly, 0);
@@ -115,9 +117,15 @@ Model::Model(std::string iniPath)
 
 	init_fields();
 
-	double arg = bcSouth->differentiate(CX2, Y)->average() / bcSouth->differentiate(CX2, X)->average();
+	Field * num = bcSouth->differentiate(CX2, Y);
+	Field * den = bcSouth->differentiate(CX2, X);
+
+	double arg = num->average() / den->average();
 	radianTheta = (std::isnan(arg))? 0 : atan(arg);
 	theta = radianTheta * 180 / M_PI;
+
+	delete num;
+	delete den;
 
 }
 
@@ -129,6 +137,7 @@ Model::~Model()
 	delete delta;
 	delete p;
 	delete qStefan;
+	delete qNorth;
 
 	delete T;
 	delete u;
@@ -192,26 +201,23 @@ void Model::solve()
 {
 	clock_t start = clock();
 
-	Log log;
+	/* Log log; */
 	/* log.writeHeader(); */
-	fprintf(log.ptr, "iter\t\t\t\tU0\t\t\t\tr\t\t\t\tdelta\t\t\t\tp\t\t\t\tT\t\t\t\tu\t\t\t\tv\t\t\t\tw\t\t\t\tMFE\t\t\t\trelMFE\n");
+	/* fprintf(log.ptr, "iter\t\t\t\tU0\t\t\t\tr\t\t\t\tdelta\t\t\t\tp\t\t\t\tT\t\t\t\tu\t\t\t\tv\t\t\t\tw\t\t\t\tMFE\t\t\t\trelMFE\n"); */
 
 	Plot plot;
 
-	char * gnucmd = (char*)malloc(100);
-	snprintf(gnucmd, 100, "plot '%s' using 1:10 w l", log.filename.c_str());
+	/* char * gnucmd = (char*)malloc(100); */
+	/* snprintf(gnucmd, 100, "plot '%s' using 1:10 w l", log.filename.c_str()); */
 
 	int iter=0;
 
-	Field * u2;
-	Field * v2;
-	Field * w2;
-	Field * mag;
-	Field * slice;
+	int itsolve=0;
 
 	while(1)
 	{
 		printf("Main Loop: %d\n", ++iter);
+
 
 		find_U();
 
@@ -226,7 +232,11 @@ void Model::solve()
 		init_uvw();
 
 		if(iter == 1)
+		{
 			TSolveWrapper();
+			itsolve++;
+
+		}
 
 		calc_maxFluxError();
 
@@ -235,6 +245,7 @@ void Model::solve()
 		if(maxFluxError <= allowedMaxFluxError)
 		{
 			TSolveWrapper();
+			itsolve++;
 			calc_maxFluxError();
 			if(maxFluxError <= allowedMaxFluxError)
 			{
@@ -249,39 +260,24 @@ void Model::solve()
 		/* 	break; */
 		/* } */
 
+
 		adjustDelta();
 
 		recalcDelta = 0;
 
 		dumper();
-		fprintf(log.ptr, "%4d\t%e\t%e\t%e\t%e\t%e\t%e\t%e\t%e\t%e\t%e\n", iter, U0, r, delta->average(), p->average(), T->average(), u->average(),
-				v->average(), w->average(), maxFluxError, relativeMFE);
+		/* fprintf(log.ptr, "%4d\t%e\t%e\t%e\t%e\t%e\t%e\t%e\t%e\t%e\t%e\n", iter, U0, r, delta->average(), p->average(), T->average(), u->average(), */
+		/* 		v->average(), w->average(), maxFluxError, relativeMFE); */
 
 		/* plot.image(delta); */
-
-		u2 = u->copy()->pow(2);
-		v2 = v->copy()->pow(2);
-		w2 = w->copy()->pow(2);
-		mag = u2->copy()->add(v2)->add(w2)->pow(0.5);
-
-		slice = mag->getSubfield(0, nx-1, 0, ny-1, 15, 15);
-		/* slice = u->getSubfield(0, nx-1, 0, ny-1, 15, 15); */
-
-		plot.image(slice);
-		/* plot.pallete(mag); */
 		/* gnuplot_cmd(plot.gnu, gnucmd); */
-
-		delete u2;
-		delete v2;
-		delete w2;
-		delete mag;
 
 	}
 
 
-
 	double duration = (double) (clock() - start)/CLOCKS_PER_SEC;
 	printf("Time of Exec = %.2fs\n", duration);
+	printf("solved temp %d times\n", itsolve);
 
 	/* log.writeFooter(); */
 

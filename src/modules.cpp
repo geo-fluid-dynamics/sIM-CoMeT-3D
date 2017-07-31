@@ -133,6 +133,7 @@ void Model::init_uvw()
 void Model::calc_maxFluxError()
 {
 	Field * DT_Dz = T->differentiate(BX2, Z);
+	delete qNorth;
 	qNorth = DT_Dz->getSubfield(0, nx-1, 0, ny-1, nz-1, nz-1)->divide(delta)->multiply(-1);
 
 	double value;
@@ -147,7 +148,7 @@ void Model::calc_maxFluxError()
 	maxFluxError = 0;
 	double fluxError;
 
-	int sx = (ny==1)? 0 : 1;
+	int sx = (nx==1)? 0 : 1;
 	int ex = (nx==1)? 1 : nx-1;
 	int sy = (ny==1)? 0 : 1;
 	int ey = (ny==1)? 1 : ny-1;
@@ -163,8 +164,7 @@ void Model::calc_maxFluxError()
 
 	relativeMFE = maxFluxError/qStefan->average();
 
-	/* qStefan->print(); */
-	/* qNorth->print(); */
+
 
 	delete DT_Dz;
 
@@ -240,34 +240,19 @@ void Model::TSolveWrapper()
 {
 	PDE TEqn(T);
 
+	//Boundary condition setting
 	Field * TBC = new Field(nx, ny, nz, Lx, Ly, 0);
-	TBC->setAll(0);
 	Field * TBCFlag = new Field(nx, ny, nz, Lx, Ly, 0);
-	TBCFlag->setAll(0);
 	Field * zero = new Field(nx, ny, nz, Lx, Ly, 0);
-	zero->setAll(0);
 
-	for(int i=0; i<TBC->nx; i++)
-		for(int j=0; j<TBC->ny; j++)
-		{
-			TBC->set(i,j,0,bcSouth->get(i,j,0));
-		}
+	TBC->setSubfield(0,nx-1, 0,ny-1, 0,0, bcSouth);
+	TBCFlag->set(FRONT, (int)sidesBC);
+	TBCFlag->set(BACK , (int)sidesBC);
+	TBCFlag->set(LEFT , (int)sidesBC);
+	TBCFlag->set(RIGHT, (int)sidesBC);
+	TBCFlag->set(SOUTH, (int)southBC);
 
-	for(int i=0; i<TBCFlag->nx; i++)
-		for(int j=0; j<TBCFlag->ny; j++)
-			for(int k=1; k<TBCFlag->nz-1; k++)
-			{
-				if(TBCFlag->getSide(i,j,k) != INTERIOR)
-					TBCFlag->set(i,j,k, (int)NEUMANN );
-			}
-
-	if(southBC == NEUMANN)
-	{
-		for(int i=0; i<TBCFlag->nx; i++)
-			for(int j=0; j<TBCFlag->ny; j++)
-				TBCFlag->set(i,j,0,(int)NEUMANN);
-	}
-
+	//PDE set up
 	Field * alphaField = new Field(T);
 	alphaField->setAll(alpha);
 
@@ -284,10 +269,10 @@ void Model::TSolveWrapper()
 	Field * Ddelta_Dy = delta_3D->differentiate(CX2, Y);
 	Field * temp = Ddelta_Dy->copy()->pow(2);
 	Field * ssDdelta = Ddelta_Dx->copy()->pow(2)->add(temp);
-	Field * temp2 = delta_3D->differentiate(CXX2, Y);
-	Field * sD2delta = delta_3D->differentiate(CXX2, X)->add(temp2);
-
-
+	/* Field * temp2 = delta_3D->differentiate(CXX2, Y); */
+	/* Field * sD2delta = delta_3D->differentiate(CXX2, X)->add(temp2); */
+	Field * temp2 = Ddelta_Dy->copy();
+	Field * sD2delta = Ddelta_Dx->copy()->add(temp2);
 
 	Field * z4 = Ddelta_Dy->copy()->multiply(v);
 	Field * z1 = ssDdelta->copy()->multiply(2)->divide(delta_3D)->subtract(sD2delta)->multiply(alphaField)->multiply(zeta)->divide(delta_3D);
@@ -325,9 +310,14 @@ void Model::TSolveWrapper()
 	delete z1;
 	delete z2;
 	delete z3;
+	delete z4;
 	delete term;
 	delete zeta;
 	delete alphaField;
+
+	delete zz1;
+	delete zz2;
+	delete zz3;
 
 	delete TEqn.zz;
 	delete TEqn.x;
@@ -359,10 +349,14 @@ void Model::PSolveWrapper()
 
 	PDE pEqn(p);
 
-	Field * lapl_coeff = (delta->copy()->pow(3)->multiply(1.0/6.0));
+	Field * lapl_coeff = delta->copy()->pow(3)->multiply(1.0/6.0);
 	Field * term = delta->copy()->pow(2)->multiply(0.5);
-	Field * x_coeff = (delta->differentiate(CX2, X))->multiply(term);
-	Field * y_coeff = (delta->differentiate(CX2, Y))->multiply(term);
+	Field * Ddelta_Dx = delta->differentiate(CX2, X);
+	Field * Ddelta_Dy = delta->differentiate(CX2, Y);
+	/* Field * x_coeff = Ddelta_Dx->copy()->multiply(term); */
+	/* Field * y_coeff = Ddelta_Dy->copy()->multiply(term); */
+	Field * x_coeff = delta->differentiate(CX2, X)->multiply(term);
+	Field * y_coeff = delta->differentiate(CX2, Y)->multiply(term);
 
 
 	Field * rhs = new Field(p);
@@ -395,6 +389,8 @@ void Model::PSolveWrapper()
 	delete term;
 	delete x_coeff;
 	delete y_coeff;
+	delete Ddelta_Dx;
+	delete Ddelta_Dy;
 	delete rhs;
 	delete zero;
 
@@ -427,8 +423,10 @@ void Model::combinedUpdate()
 
 		Field * lapl_coeff = delta->copy()->pow(3)->divide(6.0);
 		Field * term = delta->copy()->pow(2)->multiply(0.5);
-		Field * x_coeff = (delta->differentiate(CX2, X))->multiply(term);
-		Field * y_coeff = (delta->differentiate(CX2, Y))->multiply(term);
+		Field * Ddelta_Dx = delta->differentiate(CX2, X);
+		Field * Ddelta_Dy = delta->differentiate(CX2, Y);
+		Field * x_coeff = Ddelta_Dx->multiply(term);
+		Field * y_coeff = Ddelta_Dy->multiply(term);
 
 		Field * rhs = new Field(p);
 		for(int i=0; i < nx; i++)
