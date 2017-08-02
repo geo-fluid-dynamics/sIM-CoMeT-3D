@@ -19,7 +19,7 @@ void Plot::image(Field * field)
 		{
 			fprintf(gnu, "%d %d %e\n", i, j, field->get(i,j));
 		}
-		/* fprintf(gnu, ""); */
+		fprintf(gnu, "\n");
 	}
 	fprintf(gnu, "e\n");
 }

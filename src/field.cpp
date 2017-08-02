@@ -3,6 +3,9 @@
 #include <cmath>
 #include "packages/lepton/Lepton.h"
 
+#include <iostream>
+#include <map>
+
 Field::Field(int inx, int iny, int inz, double iLx, double iLy, double iLz)
 {
 	nx = inx;
@@ -597,22 +600,35 @@ double Field::yVal(int j)
 
 void Field::set(std::string expression_string)
 {
-	Lepton::CompiledExpression expr = Lepton::Parser::parse(expression_string).createCompiledExpression();
 
-	double& x  = expr.getVariableReference("x");
-	double& y  = expr.getVariableReference("y");
-	double& eLx = expr.getVariableReference("Lx");
-	double& eLy = expr.getVariableReference("Ly");
+	const std::string e = expression_string;
 
-	eLx = this->Lx;
-	eLy = this->Ly;
+	/* Lepton::CompiledExpression expr = Lepton::Parser::parse(e).createCompiledExpression(); */
+	/* double& ex  = expr.getVariableReference("x"); */
+	/* double& ey  = expr.getVariableReference("y"); */
+	/* double& eLx = expr.getVariableReference("Lx"); */
+	/* double& eLy = expr.getVariableReference("Ly"); */
+	/* eLx = this->Lx; */
+	/* eLy = this->Ly; */
 
+	std::map<std::string, double> variables;
+	variables["Lx"] = Lx;
+	variables["Ly"] = Ly;
+
+	std::cout << "Parsing String: " << expression_string << "\n";
 
 	for(int i = 0; i < nx; i++)
 		for(int j = 0; j < ny; j++)
 		{
-			x = xVal(i); y = yVal(j);
-			this->set(i,j,0, expr.evaluate());
+
+			/* ex = xVal(i); */
+			/* ey = yVal(j); */
+			/* this->set(i,j,0, expr.evaluate()); */
+
+			variables["x"] = xVal(i);
+			variables["y"] = yVal(j);
+			this->set(i,j,0, Lepton::Parser::parse(e).evaluate(variables));
+
 		}
 
 }
