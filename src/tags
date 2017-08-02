@@ -518,8 +518,6 @@ lda	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/solver.hpp	/^		int lda;$/;"	
 lda	old/solver.hpp	/^		int lda;$/;"	m	class:Solver
 legacySolve	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/model.cpp	/^void Model::legacySolve()$/;"	f	language:C++	class:Model
 legacySolve	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/model.hpp	/^		void legacySolve();$/;"	p	language:C++	class:Model
-legacySolve	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/model.cpp	/^void Model::legacySolve()$/;"	f	language:C++	class:Model
-legacySolve	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/model.hpp	/^		void legacySolve();$/;"	p	language:C++	class:Model
 linear	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/estimator.cpp	/^double Estimator::linear(std::vector<double>& x, std::vector<double>& y, double x0)$/;"	f	language:C++	class:Estimator
 linear	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/estimator.cpp	/^double Estimator::linear(std::vector<double>& x, std::vector<double>& y, double x0)$/;"	f	language:C++	class:Estimator
 linear	old/estimator.cpp	/^double Estimator::linear(std::vector<double>& x, std::vector<double>& y, double x0)$/;"	f	class:Estimator

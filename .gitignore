@@ -1,4 +1,4 @@
-tags
-simcomet
+src/tags
+src/simcomet
 src/logs/*
 src/outputs/*

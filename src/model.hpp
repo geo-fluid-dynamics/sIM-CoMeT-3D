@@ -65,9 +65,6 @@ class Model {
 		double Mtheta;
 		double F;
 
-		/* FILE * logFilePtr; */
-		/* Log log; */
-
 		double dx = 2.0*Lx/(nx-1);
 		double dy = 2.0*Ly/(ny-1);
 		double dz = 1.0/(nz - 1);
@@ -78,11 +75,10 @@ class Model {
 		double maxFluxError;
 		double relativeMFE;
 
-		void legacySolve();
-		void solve();
 		Model();
 		Model(std::string iniPath);
 		~Model();
+		void solve();
 		void print();
 		void combinedUpdate();
 		void combinedUpdate2();

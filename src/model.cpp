@@ -145,70 +145,17 @@ Model::~Model()
 	delete w;
 }
 
-void Model::legacySolve()
-{
-	clock_t start = clock();
-
-	int iter=0;
-
-	while(1)
-	{
-		printf("Main Loop: %d\n", ++iter);
-
-		find_U();
-
-		find_r();
-
-		if(std::fabs(Fscrew - F) >= FTol)
-		{
-			printf("Continuing!\n");
-			continue;
-		}
-
-		init_uvw();
-
-		TSolveWrapper();
-
-		calc_maxFluxError();
-
-		/* break based on absolute MFE */
-
-		if(maxFluxError <= allowedMaxFluxError)
-		{
-			printf("Breaking with MFE = %f\n", maxFluxError);
-			break;
-		}
-
-		/* if(relativeMFE <= allowedRelativeMFE) */
-		/* { */
-		/* 	printf("Breaking with MFE = %f\n", maxFluxError); */
-		/* 	break; */
-		/* } */
-
-		adjustDelta();
-
-		recalcDelta = 0;
-
-		dumper();
-	}
-
-	double duration = (double) (clock() - start)/CLOCKS_PER_SEC;
-	printf("Time of Exec = %.2fs\n", duration);
-
-}
-
 void Model::solve()
 {
 	clock_t start = clock();
 
-	/* Log log; */
-	/* log.writeHeader(); */
-	/* fprintf(log.ptr, "iter\t\t\t\tU0\t\t\t\tr\t\t\t\tdelta\t\t\t\tp\t\t\t\tT\t\t\t\tu\t\t\t\tv\t\t\t\tw\t\t\t\tMFE\t\t\t\trelMFE\n"); */
+	Log log;
+	fprintf(log.ptr, "iter\t\t\t\tU0\t\t\t\tr\t\t\t\tdelta\t\t\t\tp\t\t\t\tT\t\t\t\tu\t\t\t\tv\t\t\t\tw\t\t\t\tMFE\t\t\t\trelMFE\n");
 
 	Plot plot;
 
-	/* char * gnucmd = (char*)malloc(100); */
-	/* snprintf(gnucmd, 100, "plot '%s' using 1:10 w l", log.filename.c_str()); */
+	char * gnucmd = (char*)malloc(100);
+	snprintf(gnucmd, 100, "plot '%s' using 1:10 w l", log.filename.c_str());
 
 	int iter=0;
 
@@ -266,11 +213,13 @@ void Model::solve()
 		recalcDelta = 0;
 
 		dumper();
-		/* fprintf(log.ptr, "%4d\t%e\t%e\t%e\t%e\t%e\t%e\t%e\t%e\t%e\t%e\n", iter, U0, r, delta->average(), p->average(), T->average(), u->average(), */
-		/* 		v->average(), w->average(), maxFluxError, relativeMFE); */
+
+		fprintf(log.ptr, "%4d\t%e\t%e\t%e\t%e\t%e\t%e\t%e\t%e\t%e\t%e\n",
+				iter, U0, r, delta->average(), p->average(), T->average(),
+				u->average(),v->average(), w->average(), maxFluxError, relativeMFE);
 
 		/* plot.image(delta); */
-		/* gnuplot_cmd(plot.gnu, gnucmd); */
+		gnuplot_cmd(plot.gnu, gnucmd);
 
 	}
 
@@ -279,7 +228,8 @@ void Model::solve()
 	printf("Time of Exec = %.2fs\n", duration);
 	printf("solved temp %d times\n", itsolve);
 
-	/* log.writeFooter(); */
+	log.writeHeader();
+	log.writeFooter();
 
 }
 
@@ -392,7 +342,7 @@ void Model::update_fields()
 void Model::dumper()
 {
 	printf("\n<<<<<<<<<< STARTING DUMP >>>>>>>>>>\n");
-	printf("r = %e\tMx = %e\t My = %e\n", r, Mx, My);
+	printf("r = %e\tM = %e\n", r, Mtheta);
 	printf("U0 = %e\tF = %e\tFeff = %e\n", U0, F, Fscrew);
 	printf("u = %e\tv=%e\nw=%e\n", u->average(), v->average(), w->average());
 	printf("Temp = %e\n", T->average());
