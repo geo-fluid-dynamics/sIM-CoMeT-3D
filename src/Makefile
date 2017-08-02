@@ -7,7 +7,7 @@ BASE=estimator.cpp field.cpp log.cpp model.cpp modules.cpp PDE.cpp plot.cpp solv
 
 MUP_SRC=./packages/muparser/*.cpp
 INIH_SRC=./packages/inih/ini.c ./packages/inih/INIReader.cpp
-GNUP_SRC=./packages/gnuplot_i/gnuplot_i.c
+GNUP_SRC=
 EXTRA_SRC= $(MUP_SRC) $(INIH_SRC) $(GNUP_SRC)
 
 SRC=$(BASE) $(TEST_BASE) $(EXTRA_SRC) main.cpp

@@ -3,14 +3,11 @@
 
 #include "packages/gnuplot_i/gnuplot_i.h"
 #include "field.hpp"
-/* #include "packages/matplotlib-cpp/matplotlibcpp.h" */
-
-/* namespace plt = matplotlibcpp; */
 
 class Plot
 {
 	public:
-		gnuplot_ctrl * gnu;
+		FILE * gnu;
 
 		Plot();
 		~Plot();

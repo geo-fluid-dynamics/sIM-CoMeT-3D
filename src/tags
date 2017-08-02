@@ -89,7 +89,7 @@ Field	old/field.hpp	/^class Field {$/;"	c
 Fscrew	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/model.hpp	/^		double Fscrew = 375;$/;"	m	language:C++	class:Model
 Fscrew	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/model.hpp	/^		double Fscrew = 375;$/;"	m	language:C++	class:Model
 Fscrew	old/model.hpp	/^		double Fscrew = 800;$/;"	m	class:Model
-GNUP_SRC	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/Makefile	/^GNUP_SRC=.\/packages\/gnuplot_i\/gnuplot_i.c$/;"	m	language:Make
+GNUP_SRC	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/Makefile	/^GNUP_SRC=$/;"	m	language:Make
 Get	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/INIReader.cpp	/^string INIReader::Get(const string& section, const string& name, const string& default_value) const$/;"	f	language:C++	class:INIReader
 Get	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/INIReader.h	/^    std::string Get(const std::string& section, const std::string& name,$/;"	p	language:C++	class:INIReader
 GetBoolean	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/INIReader.cpp	/^bool INIReader::GetBoolean(const string& section, const string& name, bool default_value) const$/;"	f	language:C++	class:INIReader
@@ -463,7 +463,7 @@ getSubfield	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/field.hpp	/^		Field 
 getSubfield	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/field.cpp	/^Field * Field::getSubfield(int i1, int i2, int j1, int j2, int k1, int k2)$/;"	f	language:C++	class:Field
 getSubfield	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/field.hpp	/^		Field * getSubfield(int i1, int i2, int j1, int j2, int k1, int k2);$/;"	p	language:C++	class:Field
 getSubfield	old/field.cpp	/^Field * Field::getSubfield(int i1, int i2, int j1, int j2, int k1, int k2)$/;"	f	class:Field
-gnu	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/plot.hpp	/^		gnuplot_ctrl * gnu;$/;"	m	language:C++	class:Plot
+gnu	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/plot.hpp	/^		FILE * gnu;$/;"	m	language:C++	class:Plot
 hm	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/model.hpp	/^		double hm   = 3.337e5;$/;"	m	language:C++	class:Model
 hm	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/model.hpp	/^		double hm   = 3.337e5;$/;"	m	language:C++	class:Model
 hm	old/model.hpp	/^		double hm = 3.337e5;$/;"	m	class:Model

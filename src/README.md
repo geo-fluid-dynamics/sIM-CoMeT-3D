@@ -8,6 +8,7 @@ This repository stores the code for sIM-CoMeT C++ implementation developed by Ja
 	Arch : `sudo pacman -S suitesparse`
 2. gcc version 5 and above. 
 	* Due to variations in the UMFPACK package headers in different OSes, there was a need to use the '\_\_has\_include' preprocessor command to first check the system include directory before including them. This command is only available in gcc 5 and above. 
+3. gnuplot
 
 ## Other Packages Used
 1. inih - https://github.com/benhoyt/inih

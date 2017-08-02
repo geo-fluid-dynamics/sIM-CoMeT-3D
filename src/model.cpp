@@ -155,7 +155,7 @@ void Model::solve()
 	Plot plot;
 
 	char * gnucmd = (char*)malloc(100);
-	snprintf(gnucmd, 100, "plot '%s' using 1:10 w l", log.filename.c_str());
+	snprintf(gnucmd, 100, "plot '%s' using 1:10 w l\n", log.filename.c_str());
 
 	int iter=0;
 
@@ -218,8 +218,8 @@ void Model::solve()
 				iter, U0, r, delta->average(), p->average(), T->average(),
 				u->average(),v->average(), w->average(), maxFluxError, relativeMFE);
 
-		/* plot.image(delta); */
-		gnuplot_cmd(plot.gnu, gnucmd);
+		plot.image(delta);
+		/* fprintf(plot.gnu, gnucmd); */
 
 	}
 
