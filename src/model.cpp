@@ -23,9 +23,7 @@
 #include "log.hpp"
 #include "plot.hpp"
 
-#include "packages/muparser/muParser.h"
 #include "packages/inih/INIReader.h"
-#include "packages/gnuplot_i/gnuplot_i.h"
 
 
 Model::Model()
@@ -257,48 +255,20 @@ double Model::UVal(int i, int j)
 
 void Model::init_fields()
 {
-	double x;
-	double y;
-
-	mu::Parser p;
-	p.DefineVar("x", &x);
-	p.DefineVar("y", &y);
-	p.DefineVar("Lx", &Lx);
-	p.DefineVar("Ly", &Ly);
 
 	if(southBC == DIRICHLET)
 	{
-		for(int i = 0; i < nx; i++)
-			for(int j = 0; j < ny; j++)
-			{
-
-				x = xVal(i);
-				y = yVal(j);
-				p.SetExpr(TwExp);
-				Tw->set(i,j,0, p.Eval());
-
-				/* Tw->set(i, j, 0, 40+10*(xVal(i)/Lx + yVal(j)/Ly)); */
-				/* Tw->set(i, j, 0, 40+10*(xVal(i)/Lx)); */
-
-			}
+		Tw->set(TwExp);
 	}
 	else
 	{
-		Tw->setAll(0.1);
+		Tw->setAll(Tm + 0.1);
 	}
 
-	for(int i = 0; i < nx; i++)
-		for(int j = 0; j < ny; j++)
-		{
-			x = xVal(i);
-			y = yVal(j);
-			p.SetExpr(qwExp);
-			qw->set(i, j, 0, p.Eval());
-		}
+	qw->set(qwExp);
 
 	r = 0.1;
 	U0 = 1e-4;
-	/* delta->setAll(1e-2); */
 
 	for(int i=0; i<nx; i++)
 		for(int j=0; j<ny; j++)

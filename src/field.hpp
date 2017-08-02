@@ -4,6 +4,7 @@
 #include <map>
 #include <vector>
 #include <cmath>
+#include <string>
 #include "enum.hpp"
 
 class Field {
@@ -41,15 +42,16 @@ class Field {
 		void init(int inx, int iny, int inz, double iLx, double iLy, double iLz);
 		void set(int i, int j, int k, double value);
 		void set(Side side, double value);
+		void set(int i, int j, double value);
+		void set(std::string expression_string);
 		double get(int i, int j, int k);
 		double get(int i, int j);
-		void set(int i, int j, double value);
 		void setAll(double value);
 		bool isFinite();
 		double integrateXY();
 		double average();
 		Field * getSubfield(int i1, int i2, int j1, int j2, int k1, int k2);
-		Field * setSubfield(int i1, int i2, int j1, int j2, int k1, int k2, Field * field);
+		void setSubfield(int i1, int i2, int j1, int j2, int k1, int k2, Field * field);
 		Field * differentiate(dMode mode, dDir dir);
 		Field * add(Field * field);
 		Field * subtract(Field * field);
@@ -63,6 +65,10 @@ class Field {
 		Field * divide(double value);
 		void print();
 		Side getSide(int i, int j, int k);
+
+		double xVal(int i);
+		double yVal(int j);
+		/* double zVal(int i, int j, int k); */
 
 };
 

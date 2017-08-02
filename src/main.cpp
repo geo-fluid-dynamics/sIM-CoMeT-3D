@@ -4,9 +4,7 @@
 int main(int argc, char * argv[])
 {
 	Model model("inputs.ini");
-	model.print();
-	/* model.legacySolve(); */
+	/* model.print(); */
 	model.solve();
-	/* model.combinedUpdate2(); */
 }
 

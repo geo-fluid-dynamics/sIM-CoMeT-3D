@@ -1,5 +1,7 @@
 #include "field.hpp"
+/* #include "packages/exprtk/exprtk.hpp" */
 #include <cmath>
+#include "packages/lepton/Lepton.h"
 
 Field::Field(int inx, int iny, int inz, double iLx, double iLy, double iLz)
 {
@@ -127,7 +129,7 @@ Field * Field::getSubfield(int i1, int i2, int j1, int j2, int k1, int k2)
 	return subfield;
 }
 
-Field * Field::setSubfield(int i1, int i2, int j1, int j2, int k1, int k2, Field * field)
+void Field::setSubfield(int i1, int i2, int j1, int j2, int k1, int k2, Field * field)
 {
 	for(int i = i1; i <= i2; i++)
 		for(int j = j1; j <= j2; j++)
@@ -157,7 +159,7 @@ bool Field::isFinite()
 			for(int k=0; k<this->nz; k++)
 			{
 				if(!std::isfinite(this->get(i,j,k)))
-						return false;
+					return false;
 			}
 
 
@@ -545,5 +547,72 @@ Side Field::getSide(int i, int j, int k)
 		return RIGHT;
 	}
 	else return INTERIOR;
+
+}
+
+double Field::xVal(int i)
+{
+	return (nx==1)? 0 : -Lx + 2*Lx/(nx-1)*i;
+}
+
+double Field::yVal(int j)
+{
+	return (ny==1)? 0 : -Ly + 2*Ly/(ny-1)*j;
+}
+
+/* void Field::set(std::string expression_string) */
+/* { */
+
+/* 	typedef exprtk::symbol_table<double> symbol_table_t; */
+/* 	typedef exprtk::expression<double>     expression_t; */
+/* 	typedef exprtk::parser<double>             parser_t; */
+
+/* 	double x; */
+/* 	double y; */
+/* 	double Lx = this->Lx; */
+/* 	double Ly = this->Ly; */
+
+/* 	symbol_table_t symbol_table; */
+/* 	symbol_table.add_variable("x",x); */
+/* 	symbol_table.add_variable("y",y); */
+/* 	symbol_table.add_constant("Lx", Lx); */
+/* 	symbol_table.add_constant("Ly", Ly); */
+/* 	symbol_table.add_constants(); */
+
+/* 	expression_t expression; */
+/* 	expression.register_symbol_table(symbol_table); */
+
+/* 	parser_t parser; */
+/* 	parser.compile(expression_string,expression); */
+
+/* 	for(int i = 0; i < nx; i++) */
+/* 		for(int j = 0; j < ny; j++) */
+/* 		{ */
+/* 			x = xVal(i); y = yVal(j); */
+/* 			this->set(i,j,0, expression.value()); */
+/* 		} */
+
+
+/* } */
+
+void Field::set(std::string expression_string)
+{
+	Lepton::CompiledExpression expr = Lepton::Parser::parse(expression_string).createCompiledExpression();
+
+	double& x  = expr.getVariableReference("x");
+	double& y  = expr.getVariableReference("y");
+	double& eLx = expr.getVariableReference("Lx");
+	double& eLy = expr.getVariableReference("Ly");
+
+	eLx = this->Lx;
+	eLy = this->Ly;
+
+
+	for(int i = 0; i < nx; i++)
+		for(int j = 0; j < ny; j++)
+		{
+			x = xVal(i); y = yVal(j);
+			this->set(i,j,0, expr.evaluate());
+		}
 
 }

@@ -1,7 +1,6 @@
 #ifndef PLOT_H
 #define PLOT_H
 
-#include "packages/gnuplot_i/gnuplot_i.h"
 #include "field.hpp"
 
 class Plot

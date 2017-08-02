@@ -634,7 +634,7 @@ void Model::combinedUpdate2()
 
 
 		double vector;
-		double value;
+		/* double value; */
 
 		/* double dr = 1e-6; */
 		/* double dU0 = 1e-6; */
