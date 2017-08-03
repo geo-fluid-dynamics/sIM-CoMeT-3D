@@ -65,7 +65,8 @@ void Solver::init()
 
 				assert(stencil.isFinite());
 
-				row = i + field->nx * j + field->nx * field->ny * k;
+				/* row = i + field->nx * j + field->nx * field->ny * k; */
+				row = field->index(i,j,k);
 				A->pushStencil(stencil, row);
 
 				(*b)[row] = pde->rhs->get(i,j,k);
@@ -83,7 +84,8 @@ void Solver::init()
 				Side pointSide = field->getSide(i,j,k);
 				if(pointSide != INTERIOR)
 				{
-					int row = i + field->nx * j + field->nx * field->ny * k;
+					/* int row = i + field->nx * j + field->nx * field->ny * k; */
+					row = field->index(i,j,k);
 					stencil.reset();
 
 					//a bithack to shorten the code for boundary values in constructing A
@@ -155,7 +157,8 @@ void Solver::solve(Field * f)
 		for(int j=0; j<f->ny; j++)
 			for(int k=0; k<f->nz; k++)
 			{
-				f->set(i,j,k, x->at(i + f->nx*j + f->nx * f->ny * k));
+				/* f->set(i,j,k, x->at(i + f->nx*j + f->nx * f->ny * k)); */
+				f->set(i,j,k, x->at(f->index(i,j,k)));
 				/* printf("%d\t%d\t%d\t%e\n", i, j, k, x->at(i + f->nx*j + f->nx * f->ny * k)); */
 			}
 
@@ -184,7 +187,8 @@ void Solver::buildb()
 		for(int j=sy; j<ey; j++)
 			for(int k=sz; k<ez; k++)
 			{
-				row = i + field->nx * j + field->nx * field->ny * k;
+				/* row = i + field->nx * j + field->nx * field->ny * k; */
+				row = field->index(i,j,k);
 				(*b)[row] = pde->rhs->get(i,j,k);
 			}
 
@@ -200,7 +204,8 @@ void Solver::buildb()
 				Side pointSide = field->getSide(i,j,k);
 				if(pointSide != INTERIOR)
 				{
-					int row = i + field->nx * j + field->nx * field->ny * k;
+					/* int row = i + field->nx * j + field->nx * field->ny * k; */
+					row = field->index(i,j,k);
 					(*b)[row] = field->get(i,j,k);
 				}
 			}

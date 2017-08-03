@@ -9,9 +9,9 @@ void Sparse::push(int index1, int index2, double value)
 
 void Sparse::pushStencil(Stencil& stencil, int row)
 {
-	int stride_x = 1;
-	int stride_y = stencil.nx;
-	int stride_z = stencil.nx*stencil.ny;
+	int stride_x = stencil.stride_x;
+	int stride_y = stencil.stride_y;
+	int stride_z = stencil.stride_z;
 
 	for(int i=0; i<5; i++)
 		for(int j=0; j<5; j++)

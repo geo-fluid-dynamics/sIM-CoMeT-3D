@@ -7,8 +7,10 @@
 A	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/solver.hpp	/^		Sparse * A;$/;"	m	language:C++	class:Solver
 A	old/solver.hpp	/^		Sparse * A;$/;"	m	class:Solver
 Ai	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/sparse.hpp	/^		std::vector<int> Ai;$/;"	m	language:C++	class:Sparse
+Ai	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/sparse.hpp	/^		std::vector<int> Ai;$/;"	m	language:C++	class:Sparse
 Ai	old/sparse.hpp	/^		std::vector<int> Ai;$/;"	m	class:Sparse
 Aj	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/sparse.hpp	/^		std::vector<int> Aj;$/;"	m	language:C++	class:Sparse
+Aj	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/sparse.hpp	/^		std::vector<int> Aj;$/;"	m	language:C++	class:Sparse
 Aj	old/sparse.hpp	/^		std::vector<int> Aj;$/;"	m	class:Sparse
 BACK	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/enum.hpp	/^	BACK = 5,$/;"	e	language:C++	enum:side
 BACK	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/enum.hpp	/^	BACK = 5,$/;"	e	language:C++	enum:side
@@ -77,10 +79,10 @@ Field	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/field.hpp	/^		Field(int in
 Field	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/field.hpp	/^class Field {$/;"	c	language:C++
 Field	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/field.cpp	/^Field::Field()$/;"	f	language:C++	class:Field
 Field	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/field.cpp	/^Field::Field(Field * field)$/;"	f	language:C++	class:Field
-Field	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/field.cpp	/^Field::Field(int inx, int iny, int inz, double iLx, double iLy, double iLz)$/;"	f	language:C++	class:Field
+Field	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/field.cpp	/^Field::Field(int inx, int iny, int inz, double iLx, double iLy)$/;"	f	language:C++	class:Field
 Field	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/field.hpp	/^		Field();$/;"	p	language:C++	class:Field
 Field	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/field.hpp	/^		Field(Field * field);$/;"	p	language:C++	class:Field
-Field	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/field.hpp	/^		Field(int inx, int iny, int inz, double iLx, double iLy, double iLz);$/;"	p	language:C++	class:Field
+Field	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/field.hpp	/^		Field(int inx, int iny, int inz, double iLx, double iLy);$/;"	p	language:C++	class:Field
 Field	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/field.hpp	/^class Field {$/;"	c	language:C++
 Field	old/field.cpp	/^Field::Field()$/;"	f	class:Field
 Field	old/field.cpp	/^Field::Field(Field& field)$/;"	f	class:Field
@@ -134,7 +136,6 @@ Ly	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/model.hpp	/^		double Ly;$
 Ly	old/field.hpp	/^		double Ly;$/;"	m	class:Field
 Ly	old/model.hpp	/^		double Ly = 0.075;$/;"	m	class:Model
 Lz	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/field.hpp	/^		double Lz;$/;"	m	language:C++	class:Field
-Lz	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/field.hpp	/^		double Lz;$/;"	m	language:C++	class:Field
 Lz	old/field.hpp	/^		double Lz;$/;"	m	class:Field
 MODEL_H	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/model.hpp	2;"	d	language:C++
 MODEL_H	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/model.hpp	2;"	d	language:C++
@@ -151,9 +152,7 @@ Model	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/model.cpp	/^Model::Model(s
 Model	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/model.hpp	/^		Model();$/;"	p	language:C++	class:Model
 Model	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/model.hpp	/^		Model(std::string iniPath);$/;"	p	language:C++	class:Model
 Model	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/model.hpp	/^class Model {$/;"	c	language:C++
-Model	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/model.cpp	/^Model::Model()$/;"	f	language:C++	class:Model
 Model	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/model.cpp	/^Model::Model(std::string iniPath)$/;"	f	language:C++	class:Model
-Model	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/model.hpp	/^		Model();$/;"	p	language:C++	class:Model
 Model	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/model.hpp	/^		Model(std::string iniPath);$/;"	p	language:C++	class:Model
 Model	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/model.hpp	/^class Model {$/;"	c	language:C++
 Model	old/model.cpp	/^Model::Model()$/;"	f	class:Model
@@ -208,9 +207,11 @@ SOLVER_H	old/solver.hpp	2;"	d
 SOUTH	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/enum.hpp	/^	SOUTH = 6,$/;"	e	language:C++	enum:side
 SOUTH	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/enum.hpp	/^	SOUTH = 6,$/;"	e	language:C++	enum:side
 SPARSE_H	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/sparse.hpp	2;"	d	language:C++
+SPARSE_H	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/sparse.hpp	2;"	d	language:C++
 SPARSE_H	old/sparse.hpp	2;"	d
 SRC	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/Makefile	/^SRC=$(BASE) $(TEST_BASE) $(EXTRA_SRC) main.cpp$/;"	m	language:Make
 SRC	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/Makefile	/^SRC=$(BASE) $(TEST_BASE) $(EXTRA_SRC) main.cpp$/;"	m	language:Make
+STENCIL_H	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/stencil.hpp	2;"	d	language:C++
 STENCIL_H	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/stencil.hpp	2;"	d	language:C++
 STENCIL_H	old/stencil.hpp	2;"	d
 Side	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/enum.hpp	/^} Side;$/;"	t	language:C++	typeref:enum:side
@@ -222,9 +223,13 @@ Solver	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/solver.cpp	/^Solver::
 Solver	old/solver.cpp	/^Solver::Solver(PDE ipde, Field * bc)$/;"	f	class:Solver
 Solver	old/solver.hpp	/^class Solver {$/;"	c
 Sparse	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/sparse.hpp	/^class Sparse {$/;"	c	language:C++
+Sparse	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/sparse.hpp	/^class Sparse {$/;"	c	language:C++
 Sparse	old/sparse.hpp	/^class Sparse {$/;"	c
 Stencil	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/stencil.cpp	/^Stencil::Stencil(Field * field)$/;"	f	language:C++	class:Stencil
 Stencil	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/stencil.cpp	/^Stencil::Stencil(double idx, double idy, double idz)$/;"	f	language:C++	class:Stencil
+Stencil	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/stencil.hpp	/^		Stencil(Field * field);$/;"	p	language:C++	class:Stencil
+Stencil	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/stencil.hpp	/^		Stencil(double idx, double idy, double idz);$/;"	p	language:C++	class:Stencil
+Stencil	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/stencil.hpp	/^class Stencil {$/;"	c	language:C++
 Stencil	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/stencil.cpp	/^Stencil::Stencil(Field * field)$/;"	f	language:C++	class:Stencil
 Stencil	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/stencil.cpp	/^Stencil::Stencil(double idx, double idy, double idz)$/;"	f	language:C++	class:Stencil
 Stencil	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/stencil.hpp	/^		Stencil(Field * field);$/;"	p	language:C++	class:Stencil
@@ -260,7 +265,7 @@ UExp	old/model.hpp	/^		std::string UExp = "U0*(1-x\/r)";$/;"	m	class:Model
 UVal	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/model.cpp	/^double Model::UVal(int i, int j)$/;"	f	language:C++	class:Model
 UVal	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/model.hpp	/^		double UVal(int i, int j);$/;"	p	language:C++	class:Model
 UVal	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/model.cpp	/^double Model::UVal(int i, int j)$/;"	f	language:C++	class:Model
-UVal	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/model.hpp	/^		double UVal(int i, int j);$/;"	p	language:C++	class:Model
+UVal	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/model.hpp	/^		double UVal(int i, int j) ;$/;"	p	language:C++	class:Model
 UVal	old/model.cpp	/^double Model::UVal(int i, int j)$/;"	f	class:Model
 ValueHandler	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/INIReader.cpp	/^int INIReader::ValueHandler(void* user, const char* section, const char* name,$/;"	f	language:C++	class:INIReader
 ValueHandler	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/INIReader.h	/^    static int ValueHandler(void* user, const char* section, const char* name,$/;"	p	language:C++	class:INIReader
@@ -284,6 +289,7 @@ ZX	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/enum.hpp	/^	ZX = 7$/;"	e	
 ZX	old/enum.hpp	/^	ZX$/;"	e	enum:dDir
 __INIREADER_H__	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/INIReader.h	9;"	d	language:C++
 _error	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/INIReader.h	/^    int _error;$/;"	m	language:C++	class:INIReader
+_stencil	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/stencil.hpp	/^		double _stencil[5][5][5];$/;"	m	language:C++	class:Stencil
 _stencil	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/stencil.hpp	/^		double _stencil[5][5][5];$/;"	m	language:C++	class:Stencil
 _stencil	old/stencil.hpp	/^		double _stencil[5][5][5];$/;"	m	class:Stencil
 _values	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/INIReader.h	/^    std::map<std::string, std::string> _values;$/;"	m	language:C++	class:INIReader
@@ -333,6 +339,7 @@ calc_maxFluxError	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/model.hpp	
 calc_maxFluxError	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/modules.cpp	/^void Model::calc_maxFluxError()$/;"	f	language:C++	class:Model
 coeffs	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/field.hpp	/^		std::map < dMode , std::vector<double> > coeffs = {$/;"	m	language:C++	class:Field
 coeffs	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/field.hpp	/^		std::map < dMode , std::vector<double> > coeffs = {$/;"	m	language:C++	class:Field
+coeffs	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/stencil.hpp	/^		std::map < dMode , std::vector<double> > coeffs	= {$/;"	m	language:C++	class:Stencil
 coeffs	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/stencil.hpp	/^		std::map < dMode , std::vector<double> > coeffs	= {$/;"	m	language:C++	class:Stencil
 coeffs	old/field.hpp	/^		std::map < dMode , std::vector<double> > coeffs = {$/;"	m	class:Field
 coeffs	old/stencil.hpp	/^		std::map < dMode , std::vector<double> > coeffs	= {$/;"	m	class:Stencil
@@ -385,6 +392,7 @@ differentiate	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/field.cpp	/^Fi
 differentiate	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/field.hpp	/^		Field * differentiate(dMode mode, dDir dir);$/;"	p	language:C++	class:Field
 differentiate	old/field.cpp	/^Field * Field::differentiate(dMode mode, dDir dir)$/;"	f	class:Field
 discretize	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/stencil.cpp	/^void Stencil::discretize(double coeff, dMode mode, dDir dir)$/;"	f	language:C++	class:Stencil
+discretize	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/stencil.hpp	/^		void discretize(double coeff, dMode mode, dDir dir);$/;"	p	language:C++	class:Stencil
 discretize	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/stencil.cpp	/^void Stencil::discretize(double coeff, dMode mode, dDir dir)$/;"	f	language:C++	class:Stencil
 discretize	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/stencil.hpp	/^		void discretize(double coeff, dMode mode, dDir dir);$/;"	p	language:C++	class:Stencil
 discretize	old/stencil.cpp	/^void Stencil::discretize(double coeff, dMode mode, dDir dir)$/;"	f	class:Stencil
@@ -406,6 +414,7 @@ dx	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/field.hpp	/^		double dx;$/;"	
 dx	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/model.hpp	/^		double dx = 2.0*Lx\/(nx-1);$/;"	m	language:C++	class:Model
 dx	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/field.hpp	/^		double dx;$/;"	m	language:C++	class:Field
 dx	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/model.hpp	/^		double dx = 2.0*Lx\/(nx-1);$/;"	m	language:C++	class:Model
+dx	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/stencil.hpp	/^		double dx; double dy; double dz;$/;"	m	language:C++	class:Stencil
 dx	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/stencil.hpp	/^		double dx; double dy; double dz;$/;"	m	language:C++	class:Stencil
 dx	old/PDE.hpp	/^		double dx;$/;"	m	class:PDE
 dx	old/field.hpp	/^		double dx;$/;"	m	class:Field
@@ -416,6 +425,7 @@ dy	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/field.hpp	/^		double dy;$/;"	
 dy	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/model.hpp	/^		double dy = 2.0*Ly\/(ny-1);$/;"	m	language:C++	class:Model
 dy	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/field.hpp	/^		double dy;$/;"	m	language:C++	class:Field
 dy	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/model.hpp	/^		double dy = 2.0*Ly\/(ny-1);$/;"	m	language:C++	class:Model
+dy	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/stencil.hpp	/^		double dx; double dy; double dz;$/;"	m	language:C++	class:Stencil
 dy	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/stencil.hpp	/^		double dx; double dy; double dz;$/;"	m	language:C++	class:Stencil
 dy	old/PDE.hpp	/^		double dy;$/;"	m	class:PDE
 dy	old/field.hpp	/^		double dy;$/;"	m	class:Field
@@ -426,6 +436,7 @@ dz	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/field.hpp	/^		double dz;$/;"	
 dz	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/model.hpp	/^		double dz = 1.0\/(nz - 1);$/;"	m	language:C++	class:Model
 dz	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/field.hpp	/^		double dz;$/;"	m	language:C++	class:Field
 dz	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/model.hpp	/^		double dz = 1.0\/(nz - 1);$/;"	m	language:C++	class:Model
+dz	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/stencil.hpp	/^		double dx; double dy; double dz;$/;"	m	language:C++	class:Stencil
 dz	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/stencil.hpp	/^		double dx; double dy; double dz;$/;"	m	language:C++	class:Stencil
 dz	old/PDE.hpp	/^		double dz;$/;"	m	class:PDE
 dz	old/field.hpp	/^		double dz;$/;"	m	class:Field
@@ -472,12 +483,15 @@ hmStar	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/model.hpp	/^		double 
 hmStar	old/model.hpp	/^		double hmStar = hm + cpS*(Tm-Tinf);$/;"	m	class:Model
 image	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/plot.cpp	/^void Plot::image(Field * field)$/;"	f	language:C++	class:Plot
 image	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/plot.hpp	/^		void image(Field * field);$/;"	p	language:C++	class:Plot
+index	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/field.cpp	/^int Field::index(int i, int j, int k)$/;"	f	language:C++	class:Field
+index	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/field.hpp	/^		int index(int i, int j, int k);$/;"	p	language:C++	class:Field
+index	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/functions.cpp	/^int index(int i, int j , int k)$/;"	f	language:C++
 init	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/field.cpp	/^void Field::init(int inx, int iny, int inz, double iLx, double iLy, double iLz)$/;"	f	language:C++	class:Field
 init	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/field.hpp	/^		void init(int inx, int iny, int inz, double iLx, double iLy, double iLz);$/;"	p	language:C++	class:Field
 init	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/solver.cpp	/^void Solver::init()$/;"	f	language:C++	class:Solver
 init	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/solver.hpp	/^		void init();$/;"	p	language:C++	class:Solver
-init	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/field.cpp	/^void Field::init(int inx, int iny, int inz, double iLx, double iLy, double iLz)$/;"	f	language:C++	class:Field
-init	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/field.hpp	/^		void init(int inx, int iny, int inz, double iLx, double iLy, double iLz);$/;"	p	language:C++	class:Field
+init	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/field.cpp	/^void Field::init(int inx, int iny, int inz, double iLx, double iLy)$/;"	f	language:C++	class:Field
+init	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/field.hpp	/^		void init(int inx, int iny, int inz, double iLx, double iLy);$/;"	p	language:C++	class:Field
 init	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/solver.cpp	/^void Solver::init()$/;"	f	language:C++	class:Solver
 init	old/field.cpp	/^void Field::init(int inx, int iny, int inz, double iLx, double iLy, double iLz)$/;"	f	class:Field
 init	old/solver.cpp	/^void Solver::init()$/;"	f	class:Solver
@@ -505,7 +519,9 @@ isFinite	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/PDE.cpp	/^bool PDE:
 isFinite	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/field.cpp	/^bool Field::isFinite()$/;"	f	language:C++	class:Field
 isFinite	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/field.hpp	/^		bool isFinite();$/;"	p	language:C++	class:Field
 isFinite	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/sparse.cpp	/^bool Sparse::isFinite()$/;"	f	language:C++	class:Sparse
+isFinite	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/sparse.hpp	/^		bool isFinite();$/;"	p	language:C++	class:Sparse
 isFinite	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/stencil.cpp	/^bool Stencil::isFinite()$/;"	f	language:C++	class:Stencil
+isFinite	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/stencil.hpp	/^		bool isFinite();$/;"	p	language:C++	class:Stencil
 isFinite	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/stencil.cpp	/^bool Stencil::isFinite()$/;"	f	language:C++	class:Stencil
 isFinite	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/stencil.hpp	/^		bool isFinite();$/;"	p	language:C++	class:Stencil
 isFinite	old/field.cpp	/^bool Field::isFinite()$/;"	f	class:Field
@@ -527,12 +543,13 @@ loglinear	old/estimator.cpp	/^double Estimator::loglinear(std::vector<double>& x
 main	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/main.cpp	/^int main(int argc, char * argv[])$/;"	f	language:C++
 main	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/main.cpp	/^int main(int argc, char * argv[])$/;"	f	language:C++
 main	old/main.cpp	/^int main(int argc, char * argv[])$/;"	f
+maxFindIter	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/model.hpp	/^		int maxFindIter;$/;"	m	language:C++	class:Model
 maxFluxError	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/model.hpp	/^		double maxFluxError;$/;"	m	language:C++	class:Model
 maxFluxError	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/model.hpp	/^		double maxFluxError;$/;"	m	language:C++	class:Model
 maxFluxError	old/model.hpp	/^		double maxFluxError;$/;"	m	class:Model
 maxLoopIter	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/model.hpp	/^		int maxLoopIter = 100;$/;"	m	language:C++	class:Model
-maxLoopIter	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/model.hpp	/^		int maxLoopIter;$/;"	m	language:C++	class:Model
 maxLoopIter	old/model.hpp	/^		int maxLoopIter = 100;$/;"	m	class:Model
+maxMainIter	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/model.hpp	/^		int maxMainIter;$/;"	m	language:C++	class:Model
 mu	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/model.hpp	/^		double mu   = 0.001;$/;"	m	language:C++	class:Model
 mu	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/model.hpp	/^		double mu;$/;"	m	language:C++	class:Model
 mu	old/model.hpp	/^		double mu = 0.001;$/;"	m	class:Model
@@ -551,6 +568,7 @@ nx	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/field.hpp	/^		int nx;$/;"	m	l
 nx	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/model.hpp	/^		int nx = 20;$/;"	m	language:C++	class:Model
 nx	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/field.hpp	/^		int nx;$/;"	m	language:C++	class:Field
 nx	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/model.hpp	/^		int nx;$/;"	m	language:C++	class:Model
+nx	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/stencil.hpp	/^		double nx; double ny; double nz;$/;"	m	language:C++	class:Stencil
 nx	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/stencil.hpp	/^		double nx; double ny; double nz;$/;"	m	language:C++	class:Stencil
 nx	old/PDE.hpp	/^		double nx;$/;"	m	class:PDE
 nx	old/field.hpp	/^		int nx;$/;"	m	class:Field
@@ -561,6 +579,7 @@ ny	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/field.hpp	/^		int ny;$/;"	m	l
 ny	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/model.hpp	/^		int ny = 1;$/;"	m	language:C++	class:Model
 ny	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/field.hpp	/^		int ny;$/;"	m	language:C++	class:Field
 ny	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/model.hpp	/^		int ny;$/;"	m	language:C++	class:Model
+ny	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/stencil.hpp	/^		double nx; double ny; double nz;$/;"	m	language:C++	class:Stencil
 ny	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/stencil.hpp	/^		double nx; double ny; double nz;$/;"	m	language:C++	class:Stencil
 ny	old/PDE.hpp	/^		double ny;$/;"	m	class:PDE
 ny	old/field.hpp	/^		int ny;$/;"	m	class:Field
@@ -571,6 +590,7 @@ nz	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/field.hpp	/^		int nz;$/;"	m	l
 nz	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/model.hpp	/^		int nz = 20;$/;"	m	language:C++	class:Model
 nz	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/field.hpp	/^		int nz;$/;"	m	language:C++	class:Field
 nz	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/model.hpp	/^		int nz;$/;"	m	language:C++	class:Model
+nz	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/stencil.hpp	/^		double nx; double ny; double nz;$/;"	m	language:C++	class:Stencil
 nz	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/stencil.hpp	/^		double nx; double ny; double nz;$/;"	m	language:C++	class:Stencil
 nz	old/PDE.hpp	/^		double nz;$/;"	m	class:PDE
 nz	old/field.hpp	/^		int nz;$/;"	m	class:Field
@@ -600,7 +620,9 @@ print	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/field.hpp	/^		void pri
 print	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/model.cpp	/^void Model::print()$/;"	f	language:C++	class:Model
 print	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/model.hpp	/^		void print();$/;"	p	language:C++	class:Model
 print	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/sparse.cpp	/^void Sparse::print()$/;"	f	language:C++	class:Sparse
+print	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/sparse.hpp	/^		void print();$/;"	p	language:C++	class:Sparse
 print	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/stencil.cpp	/^void Stencil::print()$/;"	f	language:C++	class:Stencil
+print	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/stencil.hpp	/^		void print();$/;"	p	language:C++	class:Stencil
 print	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/stencil.cpp	/^void Stencil::print()$/;"	f	language:C++	class:Stencil
 print	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/stencil.hpp	/^		void print();$/;"	p	language:C++	class:Stencil
 print	old/field.cpp	/^void Field::print()$/;"	f	class:Field
@@ -610,10 +632,12 @@ ptr	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/log.hpp	/^		FILE * ptr;$
 push	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/sparse.cpp	/^void Sparse::push(int index1, int index2, double value)$/;"	f	language:C++	class:Sparse
 push	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/sparse.hpp	/^		void push(int index1, int index2, double value);$/;"	p	language:C++	class:Sparse
 push	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/sparse.cpp	/^void Sparse::push(int index1, int index2, double value)$/;"	f	language:C++	class:Sparse
+push	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/sparse.hpp	/^		void push(int index1, int index2, double value);$/;"	p	language:C++	class:Sparse
 push	old/sparse.cpp	/^void Sparse::push(int index1, int index2, double value)$/;"	f	class:Sparse
 pushStencil	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/sparse.cpp	/^void Sparse::pushStencil(Stencil& stencil, int row)$/;"	f	language:C++	class:Sparse
 pushStencil	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/sparse.hpp	/^		void pushStencil(Stencil& stencil, int row);$/;"	p	language:C++	class:Sparse
 pushStencil	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/sparse.cpp	/^void Sparse::pushStencil(Stencil& stencil, int row)$/;"	f	language:C++	class:Sparse
+pushStencil	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/sparse.hpp	/^		void pushStencil(Stencil& stencil, int row);$/;"	p	language:C++	class:Sparse
 pushStencil	old/sparse.cpp	/^void Sparse::pushStencil(Stencil& stencil, int row)$/;"	f	class:Sparse
 qNorth	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/model.hpp	/^		Field * qNorth;$/;"	m	language:C++	class:Model
 qNorth	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/model.hpp	/^		Field * qNorth;$/;"	m	language:C++	class:Model
@@ -643,6 +667,7 @@ replicateZ	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/field.cpp	/^Field
 replicateZ	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/field.hpp	/^		Field * replicateZ(int inz);$/;"	p	language:C++	class:Field
 replicateZ	old/field.cpp	/^Field * Field::replicateZ(int inz)$/;"	f	class:Field
 reset	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/stencil.cpp	/^void Stencil::reset()$/;"	f	language:C++	class:Stencil
+reset	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/stencil.hpp	/^		void reset();$/;"	p	language:C++	class:Stencil
 reset	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/stencil.cpp	/^void Stencil::reset()$/;"	f	language:C++	class:Stencil
 reset	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/stencil.hpp	/^		void reset();$/;"	p	language:C++	class:Stencil
 reset	old/stencil.cpp	/^void Stencil::reset()$/;"	f	class:Stencil
@@ -661,9 +686,11 @@ set	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/field.hpp	/^		void set(int i
 set	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/field.cpp	/^void Field::set(Side side, double value)$/;"	f	language:C++	class:Field
 set	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/field.cpp	/^void Field::set(int i, int j, double value)$/;"	f	language:C++	class:Field
 set	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/field.cpp	/^void Field::set(int i, int j, int k, double value)$/;"	f	language:C++	class:Field
+set	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/field.cpp	/^void Field::set(std::string expression_string)$/;"	f	language:C++	class:Field
 set	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/field.hpp	/^		void set(Side side, double value);$/;"	p	language:C++	class:Field
 set	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/field.hpp	/^		void set(int i, int j, double value);$/;"	p	language:C++	class:Field
 set	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/field.hpp	/^		void set(int i, int j, int k, double value);$/;"	p	language:C++	class:Field
+set	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/field.hpp	/^		void set(std::string expression_string);$/;"	p	language:C++	class:Field
 set	old/field.cpp	/^void Field::set(int i, int j, double value)$/;"	f	class:Field
 set	old/field.cpp	/^void Field::set(int i, int j, int k, double value)$/;"	f	class:Field
 setA	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/solver.cpp	/^void Solver::setA(Sparse iA)$/;"	f	language:C++	class:Solver
@@ -674,8 +701,8 @@ setAll	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/field.hpp	/^		void setAll
 setAll	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/field.cpp	/^void Field::setAll(double value)$/;"	f	language:C++	class:Field
 setAll	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/field.hpp	/^		void setAll(double value);$/;"	p	language:C++	class:Field
 setAll	old/field.cpp	/^void Field::setAll(double value)$/;"	f	class:Field
-setSubfield	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/field.cpp	/^Field * Field::setSubfield(int i1, int i2, int j1, int j2, int k1, int k2, Field * field)$/;"	f	language:C++	class:Field
-setSubfield	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/field.hpp	/^		Field * setSubfield(int i1, int i2, int j1, int j2, int k1, int k2, Field * field);$/;"	p	language:C++	class:Field
+setSubfield	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/field.cpp	/^void Field::setSubfield(int i1, int i2, int j1, int j2, int k1, int k2, Field * field)$/;"	f	language:C++	class:Field
+setSubfield	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/field.hpp	/^		void setSubfield(int i1, int i2, int j1, int j2, int k1, int k2, Field * field);$/;"	p	language:C++	class:Field
 setSurface	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/plot.cpp	/^void Plot::setSurface()$/;"	f	language:C++	class:Plot
 setSurface	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/plot.hpp	/^		void setSurface();$/;"	p	language:C++	class:Plot
 side	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/enum.hpp	/^typedef enum side {$/;"	g	language:C++
@@ -695,6 +722,9 @@ solve	old/solver.cpp	/^void Solver::solve(Field * f)$/;"	f	class:Solver
 southBC	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/model.hpp	/^		boundary southBC = DIRICHLET;$/;"	m	language:C++	class:Model
 southBC	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/model.hpp	/^		boundary southBC;$/;"	m	language:C++	class:Model
 southBC	old/model.hpp	/^		boundary southBC = DIRICHLET;$/;"	m	class:Model
+stride_x	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/stencil.hpp	/^		int stride_x; int stride_y; int stride_z;$/;"	m	language:C++	class:Stencil
+stride_y	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/stencil.hpp	/^		int stride_x; int stride_y; int stride_z;$/;"	m	language:C++	class:Stencil
+stride_z	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/stencil.hpp	/^		int stride_x; int stride_y; int stride_z;$/;"	m	language:C++	class:Stencil
 subtract	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/field.cpp	/^Field * Field::subtract(Field * field)$/;"	f	language:C++	class:Field
 subtract	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/field.hpp	/^		Field * subtract(Field * field);$/;"	p	language:C++	class:Field
 subtract	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/field.cpp	/^Field * Field::subtract(Field * field)$/;"	f	language:C++	class:Field
@@ -718,6 +748,7 @@ v	old/model.hpp	/^		Field * v;$/;"	m	class:Model
 values	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/field.hpp	/^		std::vector<double> values;$/;"	m	language:C++	class:Field
 values	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/sparse.hpp	/^		std::vector<double> values;$/;"	m	language:C++	class:Sparse
 values	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/field.hpp	/^		std::vector<double> values;$/;"	m	language:C++	class:Field
+values	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/sparse.hpp	/^		std::vector<double> values;$/;"	m	language:C++	class:Sparse
 values	old/field.hpp	/^		std::vector<double> values;$/;"	m	class:Field
 values	old/sparse.hpp	/^		std::vector<double> values;$/;"	m	class:Sparse
 w	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/model.hpp	/^		Field * w;$/;"	m	language:C++	class:Model
@@ -737,8 +768,10 @@ x	old/PDE.hpp	/^		Field *x;$/;"	m	class:PDE
 x	old/solver.hpp	/^		std::vector<double> * x;$/;"	m	class:Solver
 xVal	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/model.cpp	/^double Model::xVal(int i)$/;"	f	language:C++	class:Model
 xVal	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/model.hpp	/^		double xVal(int i);$/;"	p	language:C++	class:Model
+xVal	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/field.cpp	/^double Field::xVal(int i)$/;"	f	language:C++	class:Field
+xVal	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/field.hpp	/^		double xVal(int i);$/;"	p	language:C++	class:Field
 xVal	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/model.cpp	/^double Model::xVal(int i)$/;"	f	language:C++	class:Model
-xVal	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/model.hpp	/^		double xVal(int i);$/;"	p	language:C++	class:Model
+xVal	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/model.hpp	/^		double xVal(int i) ;$/;"	p	language:C++	class:Model
 xVal	old/model.cpp	/^double Model::xVal(int i)$/;"	f	class:Model
 xx	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/PDE.hpp	/^		Field *xx;$/;"	m	language:C++	class:PDE
 xx	old/PDE.hpp	/^		Field *xx;$/;"	m	class:PDE
@@ -748,8 +781,10 @@ y	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/PDE.hpp	/^		Field *y;$/;"	m	la
 y	old/PDE.hpp	/^		Field *y;$/;"	m	class:PDE
 yVal	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/model.cpp	/^double Model::yVal(int j)$/;"	f	language:C++	class:Model
 yVal	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/model.hpp	/^		double yVal(int j);$/;"	p	language:C++	class:Model
+yVal	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/field.cpp	/^double Field::yVal(int j)$/;"	f	language:C++	class:Field
+yVal	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/field.hpp	/^		double yVal(int j);$/;"	p	language:C++	class:Field
 yVal	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/model.cpp	/^double Model::yVal(int j)$/;"	f	language:C++	class:Model
-yVal	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/model.hpp	/^		double yVal(int j);$/;"	p	language:C++	class:Model
+yVal	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/model.hpp	/^		double yVal(int j)  ;$/;"	p	language:C++	class:Model
 yVal	old/model.cpp	/^double Model::yVal(int j)$/;"	f	class:Model
 yy	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/PDE.hpp	/^		Field *yy;$/;"	m	language:C++	class:PDE
 yy	old/PDE.hpp	/^		Field *yy;$/;"	m	class:PDE
@@ -760,7 +795,7 @@ z	old/PDE.hpp	/^		Field *z;$/;"	m	class:PDE
 zVal	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/model.cpp	/^double Model::zVal(int i, int j, int k)$/;"	f	language:C++	class:Model
 zVal	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/model.hpp	/^		double zVal(int i, int j, int k);$/;"	p	language:C++	class:Model
 zVal	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/model.cpp	/^double Model::zVal(int i, int j, int k)$/;"	f	language:C++	class:Model
-zVal	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/model.hpp	/^		double zVal(int i, int j, int k);$/;"	p	language:C++	class:Model
+zVal	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/src/model.hpp	/^		double zVal(int i, int j, int k) ;$/;"	p	language:C++	class:Model
 zVal	old/model.cpp	/^double Model::zVal(int i, int j, int k)$/;"	f	class:Model
 zx	/home/jayghoshter/Repositories/sIM-CoMeT-3D-CPP/PDE.hpp	/^		Field *zx;$/;"	m	language:C++	class:PDE
 zx	old/PDE.hpp	/^		Field *zx;$/;"	m	class:PDE

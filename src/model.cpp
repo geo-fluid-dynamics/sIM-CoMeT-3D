@@ -26,23 +26,23 @@
 #include "packages/inih/INIReader.h"
 
 
-Model::Model()
-{
+/* Model::Model() */
+/* { */
 
-	Tw      = new Field(nx, ny, 1, Lx, Ly);
-	qw      = new Field(nx, ny, 1, Lx, Ly);
-	delta   = new Field(nx, ny, 1, Lx, Ly);
-	p       = new Field(nx, ny, 1, Lx, Ly);
-	qStefan = new Field(nx, ny, 1, Lx, Ly);
-	qNorth  = new Field(nx, ny, 1, Lx, Ly);
-	T       = new Field(nx, ny, nz, Lx, Ly);
-	u       = new Field(nx, ny, nz, Lx, Ly);
-	v       = new Field(nx, ny, nz, Lx, Ly);
-	w       = new Field(nx, ny, nz, Lx, Ly);
+/* 	Tw      = new Field(nx, ny, 1, Lx, Ly); */
+/* 	qw      = new Field(nx, ny, 1, Lx, Ly); */
+/* 	delta   = new Field(nx, ny, 1, Lx, Ly); */
+/* 	p       = new Field(nx, ny, 1, Lx, Ly); */
+/* 	qStefan = new Field(nx, ny, 1, Lx, Ly); */
+/* 	qNorth  = new Field(nx, ny, 1, Lx, Ly); */
+/* 	T       = new Field(nx, ny, nz, Lx, Ly); */
+/* 	u       = new Field(nx, ny, nz, Lx, Ly); */
+/* 	v       = new Field(nx, ny, nz, Lx, Ly); */
+/* 	w       = new Field(nx, ny, nz, Lx, Ly); */
 
-	init_fields();
+/* 	init_fields(); */
 
-}
+/* } */
 
 /*
  * Constructor for model.
@@ -52,7 +52,6 @@ Model::Model()
 Model::Model(std::string iniPath)
 {
 
-	/* INIReader reader("../examples/test.ini"); */
 	INIReader reader(iniPath);
 
 	if (reader.ParseError() < 0) {
@@ -60,18 +59,18 @@ Model::Model(std::string iniPath)
 		exit(-1);
 	}
 
-	mu     = reader.GetReal("constants", "mu", 0.001);
-	Tm     = reader.GetReal("constants", "Tm", 0);
-	Tinf   = reader.GetReal("constants", "Tinf", -20);
-	hm     = reader.GetReal("constants", "hm", 3.337e5);
-	cpL    = reader.GetReal("constants", "cpL", 4222.22);
-	cpS    = reader.GetReal("constants", "cpS" ,2049.41);
-	rhoL   = reader.GetReal("constants", "rhoL", 1000);
-	rhoS   = reader.GetReal("constants", "rhoS" ,920);
-	kL     = reader.GetReal("constants", "kL", 0.57);
-	Lx     = reader.GetReal("constants", "Lx", 0.075);
-	Ly     = reader.GetReal("constants", "Ly", 0.075);
-	Fscrew = reader.GetReal("constants", "Fscrew", 375);
+	mu     = reader.GetReal("constants", "mu"    , 0.001  );
+	Tm     = reader.GetReal("constants", "Tm"    , 0      );
+	Tinf   = reader.GetReal("constants", "Tinf"  , -20    );
+	hm     = reader.GetReal("constants", "hm"    , 3.337e5);
+	cpL    = reader.GetReal("constants", "cpL"   , 4222.22);
+	cpS    = reader.GetReal("constants", "cpS"   , 2049.41);
+	rhoL   = reader.GetReal("constants", "rhoL"  , 1000   );
+	rhoS   = reader.GetReal("constants", "rhoS"  , 920    );
+	kL     = reader.GetReal("constants", "kL"    , 0.57   );
+	Lx     = reader.GetReal("constants", "Lx"    , 0.075  );
+	Ly     = reader.GetReal("constants", "Ly"    , 0.075  );
+	Fscrew = reader.GetReal("constants", "Fscrew", 375    );
 
 	southBC = reader.GetBoundary("boundaryConditions", "southBC", DIRICHLET);
 	sidesBC = reader.GetBoundary("boundaryConditions", "sidesBC", NEUMANN);
@@ -83,13 +82,16 @@ Model::Model(std::string iniPath)
 	ny = reader.GetInteger("gridSizes", "ny", 30);
 	nz = reader.GetInteger("gridSizes", "nz", 30);
 
-	MTol                = reader.GetReal("parameters", "MTol", 1e-10);
-	FTol                = reader.GetReal("parameters", "FTol", 1e-6);
-	allowedMaxFluxError = reader.GetReal("parameters", "allowedMaxFluxError", 100);
-	allowedRelativeMFE  = reader.GetReal("parameters", "allowedRelativeMFE", 1e-6);
-	deltaCoeffMin       = reader.GetReal("parameters", "deltaCoeffMin", 0.7);
-	deltaCoeffMax       = reader.GetReal("parameters", "deltaCoeffMax", 1.3);
-	deltaRelax          = reader.GetReal("parameters", "deltaRelax", 0.05);
+	maxFindIter         = reader.GetInteger("parameters", "maxFindIter"     , 100);
+	maxMainIter         = reader.GetInteger("parameters", "maxMainIter"     , 9999);
+
+	MTol                = reader.GetReal("parameters", "MTol"               , 1e-10);
+	FTol                = reader.GetReal("parameters", "FTol"               , 1e-6 );
+	allowedMaxFluxError = reader.GetReal("parameters", "allowedMaxFluxError", 100  );
+	allowedRelativeMFE  = reader.GetReal("parameters", "allowedRelativeMFE" , 1e-6 );
+	deltaCoeffMin       = reader.GetReal("parameters", "deltaCoeffMin"      , 0.7  );
+	deltaCoeffMax       = reader.GetReal("parameters", "deltaCoeffMax"      , 1.3  );
+	deltaRelax          = reader.GetReal("parameters", "deltaRelax"         , 0.05 );
 
 	dx = 2.0*Lx/(nx-1);
 	dy = 2.0*Ly/(ny-1);
@@ -158,7 +160,7 @@ void Model::solve()
 
 	int itsolve=0;
 
-	while(1)
+	while(iter < maxMainIter)
 	{
 		printf("Main Loop: %d\n", ++iter);
 
@@ -220,13 +222,17 @@ void Model::solve()
 
 	}
 
+	if( iter >= maxMainIter )
+	{
+		printf("Reached max specified limit for main iterations\n");
+	}
 
 	double duration = (double) (clock() - start)/CLOCKS_PER_SEC;
 	printf("Time of Exec = %.2fs\n", duration);
 	printf("solved temp %d times\n", itsolve);
 
-	log.writeHeader();
-	log.writeFooter();
+	/* log.writeHeader(); */
+	/* log.writeFooter(); */
 
 }
 

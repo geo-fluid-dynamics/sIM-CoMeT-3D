@@ -16,7 +16,7 @@ void Model::find_U()
 	std::vector<double> U0s;
 	std::vector<double> Fs;
 
-	while(1)
+	while(iter < maxFindIter)
 	{
 		iter++;
 		update_fields();
@@ -59,6 +59,12 @@ void Model::find_U()
 			}
 		}
 
+	}
+
+	if( iter >= maxFindIter)
+	{
+		printf("U0 loop did not converge in %d iterations\nExiting\n", maxFindIter);
+		exit(-1);
 	}
 
 }
@@ -197,7 +203,7 @@ void Model::find_r()
 	std::vector<double> Mthetas;
 	std::vector<double> rs;
 
-	while(1)
+	while(iter < maxFindIter)
 	{
 		iter++;
 		update_fields();
@@ -232,6 +238,12 @@ void Model::find_r()
 			}
 		}
 
+	}
+
+	if( iter >= maxFindIter)
+	{
+		printf("r loop did not converge in %d iterations\nExiting\n", maxFindIter);
+		exit(-1);
 	}
 
 }

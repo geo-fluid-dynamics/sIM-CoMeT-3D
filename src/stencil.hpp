@@ -25,6 +25,8 @@ class Stencil {
 		double _stencil[5][5][5];
 		double dx; double dy; double dz;
 		double nx; double ny; double nz;
+		int stride_x; int stride_y; int stride_z;
+
 		Stencil(double idx, double idy, double idz);
 		Stencil(Field * field);
 		void reset();

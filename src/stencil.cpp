@@ -22,6 +22,10 @@ Stencil::Stencil(Field * field)
 	ny = field->ny;
 	nz = field->nz;
 
+	stride_x = field->index(1,0,0) - field->index(0,0,0);
+	stride_y = field->index(0,1,0) - field->index(0,0,0);
+	stride_z = field->index(0,0,1) - field->index(0,0,0);
+
 	this->reset();
 }
 

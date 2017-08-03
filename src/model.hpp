@@ -5,6 +5,7 @@
 #include "field.hpp"
 
 class Model {
+
 	public:
 		double mu;
 		double Tm;
@@ -14,7 +15,6 @@ class Model {
 		double rhoS;
 		double rhoL;
 		double kL;
-
 		double Lx;
 		double Ly;
 		double Fscrew;
@@ -32,8 +32,9 @@ class Model {
 		double radianTheta;
 
 		int recalcDelta = 1;
+		int maxMainIter;
+		int maxFindIter;
 
-		int maxLoopIter;
 		double MTol;
 		double FTol;
 		double allowedMaxFluxError;
@@ -75,7 +76,7 @@ class Model {
 		double maxFluxError;
 		double relativeMFE;
 
-		Model();
+		/* Model(); */
 		Model(std::string iniPath);
 		~Model();
 		void solve();
@@ -84,10 +85,10 @@ class Model {
 		void combinedUpdate2();
 
 	private:
-		double xVal(int i);
-		double yVal(int j);
-		double zVal(int i, int j, int k);
-		double UVal(int i, int j);
+		double xVal(int i) ;
+		double yVal(int j)  ;
+		double zVal(int i, int j, int k) ;
+		double UVal(int i, int j) ;
 
 		void init_fields();
 		void update_fields();

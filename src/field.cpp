@@ -74,7 +74,8 @@ void Field::init(int inx, int iny, int inz, double iLx, double iLy)
 
 void Field::set(int i, int j, int k, double value)
 {
-	values[i + nx*j + nx*ny*k] = value;
+	/* values[i + nx*j + nx*ny*k] = value; */
+	values[index(i,j,k)] = value;
 }
 
 void Field::set(Side side, double value)
@@ -92,27 +93,39 @@ void Field::set(Side side, double value)
 
 void Field::set(int i, int j, double value)
 {
-	values[i + nx*j] = value;
+	/* values[i + nx*j] = value; */
+	values[index(i,j,0)] = value;
 }
 
 void Field::setAll(double value)
 {
+
 	for(int i=0; i<nx; i++)
 		for(int j=0; j<ny; j++)
 			for(int k=0; k<nz; k++)
 			{
-				values[i + nx*j + nx*ny*k] = value;
+				/* values[i + nx*j + nx*ny*k] = value; */
+				values[index(i,j,k)] = value;
 			}
+
+
+	/* for(std::vector<double>::iterator it=values.begin(); it!=values.end(); ++it) */
+	/* { */
+	/* 	*it = value; */
+	/* } */
+
 }
 
 double Field::get(int i, int j, int k)
 {
-	return values[i + nx*j + nx*ny*k];
+	/* return values[i + nx*j + nx*ny*k]; */
+	return values[index(i,j,k)];
 }
 
 double Field::get(int i, int j)
 {
-	return values[i + nx*j];
+	/* return values[i + nx*j]; */
+	return values[index(i,j,0)];
 }
 
 Field * Field::getSubfield(int i1, int i2, int j1, int j2, int k1, int k2)
@@ -593,4 +606,10 @@ void Field::set(std::string expression_string)
 
 		}
 
+}
+
+int Field::index(int i, int j, int k)
+{
+	/* return (k + nz*j + nz*ny*i); */
+	return (i + nx*j + nx*ny*k);
 }
