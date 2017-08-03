@@ -25,7 +25,6 @@
 
 #include "packages/inih/INIReader.h"
 
-
 /* Model::Model() */
 /* { */
 
@@ -137,11 +136,11 @@ Model::~Model()
 	delete p;
 	delete qStefan;
 	delete qNorth;
-
 	delete T;
 	delete u;
 	delete v;
 	delete w;
+	delete bcSouth;
 }
 
 void Model::solve()
@@ -281,7 +280,7 @@ void Model::init_fields()
 			delta->set(i,j, kL * (Tw->get(i,j) - Tm)/(rhoS * hmStar * UVal(i,j)));
 		}
 
-	bcSouth = (southBC == DIRICHLET) ? Tw : qw->copy()->divide(-kL);
+	bcSouth = (southBC == DIRICHLET) ? Tw->copy() : qw->copy()->divide(-kL);
 
 }
 

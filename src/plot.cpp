@@ -2,7 +2,7 @@
 
 Plot::Plot()
 {
-	gnu = popen("gnuplot -p", "w");
+	gnu = popen("gnuplot -p 2> /dev/null", "w");
 }
 
 Plot::~Plot()

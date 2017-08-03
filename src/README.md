@@ -2,6 +2,8 @@
 ## INTRODUCTION
 This repository stores the code for sIM-CoMeT C++ implementation developed by Jayghosh Rao for his Master's thesis work. The program calculates the steady state velocity and curve radius of the trajectory of a melting probe in a given Phase Change Material (PCM). With inputs of thermo-physical properties of the PCM, and the applied thermal flux/temperature, the program uses the CCMSOLVE algorithm to calculate the required variables. 
 
+The code has been tested on Unix based OSes. However, it should run in Windows with certain minor changes also. 
+
 ## Dependencies [To be manually installed]
 1. suitesparse/umfpack 
 	Ubuntu: `sudo apt-get install libsuitesparse-dev`
