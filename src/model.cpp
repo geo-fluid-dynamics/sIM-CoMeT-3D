@@ -29,17 +29,16 @@
 Model::Model()
 {
 
-	Tw      = new Field(nx, ny, 1, Lx, Ly, 0);
-	qw      = new Field(nx, ny, 1, Lx, Ly, 0);
-	delta   = new Field(nx, ny, 1, Lx, Ly, 0);
-	p       = new Field(nx, ny, 1, Lx, Ly, 0);
-	qStefan = new Field(nx, ny, 1, Lx, Ly, 0);
-	qNorth  = new Field(nx, ny, 1, Lx, Ly, 0);
-
-	T = new Field(nx, ny, nz, Lx, Ly, 0);
-	u = new Field(nx, ny, nz, Lx, Ly, 0);
-	v = new Field(nx, ny, nz, Lx, Ly, 0);
-	w = new Field(nx, ny, nz, Lx, Ly, 0);
+	Tw      = new Field(nx, ny, 1, Lx, Ly);
+	qw      = new Field(nx, ny, 1, Lx, Ly);
+	delta   = new Field(nx, ny, 1, Lx, Ly);
+	p       = new Field(nx, ny, 1, Lx, Ly);
+	qStefan = new Field(nx, ny, 1, Lx, Ly);
+	qNorth  = new Field(nx, ny, 1, Lx, Ly);
+	T       = new Field(nx, ny, nz, Lx, Ly);
+	u       = new Field(nx, ny, nz, Lx, Ly);
+	v       = new Field(nx, ny, nz, Lx, Ly);
+	w       = new Field(nx, ny, nz, Lx, Ly);
 
 	init_fields();
 
@@ -61,36 +60,36 @@ Model::Model(std::string iniPath)
 		exit(-1);
 	}
 
-	mu     = reader.GetReal("constants", "mu", mu);
-	Tm     = reader.GetReal("constants", "Tm", Tm);
-	Tinf   = reader.GetReal("constants", "Tinf", Tinf);
-	hm     = reader.GetReal("constants", "hm", hm);
-	cpL    = reader.GetReal("constants", "cpL", cpL);
-	cpS    = reader.GetReal("constants", "cpS" ,cpS);
-	rhoL   = reader.GetReal("constants", "rhoL", rhoL);
-	rhoS   = reader.GetReal("constants", "rhoS" ,rhoS);
-	kL     = reader.GetReal("constants", "kL", kL);
-	Lx     = reader.GetReal("constants", "Lx", Lx);
-	Ly     = reader.GetReal("constants", "Ly", Ly);
-	Fscrew = reader.GetReal("constants", "Fscrew", Fscrew);
+	mu     = reader.GetReal("constants", "mu", 0.001);
+	Tm     = reader.GetReal("constants", "Tm", 0);
+	Tinf   = reader.GetReal("constants", "Tinf", -20);
+	hm     = reader.GetReal("constants", "hm", 3.337e5);
+	cpL    = reader.GetReal("constants", "cpL", 4222.22);
+	cpS    = reader.GetReal("constants", "cpS" ,2049.41);
+	rhoL   = reader.GetReal("constants", "rhoL", 1000);
+	rhoS   = reader.GetReal("constants", "rhoS" ,920);
+	kL     = reader.GetReal("constants", "kL", 0.57);
+	Lx     = reader.GetReal("constants", "Lx", 0.075);
+	Ly     = reader.GetReal("constants", "Ly", 0.075);
+	Fscrew = reader.GetReal("constants", "Fscrew", 375);
 
-	southBC = reader.GetBoundary("boundaryConditions", "southBC", southBC);
-	sidesBC = reader.GetBoundary("boundaryConditions", "sidesBC", sidesBC);
+	southBC = reader.GetBoundary("boundaryConditions", "southBC", DIRICHLET);
+	sidesBC = reader.GetBoundary("boundaryConditions", "sidesBC", NEUMANN);
 
-	TwExp   = reader.Get("boundaryConditions", "TwExp", TwExp);
-	qwExp   = reader.Get("boundaryConditions", "qwExp", qwExp);
+	TwExp   = reader.Get("boundaryConditions", "TwExp", "40+10*(x/Lx+y/Ly)");
+	qwExp   = reader.Get("boundaryConditions", "qwExp", "10");
 
-	nx = reader.GetInteger("gridSizes", "nx", nx);
-	ny = reader.GetInteger("gridSizes", "ny", ny);
-	nz = reader.GetInteger("gridSizes", "nz", nz);
+	nx = reader.GetInteger("gridSizes", "nx", 30);
+	ny = reader.GetInteger("gridSizes", "ny", 30);
+	nz = reader.GetInteger("gridSizes", "nz", 30);
 
-	MTol                = reader.GetReal("parameters", "MTol", MTol);
-	FTol                = reader.GetReal("parameters", "FTol", FTol);
-	allowedMaxFluxError = reader.GetReal("parameters", "allowedMaxFluxError", allowedMaxFluxError);
-	allowedRelativeMFE  = reader.GetReal("parameters", "allowedRelativeMFE", allowedRelativeMFE);
-	deltaCoeffMin       = reader.GetReal("parameters", "deltaCoeffMin", deltaCoeffMin);
-	deltaCoeffMax       = reader.GetReal("parameters", "deltaCoeffMax", deltaCoeffMax);
-	deltaRelax          = reader.GetReal("parameters", "deltaRelax", deltaRelax);
+	MTol                = reader.GetReal("parameters", "MTol", 1e-10);
+	FTol                = reader.GetReal("parameters", "FTol", 1e-6);
+	allowedMaxFluxError = reader.GetReal("parameters", "allowedMaxFluxError", 100);
+	allowedRelativeMFE  = reader.GetReal("parameters", "allowedRelativeMFE", 1e-6);
+	deltaCoeffMin       = reader.GetReal("parameters", "deltaCoeffMin", 0.7);
+	deltaCoeffMax       = reader.GetReal("parameters", "deltaCoeffMax", 1.3);
+	deltaRelax          = reader.GetReal("parameters", "deltaRelax", 0.05);
 
 	dx = 2.0*Lx/(nx-1);
 	dy = 2.0*Ly/(ny-1);
@@ -102,16 +101,16 @@ Model::Model(std::string iniPath)
 	/* theta   = reader.GetReal("boundaryConditions", "theta", theta); */
 	/* radianTheta = theta*3.1415927/180; */
 
-	Tw      = new Field(nx, ny, 1, Lx, Ly, 0);
-	qw      = new Field(nx, ny, 1, Lx, Ly, 0);
-	delta   = new Field(nx, ny, 1, Lx, Ly, 0);
-	p       = new Field(nx, ny, 1, Lx, Ly, 0);
-	qStefan = new Field(nx, ny, 1, Lx, Ly, 0);
-	qNorth  = new Field(nx, ny, 1, Lx, Ly, 0);
-	T       = new Field(nx, ny, nz, Lx, Ly, 0);
-	u       = new Field(nx, ny, nz, Lx, Ly, 0);
-	v       = new Field(nx, ny, nz, Lx, Ly, 0);
-	w       = new Field(nx, ny, nz, Lx, Ly, 0);
+	Tw      = new Field(nx, ny, 1, Lx, Ly);
+	qw      = new Field(nx, ny, 1, Lx, Ly);
+	delta   = new Field(nx, ny, 1, Lx, Ly);
+	p       = new Field(nx, ny, 1, Lx, Ly);
+	qStefan = new Field(nx, ny, 1, Lx, Ly);
+	qNorth  = new Field(nx, ny, 1, Lx, Ly);
+	T       = new Field(nx, ny, nz, Lx, Ly);
+	u       = new Field(nx, ny, nz, Lx, Ly);
+	v       = new Field(nx, ny, nz, Lx, Ly);
+	w       = new Field(nx, ny, nz, Lx, Ly);
 
 	init_fields();
 
@@ -294,7 +293,7 @@ void Model::update_fields()
 	PSolveWrapper();
 	/* F = p->integrateXY(); */
 
-	Field * pv = new Field (nx, ny, 1, Lx, Ly, 0);
+	Field * pv = new Field (nx, ny, 1, Lx, Ly);
 
 	for(int i=0; i<nx; i++)
 		for(int j=0; j<ny; j++)

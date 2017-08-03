@@ -29,7 +29,6 @@ class Field {
 
 		double Lx;
 		double Ly;
-		double Lz;
 
 		double dx;
 		double dy;
@@ -38,8 +37,8 @@ class Field {
 		/* Field(Model&  model); */
 		Field();
 		Field(Field * field);
-		Field(int inx, int iny, int inz, double iLx, double iLy, double iLz);
-		void init(int inx, int iny, int inz, double iLx, double iLy, double iLz);
+		Field(int inx, int iny, int inz, double iLx, double iLy);
+		void init(int inx, int iny, int inz, double iLx, double iLy);
 		void set(int i, int j, int k, double value);
 		void set(Side side, double value);
 		void set(int i, int j, double value);

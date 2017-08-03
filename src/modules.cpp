@@ -241,9 +241,9 @@ void Model::TSolveWrapper()
 	PDE TEqn(T);
 
 	//Boundary condition setting
-	Field * TBC = new Field(nx, ny, nz, Lx, Ly, 0);
-	Field * TBCFlag = new Field(nx, ny, nz, Lx, Ly, 0);
-	Field * zero = new Field(nx, ny, nz, Lx, Ly, 0);
+	Field * TBC = new Field(T);
+	Field * TBCFlag = new Field(T);
+	Field * zero = new Field(T);
 
 	TBC->setSubfield(0,nx-1, 0,ny-1, 0,0, bcSouth);
 	TBCFlag->set(FRONT, (int)sidesBC);
@@ -340,7 +340,7 @@ void Model::PSolveWrapper()
 	/* Field pBC(nx, ny, 1, Lx, Ly, 0); */
 	/* Field zero(nx, ny, 1, Lx, Ly, 0); */
 
-	Field * zero = new Field(nx, ny, 1, Lx, Ly, 0);
+	Field * zero = new Field(p);
 	zero->setAll(0);
 
 	/* Field * pBCFlag = new Field(nx, ny, 1, Lx, Ly, 0); */
@@ -398,7 +398,7 @@ void Model::PSolveWrapper()
 
 void Model::combinedUpdate()
 {
-	Field * zero = new Field(nx, ny, 1, Lx, Ly, 0);
+	Field * zero = new Field(p);
 	zero->setAll(0);
 
 	PDE pEqn(p);
@@ -522,7 +522,7 @@ void Model::combinedUpdate()
 
 		F = p->integrateXY();
 
-		Field * pv = new Field (nx, ny, 1, Lx, Ly, 0);
+		Field * pv = new Field (p);
 		for(int i=0; i<nx; i++)
 			for(int j=0; j<ny; j++)
 			{
@@ -608,7 +608,7 @@ void Model::combinedUpdate()
 
 void Model::combinedUpdate2()
 {
-	Field * zero = new Field(nx, ny, 1, Lx, Ly, 0);
+	Field * zero = new Field(p);
 	zero->setAll(0);
 
 	PDE pEqn(p);
@@ -746,7 +746,7 @@ void Model::combinedUpdate2()
 
 		F = p->integrateXY();
 
-		Field * pv = new Field (nx, ny, 1, Lx, Ly, 0);
+		Field * pv = new Field (p);
 		for(int i=0; i<nx; i++)
 			for(int j=0; j<ny; j++)
 			{

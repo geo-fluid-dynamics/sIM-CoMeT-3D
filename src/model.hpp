@@ -6,44 +6,44 @@
 
 class Model {
 	public:
-		double mu   = 0.001;
-		double Tm   = 0;
-		double hm   = 3.337e5;
-		double cpL  = 4222.22;
-		double cpS  = 2049.41;
-		double rhoS = 920;
-		double rhoL = 1000;
-		double kL   = 0.57;
+		double mu;
+		double Tm;
+		double hm;
+		double cpL;
+		double cpS;
+		double rhoS;
+		double rhoL;
+		double kL;
 
-		double Lx     = 0.075;
-		double Ly     = 0.075;
-		double Fscrew = 375;
+		double Lx;
+		double Ly;
+		double Fscrew;
 
-		std::string TwExp = "30+10*x/Lx";
-		std::string qwExp = "10";
+		std::string TwExp;
+		std::string qwExp;
 
-		double Tinf = -20;
+		double Tinf;
 
-		int nx = 20;
-		int ny = 1;
-		int nz = 20;
+		int nx;
+		int ny;
+		int nz;
 
-		double theta = 0;
-		double radianTheta = theta*3.1415927/180;
+		double theta;
+		double radianTheta;
 
 		int recalcDelta = 1;
 
-		int maxLoopIter = 100;
-		double MTol = 1e-10;
-		double FTol = 1e-6;
-		double allowedMaxFluxError = 100;
-		double allowedRelativeMFE = 1e-6;
-		double deltaCoeffMin = 0.7;
-		double deltaCoeffMax = 1.3;
-		double deltaRelax = 0.05;
+		int maxLoopIter;
+		double MTol;
+		double FTol;
+		double allowedMaxFluxError;
+		double allowedRelativeMFE;
+		double deltaCoeffMin;
+		double deltaCoeffMax;
+		double deltaRelax;
 
-		boundary southBC = DIRICHLET;
-		boundary sidesBC = NEUMANN;
+		boundary southBC;
+		boundary sidesBC;
 
 		Field * Tw;
 		Field * qw;

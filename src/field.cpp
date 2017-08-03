@@ -1,12 +1,12 @@
 #include "field.hpp"
-/* #include "packages/exprtk/exprtk.hpp" */
 #include <cmath>
 #include "packages/lepton/Lepton.h"
+#include <assert.h>
 
 #include <iostream>
 #include <map>
 
-Field::Field(int inx, int iny, int inz, double iLx, double iLy, double iLz)
+Field::Field(int inx, int iny, int inz, double iLx, double iLy)
 {
 	nx = inx;
 	ny = iny;
@@ -14,7 +14,6 @@ Field::Field(int inx, int iny, int inz, double iLx, double iLy, double iLz)
 
 	Lx = iLx;
 	Ly = iLy;
-	Lz = iLz;
 
 	dx = 2*Lx/(nx-1);
 	dy = 2*Ly/(ny-1);
@@ -31,7 +30,6 @@ Field::Field()
 	nz = 0;
 	Lx = 0;
 	Ly = 0;
-	Lz = 0;
 	dx = 0;
 	dy = 0;
 	dz = 0;
@@ -57,7 +55,7 @@ Field::Field(Field * field)
 	/* values = field.values; */
 }
 
-void Field::init(int inx, int iny, int inz, double iLx, double iLy, double iLz)
+void Field::init(int inx, int iny, int inz, double iLx, double iLy)
 {
 	nx = inx;
 	ny = iny;
@@ -65,7 +63,6 @@ void Field::init(int inx, int iny, int inz, double iLx, double iLy, double iLz)
 
 	Lx = iLx;
 	Ly = iLy;
-	Lz = iLz;
 
 	dx = 2*Lx/(nx-1);
 	dy = 2*Ly/(ny-1);
@@ -120,7 +117,7 @@ double Field::get(int i, int j)
 
 Field * Field::getSubfield(int i1, int i2, int j1, int j2, int k1, int k2)
 {
-	Field * subfield = new Field(i2-i1+1, j2-j1+1, k2-k1+1, 0, 0, 0);
+	Field * subfield = new Field(i2-i1+1, j2-j1+1, k2-k1+1, 0, 0);
 
 	for(int i = i1; i <= i2; i++)
 		for(int j = j1; j <= j2; j++)
@@ -198,7 +195,7 @@ Field * Field::differentiate(dMode mode, dDir dir)
 
 	double value;
 
-	Field * dfield = new Field(this->nx, this->ny, this->nz, this->Lx, this->Ly, this->Lz);
+	Field * dfield = new Field(this->nx, this->ny, this->nz, this->Lx, this->Ly);
 	dfield->setAll(0);
 
 	if( (ny == 1 && dir == Y) || (nz == 1 && dir == Z) || (nx == 1 && dir == X) )
@@ -357,7 +354,7 @@ double Field::integrateXY()
 
 Field * Field::copy()
 {
-	Field * newField = new Field(nx, ny, nz, Lx, Ly, 0);
+	Field * newField = new Field(this);
 
 	for(int i=0; i<nx; i++)
 		for(int j=0; j<ny; j++)
@@ -478,7 +475,7 @@ Field * Field::pow(double n)
 
 Field * Field::replicateZ(int inz)
 {
-	Field * newField = new Field(nx, ny, inz, Lx, Ly, 0);
+	Field * newField = new Field(nx, ny, inz, Lx, Ly);
 
 	for(int k=0; k<inz; k++)
 		for(int i = 0; i<nx; i++)
@@ -562,41 +559,6 @@ double Field::yVal(int j)
 {
 	return (ny==1)? 0 : -Ly + 2*Ly/(ny-1)*j;
 }
-
-/* void Field::set(std::string expression_string) */
-/* { */
-
-/* 	typedef exprtk::symbol_table<double> symbol_table_t; */
-/* 	typedef exprtk::expression<double>     expression_t; */
-/* 	typedef exprtk::parser<double>             parser_t; */
-
-/* 	double x; */
-/* 	double y; */
-/* 	double Lx = this->Lx; */
-/* 	double Ly = this->Ly; */
-
-/* 	symbol_table_t symbol_table; */
-/* 	symbol_table.add_variable("x",x); */
-/* 	symbol_table.add_variable("y",y); */
-/* 	symbol_table.add_constant("Lx", Lx); */
-/* 	symbol_table.add_constant("Ly", Ly); */
-/* 	symbol_table.add_constants(); */
-
-/* 	expression_t expression; */
-/* 	expression.register_symbol_table(symbol_table); */
-
-/* 	parser_t parser; */
-/* 	parser.compile(expression_string,expression); */
-
-/* 	for(int i = 0; i < nx; i++) */
-/* 		for(int j = 0; j < ny; j++) */
-/* 		{ */
-/* 			x = xVal(i); y = yVal(j); */
-/* 			this->set(i,j,0, expression.value()); */
-/* 		} */
-
-
-/* } */
 
 void Field::set(std::string expression_string)
 {
