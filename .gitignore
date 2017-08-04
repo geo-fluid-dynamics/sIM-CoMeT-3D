@@ -1,4 +1,6 @@
 src/tags
 src/simcomet
-src/logs/*
-src/outputs/*
+src/logs/
+src/outputs/
+doc/html/
+doc/latex/

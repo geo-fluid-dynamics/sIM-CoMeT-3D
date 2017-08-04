@@ -67,6 +67,7 @@ class Field {
 
 		double xVal(int i);
 		double yVal(int j);
+		double UVal(int i, int j);
 		/* double zVal(int i, int j, int k); */
 		int index(int i, int j, int k);
 

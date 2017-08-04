@@ -25,28 +25,17 @@
 
 #include "packages/inih/INIReader.h"
 
-/* Model::Model() */
-/* { */
-
-/* 	Tw      = new Field(nx, ny, 1, Lx, Ly); */
-/* 	qw      = new Field(nx, ny, 1, Lx, Ly); */
-/* 	delta   = new Field(nx, ny, 1, Lx, Ly); */
-/* 	p       = new Field(nx, ny, 1, Lx, Ly); */
-/* 	qStefan = new Field(nx, ny, 1, Lx, Ly); */
-/* 	qNorth  = new Field(nx, ny, 1, Lx, Ly); */
-/* 	T       = new Field(nx, ny, nz, Lx, Ly); */
-/* 	u       = new Field(nx, ny, nz, Lx, Ly); */
-/* 	v       = new Field(nx, ny, nz, Lx, Ly); */
-/* 	w       = new Field(nx, ny, nz, Lx, Ly); */
-
-/* 	init_fields(); */
-
-/* } */
-
-/*
- * Constructor for model.
- * Parses input file for inputs and initializes fields.
+/**
+ * \brief Constructor for the Model class
+ * \param[in] iniPath String with path to the ini file with inputs
  *
+ * \details
+ * The constructor first reads the input file. If not possible, directly exits the program.
+ * Once the file is read, it extracts input variable values from the specified sections in the input file.
+ * If the parser isn't able to find the input variable, a default value (hardcoded) is used in the program.
+ *
+ * After parsing the ini file and initializing input variables, it calculates the derived constants, and
+ * initializes the essential Field members of the class.
  */
 Model::Model(std::string iniPath)
 {
@@ -99,9 +88,6 @@ Model::Model(std::string iniPath)
 	hmStar = hm + cpS*(Tm-Tinf);
 	alpha = kL/(rhoL*cpL);
 
-	/* theta   = reader.GetReal("boundaryConditions", "theta", theta); */
-	/* radianTheta = theta*3.1415927/180; */
-
 	Tw      = new Field(nx, ny, 1, Lx, Ly);
 	qw      = new Field(nx, ny, 1, Lx, Ly);
 	delta   = new Field(nx, ny, 1, Lx, Ly);
@@ -113,7 +99,40 @@ Model::Model(std::string iniPath)
 	v       = new Field(nx, ny, nz, Lx, Ly);
 	w       = new Field(nx, ny, nz, Lx, Ly);
 
-	init_fields();
+	r = 0.1;
+	U0 = 1e-4;
+
+	/* variables["mu"]     = this->mu; */
+	/* variables["Tm"]     = this->Tm; */
+	/* variables["Tinf"]   = this->Tinf; */
+	/* variables["hm"]     = this->hm; */
+	/* variables["cpL"]    = this->cpL; */
+	/* variables["cpS"]    = this->cpS; */
+	/* variables["rhoL"]   = this->rhoL; */
+	/* variables["rhoS"]   = this->rhoS; */
+	/* variables["kL"]     = this->kL; */
+	/* variables["Fscrew"] = this->Fscrew; */
+	/* variables["hmStar"] = this->hmStar; */
+	/* variables["radianTheta"] = this->radianTheta; */
+	/* variables["U0"] = U0; */
+	/* variables["r"] = r; */
+
+
+	if(southBC == DIRICHLET)
+		Tw->set(TwExp);
+	else
+		Tw->setAll(Tm + 0.1);
+
+	qw->set(qwExp);
+
+
+	for(int i=0; i<nx; i++)
+		for(int j=0; j<ny; j++)
+		{
+			delta->set(i,j, kL * (Tw->get(i,j) - Tm)/(rhoS * hmStar * UVal(i,j)));
+		}
+
+	bcSouth = (southBC == DIRICHLET) ? Tw->copy() : qw->copy()->divide(-kL);
 
 	Field * num = bcSouth->differentiate(CX2, Y);
 	Field * den = bcSouth->differentiate(CX2, X);
@@ -127,6 +146,12 @@ Model::Model(std::string iniPath)
 
 }
 
+/**
+ * \brief Destructor for the Model class
+ *
+ * \details
+ * Deletes the allocated Field members of the class
+ */
 
 Model::~Model()
 {
@@ -143,6 +168,21 @@ Model::~Model()
 	delete bcSouth;
 }
 
+/**
+ *
+ * \brief Uses the CCMSOLVE algorithm to solve the PCM melting problem.
+ *
+ * \details
+ * The code solves for the final values of melting velocity (U0), curve radius (r),
+ * melt film interface (delta) and other variables based on the Navier Stokes Eqn with the
+ * appropriate constraints and boundary conditions.
+ *
+ * The program logs the progress of the variables(averaged fields) in a .dat file with a timestamped name.
+ * The same file is read by GNUPLOT while displaying the realtime averaged plots.
+ *
+ * Note that the main loop will only run for maxMainIter times. Ensure that the value of the variable is
+ * large enough for the given case.
+ */
 void Model::solve()
 {
 	clock_t start = clock();
@@ -163,9 +203,7 @@ void Model::solve()
 	{
 		printf("Main Loop: %d\n", ++iter);
 
-
 		find_U();
-
 		find_r();
 
 		if(std::fabs(Fscrew - F) >= FTol)
@@ -186,7 +224,6 @@ void Model::solve()
 		calc_maxFluxError();
 
 		/* break based on absolute MFE */
-
 		if(maxFluxError <= allowedMaxFluxError)
 		{
 			TSolveWrapper();
@@ -207,10 +244,8 @@ void Model::solve()
 
 
 		adjustDelta();
-
 		recalcDelta = 0;
-
-		dumper();
+		printOutputs();
 
 		fprintf(log.ptr, "%4d\t%e\t%e\t%e\t%e\t%e\t%e\t%e\t%e\t%e\t%e\n",
 				iter, U0, r, delta->average(), p->average(), T->average(),
@@ -235,7 +270,6 @@ void Model::solve()
 
 }
 
-
 double Model::xVal(int i)
 {
 	return (nx==1)? 0 : -Lx + 2*Lx/(nx-1)*i;
@@ -257,33 +291,6 @@ double Model::UVal(int i, int j)
 	return U0*(1-vector/r);
 }
 
-void Model::init_fields()
-{
-
-	if(southBC == DIRICHLET)
-	{
-		Tw->set(TwExp);
-	}
-	else
-	{
-		Tw->setAll(Tm + 0.1);
-	}
-
-	qw->set(qwExp);
-
-	r = 0.1;
-	U0 = 1e-4;
-
-	for(int i=0; i<nx; i++)
-		for(int j=0; j<ny; j++)
-		{
-			delta->set(i,j, kL * (Tw->get(i,j) - Tm)/(rhoS * hmStar * UVal(i,j)));
-		}
-
-	bcSouth = (southBC == DIRICHLET) ? Tw->copy() : qw->copy()->divide(-kL);
-
-}
-
 void Model::update_fields()
 {
 	if(recalcDelta == 1)
@@ -296,7 +303,6 @@ void Model::update_fields()
 	}
 
 	PSolveWrapper();
-	/* F = p->integrateXY(); */
 
 	Field * pv = new Field (nx, ny, 1, Lx, Ly);
 
@@ -310,10 +316,9 @@ void Model::update_fields()
 
 	delete pv;
 
-
 }
 
-void Model::dumper()
+void Model::printOutputs()
 {
 	printf("\n<<<<<<<<<< STARTING DUMP >>>>>>>>>>\n");
 	printf("r = %e\tM = %e\n", r, Mtheta);
@@ -329,10 +334,7 @@ void Model::dumper()
 
 }
 
-/*
- * prints input information to stdout
- */
-void Model::print()
+void Model::printInputs()
 {
 	//printf might be better for formatting after all
 	using namespace std;

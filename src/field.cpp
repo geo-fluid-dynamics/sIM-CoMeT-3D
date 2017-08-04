@@ -4,7 +4,6 @@
 #include <assert.h>
 
 #include <iostream>
-#include <map>
 
 Field::Field(int inx, int iny, int inz, double iLx, double iLy)
 {
@@ -193,13 +192,6 @@ bool Field::isFinite()
  */
 Field * Field::differentiate(dMode mode, dDir dir)
 {
-
-	/* if(mode == FX2 || mode == BX2 || mode == FXX1 || mode == BXX1) */
-	/* { */
-	/* 	printf("cannot currently differentiate this->in this mode. Exiting program\n"); */
-	/* 	exit(-1); */
-	/* } */
-
 	std::vector<double> vec = coeffs[mode];
 	int h = (mode == CXX2 || mode == FXX1 || mode == BXX1) ? 2 : 1;
 
@@ -578,33 +570,26 @@ void Field::set(std::string expression_string)
 
 	const std::string e = expression_string;
 
-	/* Lepton::CompiledExpression expr = Lepton::Parser::parse(e).createCompiledExpression(); */
-	/* double& ex  = expr.getVariableReference("x"); */
-	/* double& ey  = expr.getVariableReference("y"); */
-	/* double& eLx = expr.getVariableReference("Lx"); */
-	/* double& eLy = expr.getVariableReference("Ly"); */
-	/* eLx = this->Lx; */
-	/* eLy = this->Ly; */
-
 	std::map<std::string, double> variables;
-	variables["Lx"] = Lx;
-	variables["Ly"] = Ly;
+	variables["Lx"]     = this->Lx;
+	variables["Ly"]     = this->Ly;
 
-	std::cout << "Parsing String: " << expression_string << "\n";
+	/* double radianTheta = variables["radianTheta"]; */
+	/* double vector; */
 
 	for(int i = 0; i < nx; i++)
 		for(int j = 0; j < ny; j++)
-		{
+			for(int k = 0; k < nz; k++)
+			{
 
-			/* ex = xVal(i); */
-			/* ey = yVal(j); */
-			/* this->set(i,j,0, expr.evaluate()); */
+				/* vector = cos(radianTheta) * xVal(i) + sin(radianTheta) * yVal(j); */
+				/* variables["U"] = variables["U0"]*(1-vector/variables["r"]); */
+				variables["x"] = xVal(i);
+				variables["y"] = yVal(j);
+				variables["z"] = dz*k;
+				this->set(i,j,0, Lepton::Parser::parse(e).evaluate(variables));
 
-			variables["x"] = xVal(i);
-			variables["y"] = yVal(j);
-			this->set(i,j,0, Lepton::Parser::parse(e).evaluate(variables));
-
-		}
+			}
 
 }
 

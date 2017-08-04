@@ -7,6 +7,8 @@
 class Model {
 
 	public:
+		std::map<std::string, double> variables;
+
 		double mu;
 		double Tm;
 		double hm;
@@ -80,7 +82,7 @@ class Model {
 		Model(std::string iniPath);
 		~Model();
 		void solve();
-		void print();
+		void printInputs();
 		void combinedUpdate();
 		void combinedUpdate2();
 
@@ -90,7 +92,6 @@ class Model {
 		double zVal(int i, int j, int k) ;
 		double UVal(int i, int j) ;
 
-		void init_fields();
 		void update_fields();
 
 		void find_U();
@@ -102,7 +103,7 @@ class Model {
 		void TSolveWrapper();
 		void PSolveWrapper();
 
-		void dumper();
+		void printOutputs();
 
 };
 #endif

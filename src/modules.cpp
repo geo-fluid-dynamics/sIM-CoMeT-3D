@@ -169,9 +169,6 @@ void Model::calc_maxFluxError()
 		}
 
 	relativeMFE = maxFluxError/qStefan->average();
-
-
-
 	delete DT_Dz;
 
 }
@@ -198,8 +195,6 @@ void Model::find_r()
 	double tolerance = MTol;
 	double reciprocal;
 
-	/* std::vector<double> Mxs; */
-	/* std::vector<double> Mys; */
 	std::vector<double> Mthetas;
 	std::vector<double> rs;
 
@@ -207,13 +202,10 @@ void Model::find_r()
 	{
 		iter++;
 		update_fields();
-		/* F = p->integrateXY(); */
 
 
 		/* printf("r[%d]:\t%e\t%e\t%e\t%e\n", iter, r, Mx, My, Mtheta); */
 
-		/* Mxs.push_back(Mx); */
-		/* Mys.push_back(My); */
 		Mthetas.push_back(Mtheta);
 		rs.push_back(-1.0/r);
 
@@ -349,15 +341,9 @@ void Model::TSolveWrapper()
 
 void Model::PSolveWrapper()
 {
-	/* Field pBC(nx, ny, 1, Lx, Ly, 0); */
-	/* Field zero(nx, ny, 1, Lx, Ly, 0); */
 
 	Field * zero = new Field(p);
 	zero->setAll(0);
-
-	/* Field * pBCFlag = new Field(nx, ny, 1, Lx, Ly, 0); */
-	/* pBCFlag.setAll(0); */
-
 
 	PDE pEqn(p);
 
@@ -365,8 +351,6 @@ void Model::PSolveWrapper()
 	Field * term = delta->copy()->pow(2)->multiply(0.5);
 	Field * Ddelta_Dx = delta->differentiate(CX2, X);
 	Field * Ddelta_Dy = delta->differentiate(CX2, Y);
-	/* Field * x_coeff = Ddelta_Dx->copy()->multiply(term); */
-	/* Field * y_coeff = Ddelta_Dy->copy()->multiply(term); */
 	Field * x_coeff = delta->differentiate(CX2, X)->multiply(term);
 	Field * y_coeff = delta->differentiate(CX2, Y)->multiply(term);
 
@@ -393,9 +377,6 @@ void Model::PSolveWrapper()
 	Solver pSolver(&pEqn, zero, zero);
 	pSolver.init();
 	pSolver.solve(p);
-
-	/* p->print(); */
-	/* exit(-1); */
 
 	delete lapl_coeff;
 	delete term;
