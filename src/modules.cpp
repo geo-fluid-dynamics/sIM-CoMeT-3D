@@ -7,6 +7,8 @@
 #include "estimator.hpp"
 #include <assert.h>
 
+#include "operators.hpp"
+
 void Model::find_U()
 {
 	int iter = 0;
@@ -71,13 +73,26 @@ void Model::find_U()
 
 void Model::init_uvw()
 {
-	Field * Dp_Dx     = p->differentiate(CX2, X);
-	Field * Dp_Dy     = p->differentiate(CX2, Y);
-	Field * D2p_Dx2   = p->differentiate(CXX2, X);
-	Field * D2p_Dy2   = p->differentiate(CXX2, Y);
-	Field * Ddelta_Dx = delta->differentiate(CX2, X);
-	Field * Ddelta_Dy = delta->differentiate(CX2, Y);
-	Field * lapl_p = D2p_Dx2->copy()->add(D2p_Dy2);
+
+	auto Dp_Dx     = p->differentiate(CX2, X);
+	auto Dp_Dy     = p->differentiate(CX2, Y);
+	auto D2p_Dx2   = p->differentiate(CXX2, X);
+	auto D2p_Dy2   = p->differentiate(CXX2, Y);
+	auto Ddelta_Dx = delta->differentiate(CX2, X);
+	auto Ddelta_Dy = delta->differentiate(CX2, Y);
+	auto lapl_p = (*D2p_Dx2) + (*D2p_Dy2);
+
+	/* auto Dp_Dx     = p->differentiate(CX2, X)->replicateZ(nz); */
+	/* auto Dp_Dy     = p->differentiate(CX2, Y)->replicateZ(nz); */
+	/* auto D2p_Dx2   = p->differentiate(CXX2, X)->replicateZ(nz); */
+	/* auto D2p_Dy2   = p->differentiate(CXX2, Y)->replicateZ(nz); */
+	/* auto Ddelta_Dx = delta->differentiate(CX2, X)->replicateZ(nz); */
+	/* auto Ddelta_Dy = delta->differentiate(CX2, Y)->replicateZ(nz); */
+	/* auto lapl_p = ((*D2p_Dx2) + (*D2p_Dy2))->replicateZ(nz); */
+
+	/* auto z3d = std::make_unique<Field>(*u); */
+	/* z3d->set("z"); */
+	/* z3d = (*z3d) * (*delta); */
 
 	double z;
 	double value;
@@ -86,6 +101,7 @@ void Model::init_uvw()
 
 	if(nx!=1)
 	{
+
 		for(int i = 0; i < nx; i++)
 			for(int j = 0; j < ny; j++)
 				for(int k = 0; k < nz; k++)
@@ -95,6 +111,12 @@ void Model::init_uvw()
 					u->set(i, j, k, value);
 				}
 		assert(u->isFinite());
+
+		/* u = *(  *( ( *Dp_Dx ) * (*z3d) ) * *(*z3d - *(delta->replicateZ(nz)) ) ) / (2*mu); */
+		/* u->print(); */
+		/* std::cout << z3d->dz << "\n"; */
+		/* assert(u->isFinite()); */
+
 	}
 
 	if(ny!=1)
@@ -124,23 +146,13 @@ void Model::init_uvw()
 
 		}
 
-	delete Dp_Dx;
-	delete Dp_Dy;
-	delete D2p_Dx2;
-	delete D2p_Dy2;
-	delete Ddelta_Dx;
-	delete Ddelta_Dy;
-	delete lapl_p;
-
-
 
 }
 
 void Model::calc_maxFluxError()
 {
-	Field * DT_Dz = T->differentiate(BX2, Z);
-	delete qNorth;
-	qNorth = DT_Dz->getSubfield(0, nx-1, 0, ny-1, nz-1, nz-1)->divide(delta)->multiply(-1);
+	auto DT_Dz = T->differentiate(BX2, Z);
+	qNorth = *( *(DT_Dz->getSubfield(0, nx-1, 0, ny-1, nz-1, nz-1)) / *delta ) * -1;
 
 	double value;
 
@@ -169,7 +181,6 @@ void Model::calc_maxFluxError()
 		}
 
 	relativeMFE = maxFluxError/qStefan->average();
-	delete DT_Dz;
 
 }
 
@@ -242,14 +253,15 @@ void Model::find_r()
 
 void Model::TSolveWrapper()
 {
-	PDE TEqn(T);
+	PDE TEqn(*T);
 
 	//Boundary condition setting
-	Field * TBC = new Field(T);
-	Field * TBCFlag = new Field(T);
-	Field * zero = new Field(T);
 
-	TBC->setSubfield(0,nx-1, 0,ny-1, 0,0, bcSouth);
+	Field * TBC     = new Field(*T);
+	Field * TBCFlag = new Field(*T);
+	Field * zero    = new Field(*T);
+
+	TBC->setSubfield(0,nx-1, 0,ny-1, 0,0, *bcSouth);
 	TBCFlag->set(FRONT, (int)sidesBC);
 	TBCFlag->set(BACK , (int)sidesBC);
 	TBCFlag->set(LEFT , (int)sidesBC);
@@ -257,10 +269,10 @@ void Model::TSolveWrapper()
 	TBCFlag->set(SOUTH, (int)southBC);
 
 	//PDE set up
-	Field * alphaField = new Field(T);
+	auto alphaField = std::make_unique<Field>(T.get());
 	alphaField->setAll(alpha);
 
-	Field * zeta = new Field(T);
+	auto zeta = std::make_unique<Field>(T.get());
 	for(int i=0; i<zeta->nx; i++)
 		for(int j=0; j<zeta->ny; j++)
 			for(int k=0; k<zeta->nz; k++)
@@ -268,558 +280,89 @@ void Model::TSolveWrapper()
 				zeta->set(i,j,k, (double)k/(zeta->nz-1));
 			}
 
-	Field * delta_3D = delta->replicateZ(nz);
-	Field * Ddelta_Dx = delta_3D->differentiate(CX2, X);
-	Field * Ddelta_Dy = delta_3D->differentiate(CX2, Y);
-	Field * temp = Ddelta_Dy->copy()->pow(2);
-	Field * ssDdelta = Ddelta_Dx->copy()->pow(2)->add(temp);
-	/* Field * temp2 = delta_3D->differentiate(CXX2, Y); */
-	/* Field * sD2delta = delta_3D->differentiate(CXX2, X)->add(temp2); */
-	Field * temp2 = Ddelta_Dy->copy();
-	Field * sD2delta = Ddelta_Dx->copy()->add(temp2);
+	auto delta_3D = delta->replicateZ(nz);
+	auto Ddelta_Dx = delta_3D->differentiate(CX2, X);
+	auto Ddelta_Dy = delta_3D->differentiate(CX2, Y);
+	auto D2delta_Dx2 = delta_3D->differentiate(CXX2, X);
+	auto D2delta_Dy2 = delta_3D->differentiate(CXX2, Y);
 
-	Field * z4 = Ddelta_Dy->copy()->multiply(v);
-	Field * z1 = ssDdelta->copy()->multiply(2)->divide(delta_3D)->subtract(sD2delta)->multiply(alphaField)->multiply(zeta)->divide(delta_3D);
-	Field * z2 = Ddelta_Dx->copy()->multiply(u)->add(z4)->multiply(zeta)->divide(delta_3D);
-	Field * z3 = w->copy()->multiply(-1)->divide(delta_3D);
-	Field * term = alphaField->copy()->multiply(zeta)->multiply(-2)->divide(delta_3D);
+	auto sD2delta = *D2delta_Dx2 + (*D2delta_Dy2);
+	auto ssDdelta = *(*Ddelta_Dx ^(2)) + *(*Ddelta_Dy ^ 2);
 
-	Field * zz1 = delta_3D->copy()->pow(2);
-	Field * zz2 = zeta->copy()->pow(2);
-	Field * zz3 = ssDdelta->copy()->multiply(zz2)->add(1.0);
+	auto z1 = *( *(*(*ssDdelta * 2) / *delta_3D) - *sD2delta ) * *( *(*alphaField * *zeta) / *delta_3D);
+	auto z2 = *(*( *Ddelta_Dx * *u ) + *(*Ddelta_Dy * *v) ) * *(*zeta / *delta_3D);
+	auto z3 = *(*w * -1) / *delta_3D;
 
-	TEqn.xx = alphaField;
-	TEqn.yy = alphaField;
-	TEqn.zz = alphaField->copy()->multiply(zz3)->divide(zz1);
+	auto zz3 = *(*ssDdelta * *(*zeta^(2)) ) + 1;
+	auto zz = *(*alphaField * *zz3) / *(*delta_3D ^ 2);
 
-	TEqn.x  = u->copy()->multiply(-1);
-	TEqn.y  = v->copy()->multiply(-1);
-	TEqn.z  = z1->copy()->add(z2)->add(z3);
+	auto x = *u * -1.0;
+	auto y  = *v * -1.0;
+	auto z  = *(*z1 + *z2) + *z3;
 
-	TEqn.xy = zero;
-	TEqn.yz = term->copy()->multiply(Ddelta_Dy);
-	TEqn.zx = term->copy()->multiply(Ddelta_Dx);
 
+	auto term = *(*(*alphaField * *zeta) * (-2) ) / (*delta_3D);
+	auto yz = (*term) * (*Ddelta_Dy);
+	auto zx = (*term) * (*Ddelta_Dx);
+
+	TEqn.xx  = alphaField.get();
+	TEqn.yy  = alphaField.get();
+	TEqn.zz  = zz.get();
+	TEqn.x   = x.get();
+	TEqn.y   = y.get();
+	TEqn.z   = z.get();
+	TEqn.yz  = yz.get();
+	TEqn.zx  = zx.get();
 	TEqn.rhs = zero;
+	TEqn.xy  = zero;
 
 	Solver TSolver(&TEqn, TBC, TBCFlag);
 	TSolver.init();
-	TSolver.solve(T);
+	TSolver.solve(T.get());
 
-	delete delta_3D;
-	delete Ddelta_Dx;
-	delete Ddelta_Dy;
-	delete ssDdelta;
-	delete sD2delta;
-	delete z1;
-	delete z2;
-	delete z3;
-	delete z4;
-	delete term;
-	delete zeta;
-	delete alphaField;
-
-	delete zz1;
-	delete zz2;
-	delete zz3;
-
-	delete TEqn.zz;
-	delete TEqn.x;
-	delete TEqn.y;
-	delete TEqn.z;
-	delete TEqn.yz;
-	delete TEqn.zx;
-
-	delete temp;
-	delete temp2;
-
-	delete zero;
 	delete TBC;
 	delete TBCFlag;
+	delete zero;
+
 
 }
 
 void Model::PSolveWrapper()
 {
 
-	Field * zero = new Field(p);
-	zero->setAll(0);
+	auto zero = std::make_unique<Field>(*p);
 
-	PDE pEqn(p);
+	PDE pEqn(*p);
 
-	Field * lapl_coeff = delta->copy()->pow(3)->multiply(1.0/6.0);
-	Field * term = delta->copy()->pow(2)->multiply(0.5);
-	Field * Ddelta_Dx = delta->differentiate(CX2, X);
-	Field * Ddelta_Dy = delta->differentiate(CX2, Y);
-	Field * x_coeff = delta->differentiate(CX2, X)->multiply(term);
-	Field * y_coeff = delta->differentiate(CX2, Y)->multiply(term);
+	auto Ddelta_Dx  = delta->differentiate(CX2, X);
+	auto Ddelta_Dy  = delta->differentiate(CX2, Y);
+	auto lapl_coeff = *(*delta^3)/6;
+	auto term       = *(*delta^2)/2;
+	auto x_coeff    = *(Ddelta_Dx) * (*term);
+	auto y_coeff    = *(Ddelta_Dy) * (*term);
 
-
-	Field * rhs = new Field(p);
+	auto rhs = std::make_unique<Field>(*p);
 	for(int i=0; i < nx; i++)
 		for(int j=0; j<ny; j++)
 		{
 			rhs->set(i,j, -2*mu*rhoS/rhoL*UVal(i,j));
 		}
 
-	pEqn.xx = lapl_coeff;
-	pEqn.yy = lapl_coeff;
-	pEqn.x  = x_coeff;
-	pEqn.y  = y_coeff;
-	pEqn.rhs = rhs;
+	pEqn.xx  = lapl_coeff.get();
+	pEqn.yy  = lapl_coeff.get();
+	pEqn.x   = x_coeff.get();
+	pEqn.y   = y_coeff.get();
+	pEqn.rhs = rhs.get();
 
-	pEqn.zz = zero;
-	pEqn.z  = zero;
-	pEqn.xy = zero;
-	pEqn.yz = zero;
-	pEqn.zx = zero;
+	pEqn.zz = zero.get();
+	pEqn.z  = zero.get();
+	pEqn.xy = zero.get();
+	pEqn.yz = zero.get();
+	pEqn.zx = zero.get();
 
-	Solver pSolver(&pEqn, zero, zero);
+	Solver pSolver(&pEqn, zero.get(), zero.get());
 	pSolver.init();
-	pSolver.solve(p);
-
-	delete lapl_coeff;
-	delete term;
-	delete x_coeff;
-	delete y_coeff;
-	delete Ddelta_Dx;
-	delete Ddelta_Dy;
-	delete rhs;
-	delete zero;
+	pSolver.solve(p.get());
 
 }
 
-void Model::combinedUpdate()
-{
-	Field * zero = new Field(p);
-	zero->setAll(0);
-
-	PDE pEqn(p);
-
-	double rOld, U0Old;
-	int iter =0;
-
-	while(1)
-	{
-		printf("\n\nNR iter : %d\n", ++iter);
-
-		if(recalcDelta == 1)
-		{
-			for(int i=0; i<nx; i++)
-				for(int j=0; j<ny; j++)
-				{
-					delta->set(i,j, kL * (Tw->get(i,j) - Tm)/(rhoS * hmStar * UVal(i,j)));
-				}
-		}
-
-		std::cout << r << "\t" << U0 << "\n";
-
-		Field * lapl_coeff = delta->copy()->pow(3)->divide(6.0);
-		Field * term = delta->copy()->pow(2)->multiply(0.5);
-		Field * Ddelta_Dx = delta->differentiate(CX2, X);
-		Field * Ddelta_Dy = delta->differentiate(CX2, Y);
-		Field * x_coeff = Ddelta_Dx->multiply(term);
-		Field * y_coeff = Ddelta_Dy->multiply(term);
-
-		Field * rhs = new Field(p);
-		for(int i=0; i < nx; i++)
-			for(int j=0; j<ny; j++)
-			{
-				rhs->set(i,j, -2*mu*rhoS/rhoL*UVal(i,j));
-			}
-
-		pEqn.xx = lapl_coeff;
-		pEqn.yy = lapl_coeff;
-		pEqn.x  = x_coeff;
-		pEqn.y  = y_coeff;
-		pEqn.rhs = rhs;
-
-		pEqn.zz = zero;
-		pEqn.z  = zero;
-		pEqn.xy = zero;
-		pEqn.yz = zero;
-		pEqn.zx = zero;
-
-
-		Solver pSolver(&pEqn, zero, zero);
-		pSolver.init();
-		pSolver.solve(p);
-
-		/* std::cout << "p :\t" << p->average() << "\n"; */
-
-		Field * D2p_Dx2 = p->differentiate(CXX2, X);
-		Field * D2p_Dy2 = p->differentiate(CXX2, Y);
-		Field * Dp_Dx = p->differentiate(CX2, X);
-		Field * Dp_Dy = p->differentiate(CX2, Y);
-
-		Field * term1 = delta->differentiate(CX2, Y)->multiply(Dp_Dy);
-		Field * term2 = delta->differentiate(CX2, X)->multiply(Dp_Dx)->add(term1)->multiply(delta);
-		Field * rhsDdelta = D2p_Dx2->copy()->add(D2p_Dy2)->multiply(term)->add(term2)->multiply(-1);
-		/* Field * newterm2 = Dp_Dy->copy()->divide(dy); */
-		/* Field * newterm = Dp_Dx->copy()->divide(dx)->add(newterm2)->multiply(term); */
-		/* Field * rhsDdelta = D2p_Dx2->copy()->add(D2p_Dy2)->multiply(term)->add(term2)->add(newterm)->multiply(-1); */
-
-
-		Field * Dp_Ddelta = new Field(p);
-		Field * Dp_DU0 = new Field(p);
-		Field * Dp_Dr = new Field(p);
-
-		pEqn.rhs = rhsDdelta;
-		pSolver.buildb();
-		pSolver.solve(Dp_Ddelta);
-
-		/* std::cout << "rhs :\t" << rhs->average() << "\n"; */
-		/* std::cout << "rhsDdelta :\t" << rhsDdelta->average() << "\n"; */
-		/* std::cout << "Dp_Ddelta :\t" << Dp_Ddelta->average() << "\n"; */
-
-		Field * rhsDU0 = rhs->copy()->divide(U0);
-		pEqn.rhs = rhsDU0;
-		pSolver.buildb();
-		pSolver.solve(Dp_DU0);
-
-		/* std::cout << "Dp_DU0 :\t" << Dp_DU0->average() << "\n"; */
-
-		Field * rhsDr = new Field(p);
-		double vector;
-		for(int i=0; i < nx; i++)
-			for(int j=0; j<ny; j++)
-			{
-				vector = cos(radianTheta) * xVal(i) + sin(radianTheta) * yVal(j);
-				rhsDr->set(i,j, -2*mu*rhoS/rhoL*U0*(vector/(r*r)));
-			}
-
-		/* printf("rhsDr = %e\n", rhsDr->average()); */
-
-		pEqn.rhs = rhsDr;
-		pSolver.buildb();
-		pSolver.solve(Dp_Dr);
-
-		/* std::cout << "Dp_Dr :\t" << Dp_Dr->average() << "\n"; */
-
-		Field * Ddelta_DU0 = delta->copy()->divide(-U0);
-		Field * Ddelta_Dr = delta->copy();
-		for(int i=0; i<nx; i++)
-			for(int j=0; j<ny; j++)
-			{
-				vector = cos(radianTheta) * xVal(i) + sin(radianTheta) * yVal(j);
-				Ddelta_Dr->set(i,j, Ddelta_Dr->get(i,j) * (-vector)/(r * (r - vector)));
-			}
-
-
-		Field * temp = Dp_Ddelta->copy()->multiply(Ddelta_DU0);
-		Dp_DU0->add(temp);
-		delete temp;
-		temp = Dp_Ddelta->copy()->multiply(Ddelta_Dr);
-		Dp_Dr->add(temp);
-		delete temp;
-
-		F = p->integrateXY();
-
-		Field * pv = new Field (p);
-		for(int i=0; i<nx; i++)
-			for(int j=0; j<ny; j++)
-			{
-				pv->set(i, j, p->get(i,j,0)*( cos(radianTheta) * xVal(i)) + sin(radianTheta) * yVal(j) )  ;
-			}
-		Mtheta = pv->integrateXY();
-
-		double DF_DU0 = Dp_DU0->integrateXY();
-		double DF_Dr = Dp_Dr->integrateXY();
-
-		for(int i=0; i<nx; i++)
-			for(int j=0; j<ny; j++)
-			{
-				pv->set(i, j, Dp_DU0->get(i,j,0)*( cos(radianTheta) * xVal(i) + sin(radianTheta) * yVal(j) ))  ;
-			}
-		double DM_DU0 = pv->integrateXY();
-
-		for(int i=0; i<nx; i++)
-			for(int j=0; j<ny; j++)
-			{
-				pv->set(i, j, Dp_Dr->get(i,j,0)*( cos(radianTheta) * xVal(i) + sin(radianTheta) * yVal(j) ))  ;
-			}
-		double DM_Dr = pv->integrateXY();
-
-		std::cout << "===== Jac =====\n" << DM_Dr << "\t" << DM_DU0 << "\n" << DF_Dr << "\t" << DF_DU0 << "\n";
-
-		double onebydet = 1.0/(DM_Dr * DF_DU0 - DM_DU0 * DF_Dr);
-		std::cout << "onebydet = " << onebydet << "\n";
-
-		double rhat = onebydet * (DF_DU0 * (-Mtheta) - DM_DU0 * (-(F-Fscrew)) );
-		double U0hat = onebydet * (-DF_Dr * (-Mtheta) + DM_Dr * (-(F-Fscrew)));
-
-
-		rOld = r;
-		r = r + rhat;
-		U0Old = U0;
-		U0 = U0 + U0hat;
-
-		std::cout << "r = " << r << "\t" << "U0 = " << U0 << "\n";
-
-		std::cout << Dp_Ddelta->average() << "\t" << Dp_DU0->average() << "\t" << Dp_Dr->average() << "\n";
-		std::cout << rhsDdelta->average() << "\t" << rhsDU0->average() << "\t" << rhsDr->average() << "\n";
-
-		if( (fabs(U0-U0Old) < 1e-6) && (fabs(r - rOld) < 1e-6) )
-			break;
-
-
-
-		delete pv;
-		delete D2p_Dx2;
-		delete D2p_Dy2;
-		delete Dp_Dx;
-		delete Dp_Dy;
-		delete term1;
-		delete term2;
-		delete rhsDdelta;
-		delete rhsDU0;
-		delete rhsDr;
-
-		delete Dp_Ddelta;
-		delete Dp_DU0;
-		delete Dp_Dr;
-		delete Ddelta_DU0;
-		delete Ddelta_Dr;
-
-		delete lapl_coeff;
-		delete term;
-		delete x_coeff;
-		delete y_coeff;
-		delete rhs;
-
-		exit(-1);
-
-
-	}
-
-
-	delete zero;
-
-
-
-}
-
-void Model::combinedUpdate2()
-{
-	Field * zero = new Field(p);
-	zero->setAll(0);
-
-	PDE pEqn(p);
-
-	double rOld, U0Old;
-	int iter =0;
-
-	r = 0.1;
-
-	while(1)
-	{
-		printf("\n\nNR iter : %d\n", ++iter);
-
-		if(recalcDelta == 1)
-		{
-			for(int i=0; i<nx; i++)
-				for(int j=0; j<ny; j++)
-				{
-					delta->set(i,j, kL * (Tw->get(i,j) - Tm)/(rhoS * hmStar * UVal(i,j)));
-				}
-		}
-
-
-
-		double vector;
-		/* double value; */
-
-		/* double dr = 1e-6; */
-		/* double dU0 = 1e-6; */
-		/* Field * Ddelta_DU0 = new Field(delta); */
-		/* Field * Ddelta_Dr = new Field(delta); */
-		/* for(int i=0; i<nx; i++) */
-		/* 	for(int j=0; j<ny; j++) */
-		/* 	{ */
-		/* 		vector = cos(radianTheta) * xVal(i) + sin(radianTheta) * yVal(j); */
-		/* 		value = (kL*(Tw->get(i,j) - Tm)/(rhoS * hmStar * (U0+dU0) * (1-vector/r) ) - kL*(Tw->get(i,j) - Tm)/(rhoS * hmStar * (U0-dU0) * (1-vector/r) ) ) / (2*dU0); */
-		/* 		Ddelta_DU0->set(i,j, value ); */
-		/* 	} */
-
-		/* for(int i=0; i<nx; i++) */
-		/* 	for(int j=0; j<ny; j++) */
-		/* 	{ */
-		/* 		vector = cos(radianTheta) * xVal(i) + sin(radianTheta) * yVal(j); */
-		/* 		value =( kL*(Tw->get(i,j) - Tm)/(rhoS * hmStar * (U0) * (1-vector/(r+dr) )) - kL*(Tw->get(i,j) - Tm)/(rhoS * hmStar * (U0) * (1-vector/(r-dr) )) )/ (2*dr); */
-		/* 		Ddelta_DU0->set(i,j, value ); */
-		/* 	} */
-
-		std::cout << r << "\t" << U0 << "\n";
-
-		Field * lapl_coeff = delta->copy()->pow(3)->divide(6.0);
-		Field * term = delta->copy()->pow(2)->multiply(0.5);
-		Field * x_coeff = (delta->differentiate(CX2, X))->multiply(term);
-		Field * y_coeff = (delta->differentiate(CX2, Y))->multiply(term);
-
-		Field * rhs = new Field(p);
-		for(int i=0; i < nx; i++)
-			for(int j=0; j<ny; j++)
-			{
-				rhs->set(i,j, -2*mu*rhoS/rhoL*UVal(i,j));
-			}
-
-		pEqn.xx = lapl_coeff;
-		pEqn.yy = lapl_coeff;
-		pEqn.x  = x_coeff;
-		pEqn.y  = y_coeff;
-		pEqn.rhs = rhs;
-
-		pEqn.zz = zero;
-		pEqn.z  = zero;
-		pEqn.xy = zero;
-		pEqn.yz = zero;
-		pEqn.zx = zero;
-
-
-		Solver pSolver(&pEqn, zero, zero);
-		pSolver.init();
-		pSolver.solve(p);
-
-		Field * Ddelta_DU0 = delta->copy()->divide(-U0);
-		Field * Ddelta_Dr = delta->copy();
-		for(int i=0; i<nx; i++)
-			for(int j=0; j<ny; j++)
-			{
-				vector = cos(radianTheta) * xVal(i) + sin(radianTheta) * yVal(j);
-				Ddelta_Dr->set(i,j, Ddelta_Dr->get(i,j) * (-vector)/(r * (r - vector)));
-			}
-
-		Field * Dp_Ddelta = new Field(p);
-		Field * Dp_DU0 = new Field(p);
-		Field * Dp_Dr = new Field(p);
-
-		Field * D2p_Dx2 = p->differentiate(CXX2, X);
-		Field * D2p_Dy2 = p->differentiate(CXX2, Y);
-		Field * Dp_Dx = p->differentiate(CX2, X);
-		Field * Dp_Dy = p->differentiate(CX2, Y);
-		Field * lapl_p = D2p_Dx2->copy()->add(D2p_Dy2);
-		Field * Ddelta_Dx = delta->differentiate(CX2, X);
-		Field * Ddelta_Dy = delta->differentiate(CX2, Y);
-
-		Field * temp = Dp_Dy->copy()->multiply(Ddelta_Dy);
-		Field * cross_term_delta = Dp_Dx->copy()->multiply(Ddelta_Dx)->add(temp)->multiply(delta);
-		Field * cross_term_delta_DU0 = cross_term_delta->copy()->multiply(Ddelta_DU0);
-
-		delete temp;
-		Field * Ddelta_DU0_Dx = Ddelta_DU0->differentiate(CX2, X);
-		Field * Ddelta_DU0_Dy = Ddelta_DU0->differentiate(CX2, Y);
-		temp = Ddelta_DU0_Dx->multiply(Dp_Dx)->add(Ddelta_DU0_Dy->multiply(Dp_Dy))->multiply(term);
-		Field * add_DU0 = lapl_p->copy()->multiply(Ddelta_DU0)->multiply(term)->add(cross_term_delta_DU0)->add(temp);
-		delete temp;
-
-		Field * rhsDU0 = rhs->copy()->divide(U0)->subtract(add_DU0);
-		pEqn.rhs = rhsDU0;
-		pSolver.buildb();
-		pSolver.solve(Dp_DU0);
-
-		Field * rhsDr = new Field(p);
-		for(int i=0; i < nx; i++)
-			for(int j=0; j<ny; j++)
-			{
-				vector = cos(radianTheta) * xVal(i) + sin(radianTheta) * yVal(j);
-				rhsDr->set(i,j, -2*mu*rhoS/rhoL*U0*(vector/(r*r)));
-			}
-
-		Field * Ddelta_Dr_Dx = Ddelta_Dr->differentiate(CX2, X);
-		Field * Ddelta_Dr_Dy = Ddelta_Dr->differentiate(CX2, Y);
-		temp = Ddelta_Dr_Dx->multiply(Dp_Dx)->add(Ddelta_Dr_Dy->multiply(Dp_Dy))->multiply(term);
-		Field * cross_term_delta_Dr = cross_term_delta->copy()->multiply(Ddelta_Dr);
-		Field * add_Dr = lapl_p->copy()->multiply(Ddelta_Dr)->multiply(term)->add(cross_term_delta_Dr)->add(temp);
-		delete temp;
-
-		rhsDr->subtract(add_Dr);
-		pEqn.rhs = rhsDr;
-		pSolver.buildb();
-		pSolver.solve(Dp_Dr);
-
-		F = p->integrateXY();
-
-		Field * pv = new Field (p);
-		for(int i=0; i<nx; i++)
-			for(int j=0; j<ny; j++)
-			{
-				pv->set(i, j, p->get(i,j,0)*( cos(radianTheta) * xVal(i)) + sin(radianTheta) * yVal(j) )  ;
-			}
-		Mtheta = pv->integrateXY();
-
-		double DF_DU0 = Dp_DU0->integrateXY();
-		double DF_Dr = Dp_Dr->integrateXY();
-
-		for(int i=0; i<nx; i++)
-			for(int j=0; j<ny; j++)
-			{
-				pv->set(i, j, Dp_DU0->get(i,j,0)*( cos(radianTheta) * xVal(i) + sin(radianTheta) * yVal(j) ))  ;
-			}
-		double DM_DU0 = pv->integrateXY();
-
-		for(int i=0; i<nx; i++)
-			for(int j=0; j<ny; j++)
-			{
-				pv->set(i, j, Dp_Dr->get(i,j,0)*( cos(radianTheta) * xVal(i) + sin(radianTheta) * yVal(j) ))  ;
-			}
-		double DM_Dr = pv->integrateXY();
-
-		std::cout << "===== Jac =====\n" << DM_Dr << "\t" << DM_DU0 << "\n" << DF_Dr << "\t" << DF_DU0 << "\n";
-
-		double onebydet = 1.0/(DM_Dr * DF_DU0 - DM_DU0 * DF_Dr);
-		std::cout << "onebydet = " << onebydet << "\n";
-
-		double rhat = onebydet * (DF_DU0 * (-Mtheta) - DM_DU0 * (-(F-Fscrew)) );
-		double U0hat = onebydet * (-DF_Dr * (-Mtheta) + DM_Dr * (-(F-Fscrew)));
-
-
-		rOld = r;
-		r = r + rhat;
-		U0Old = U0;
-		U0 = U0 + U0hat;
-
-		std::cout << "r = " << r << "\t" << "U0 = " << U0 << "\n";
-
-		if( (fabs(U0-U0Old) < 1e-6) && (fabs(r - rOld) < 1e-6) )
-			break;
-
-		delete pv;
-		delete D2p_Dx2;
-		delete D2p_Dy2;
-		delete Dp_Dx;
-		delete Dp_Dy;
-		delete rhsDU0;
-		delete rhsDr;
-
-		delete lapl_p;
-		delete cross_term_delta;
-		delete cross_term_delta_DU0;
-		delete cross_term_delta_Dr;
-		delete add_DU0;
-		delete add_Dr;
-		delete Ddelta_DU0_Dx;
-		delete Ddelta_DU0_Dy;
-
-		delete Dp_Ddelta;
-		delete Dp_DU0;
-		delete Dp_Dr;
-		delete Ddelta_DU0;
-		delete Ddelta_Dr;
-
-		delete lapl_coeff;
-		delete term;
-		delete x_coeff;
-		delete y_coeff;
-		delete rhs;
-
-		/* exit(-1); */
-
-
-	}
-
-
-	delete zero;
-
-
-
-}

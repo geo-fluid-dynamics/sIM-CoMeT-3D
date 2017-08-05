@@ -1,8 +1,10 @@
 #ifndef MODEL_H
 #define MODEL_H
+
 #include <string>
 #include "enum.hpp"
 #include "field.hpp"
+#include <memory>
 
 class Model {
 
@@ -48,18 +50,20 @@ class Model {
 		boundary southBC;
 		boundary sidesBC;
 
-		Field * Tw;
-		Field * qw;
-		Field * delta;
-		Field * p;
-		Field * qNorth;
-		Field * qStefan;
-		Field * bcSouth;
+		std::unique_ptr<Field> Tw;
+		std::unique_ptr<Field> qw;
+		std::unique_ptr<Field> delta;
+		std::unique_ptr<Field> p;
+		std::unique_ptr<Field> qNorth;
+		std::unique_ptr<Field> qStefan;
+		std::unique_ptr<Field> bcSouth;
 
-		Field * T;
-		Field * u;
-		Field * v;
-		Field * w;
+		std::unique_ptr<Field> T;
+		std::unique_ptr<Field> u;
+		std::unique_ptr<Field> v;
+		std::unique_ptr<Field> w;
+		std::unique_ptr<Field> vec;
+		std::unique_ptr<Field> U;
 
 		double U0;
 		double r;
@@ -87,7 +91,7 @@ class Model {
 		void combinedUpdate2();
 
 	private:
-		double xVal(int i) ;
+		double xVal(int i);
 		double yVal(int j)  ;
 		double zVal(int i, int j, int k) ;
 		double UVal(int i, int j) ;

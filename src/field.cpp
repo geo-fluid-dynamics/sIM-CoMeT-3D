@@ -54,6 +54,23 @@ Field::Field(Field * field)
 	/* values = field.values; */
 }
 
+Field::Field(Field & field)
+{
+	nx = field.nx;
+	ny = field.ny;
+	nz = field.nz;
+	Lx = field.Lx;
+	Ly = field.Ly;
+
+	dx = 2*Lx/(nx-1);
+	dy = 2*Ly/(ny-1);
+	dz = 1.0/(nz-1);
+
+	values.reserve(nx*ny*nz);
+	this->setAll(0);
+
+}
+
 void Field::init(int inx, int iny, int inz, double iLx, double iLy)
 {
 	nx = inx;
@@ -108,11 +125,6 @@ void Field::setAll(double value)
 			}
 
 
-	/* for(std::vector<double>::iterator it=values.begin(); it!=values.end(); ++it) */
-	/* { */
-	/* 	*it = value; */
-	/* } */
-
 }
 
 double Field::get(int i, int j, int k)
@@ -127,9 +139,10 @@ double Field::get(int i, int j)
 	return values[index(i,j,0)];
 }
 
-Field * Field::getSubfield(int i1, int i2, int j1, int j2, int k1, int k2)
+std::unique_ptr<Field> Field::getSubfield(int i1, int i2, int j1, int j2, int k1, int k2)
 {
-	Field * subfield = new Field(i2-i1+1, j2-j1+1, k2-k1+1, 0, 0);
+	/* Field * subfield = new Field(i2-i1+1, j2-j1+1, k2-k1+1, 0, 0); */
+	auto subfield = std::make_unique<Field>(i2-i1+1, j2-j1+1, k2-k1+1, 0, 0);
 
 	for(int i = i1; i <= i2; i++)
 		for(int j = j1; j <= j2; j++)
@@ -141,13 +154,13 @@ Field * Field::getSubfield(int i1, int i2, int j1, int j2, int k1, int k2)
 	return subfield;
 }
 
-void Field::setSubfield(int i1, int i2, int j1, int j2, int k1, int k2, Field * field)
+void Field::setSubfield(int i1, int i2, int j1, int j2, int k1, int k2, Field & field)
 {
 	for(int i = i1; i <= i2; i++)
 		for(int j = j1; j <= j2; j++)
 			for(int k = k1; k <= k2; k++)
 			{
-				this->set(i, j, k, field->get(i,j,k));
+				this->set(i, j, k, field.get(i,j,k));
 			}
 
 }
@@ -190,7 +203,7 @@ bool Field::isFinite()
  *
  *
  */
-Field * Field::differentiate(dMode mode, dDir dir)
+std::unique_ptr<Field> Field::differentiate(dMode mode, dDir dir)
 {
 	std::vector<double> vec = coeffs[mode];
 	int h = (mode == CXX2 || mode == FXX1 || mode == BXX1) ? 2 : 1;
@@ -200,8 +213,9 @@ Field * Field::differentiate(dMode mode, dDir dir)
 
 	double value;
 
-	Field * dfield = new Field(this->nx, this->ny, this->nz, this->Lx, this->Ly);
-	dfield->setAll(0);
+	/* Field * dfield = new Field(this->nx, this->ny, this->nz, this->Lx, this->Ly); */
+	/* dfield->setAll(0); */
+	auto dfield = std::make_unique<Field>(this->nx, this->ny, this->nz, this->Lx, this->Ly);
 
 	if( (ny == 1 && dir == Y) || (nz == 1 && dir == Z) || (nx == 1 && dir == X) )
 		return dfield;
@@ -357,9 +371,10 @@ double Field::integrateXY()
 
 }
 
-Field * Field::copy()
+std::unique_ptr<Field> Field::copy()
 {
-	Field * newField = new Field(this);
+	/* Field * newField = new Field(this); */
+	auto newField = std::make_unique<Field>(this);
 
 	for(int i=0; i<nx; i++)
 		for(int j=0; j<ny; j++)
@@ -371,116 +386,122 @@ Field * Field::copy()
 	return newField;
 }
 
-Field * Field::add(double value)
+std::unique_ptr<Field> Field::add(double value)
 {
-	for(int i=0; i<nx; i++)
-		for(int j=0; j<ny; j++)
-			for(int k=0; k<nz; k++)
-			{
-				this->set(i,j,k, this->get(i,j,k) + value);
-			}
-
-	return this;
-
-}
-
-Field * Field::add(Field * field)
-{
-	for(int i=0; i<nx; i++)
-		for(int j=0; j<ny; j++)
-			for(int k=0; k<nz; k++)
-			{
-				this->set(i,j,k, this->get(i,j,k) + field->get(i,j,k));
-			}
-
-	return this;
-
-}
-
-Field * Field::subtract(Field * field)
-{
-	for(int i=0; i<nx; i++)
-		for(int j=0; j<ny; j++)
-			for(int k=0; k<nz; k++)
-			{
-				this->set(i,j,k, this->get(i,j,k) - field->get(i,j,k));
-			}
-
-	return this;
-
-}
-
-Field * Field::multiply(double factor)
-{
+	auto newField = std::make_unique<Field>(this);
 
 	for(int i=0; i<nx; i++)
 		for(int j=0; j<ny; j++)
 			for(int k=0; k<nz; k++)
 			{
-				this->set(i,j,k, this->get(i,j,k) * factor);
+				newField->set(i,j,k, this->get(i,j,k) + value);
 			}
 
-	return this;
+	return newField;
 
 }
 
-Field * Field::multiply(Field * field)
+std::unique_ptr<Field> Field::add(Field & field)
 {
-	/* Field * newField = new Field(nx, ny, nz, Lx, Ly, 0); */
+	auto newField = std::make_unique<Field>(this);
 
 	for(int i=0; i<nx; i++)
 		for(int j=0; j<ny; j++)
 			for(int k=0; k<nz; k++)
 			{
-				/* printf("2:%e\n", this->get(i,j,k)); */
-				/* printf("1:%e\n", field.get(i,j,k)); */
-				/* newField->set(i,j,k, this->get(i,j,k) * field->get(i,j,k)); */
-				this->set(i,j,k, this->get(i,j,k) * field->get(i,j,k));
+				newField->set(i,j,k, this->get(i,j,k) + field.get(i,j,k));
 			}
 
-	return this;
-	/* return newField; */
+	return newField;
 
 }
 
-Field * Field::divide(Field * field)
+std::unique_ptr<Field> Field::subtract(Field & field)
 {
+	auto newField = std::make_unique<Field>(this);
 	for(int i=0; i<nx; i++)
 		for(int j=0; j<ny; j++)
 			for(int k=0; k<nz; k++)
 			{
-				this->set(i,j,k, this->get(i,j,k)/field->get(i,j,k));
+				newField->set(i,j,k, this->get(i,j,k) - field.get(i,j,k));
 			}
 
-	return this;
+	return newField;
+
 }
 
-Field * Field::divide(double value)
+std::unique_ptr<Field> Field::multiply(double factor)
 {
+
+	auto newField = std::make_unique<Field>(this);
 	for(int i=0; i<nx; i++)
 		for(int j=0; j<ny; j++)
 			for(int k=0; k<nz; k++)
 			{
-				this->set(i,j,k, this->get(i,j,k)/value);
+				newField->set(i,j,k, this->get(i,j,k) * factor);
 			}
 
-	return this;
+	return newField;
+
 }
 
-Field * Field::pow(double n)
+std::unique_ptr<Field> Field::multiply(Field & field)
 {
 
+	auto newField = std::make_unique<Field>(this);
+	for(int i=0; i<nx; i++)
+		for(int j=0; j<ny; j++)
+			for(int k=0; k<nz; k++)
+			{
+				newField->set(i,j,k, this->get(i,j,k) * field.get(i,j,k));
+			}
+
+	return newField;
+
+}
+
+std::unique_ptr<Field> Field::divide(Field & field)
+{
+	auto newField = std::make_unique<Field>(this);
+	for(int i=0; i<nx; i++)
+		for(int j=0; j<ny; j++)
+			for(int k=0; k<nz; k++)
+			{
+				newField->set(i,j,k, this->get(i,j,k)/field.get(i,j,k));
+			}
+
+	return newField;
+}
+
+std::unique_ptr<Field> Field::divide(double value)
+{
+	auto newField = std::make_unique<Field>(this);
+	for(int i=0; i<nx; i++)
+		for(int j=0; j<ny; j++)
+			for(int k=0; k<nz; k++)
+			{
+				newField->set(i,j,k, this->get(i,j,k)/value);
+			}
+
+	return newField;
+}
+
+std::unique_ptr<Field> Field::pow(double n)
+{
+
+	auto newField = std::make_unique<Field>(this);
 	for(int i=0; i<nx*ny*nz; i++)
-		this->values[i] = std::pow(values[i], n);
+		newField->values[i] = std::pow(values[i], n);
 
-	return this;
+	return newField;
 }
 
 
 
-Field * Field::replicateZ(int inz)
+std::unique_ptr<Field> Field::replicateZ(int inz)
 {
-	Field * newField = new Field(nx, ny, inz, Lx, Ly);
+	/* Field * newField = new Field(nx, ny, inz, Lx, Ly); */
+	auto newField = std::make_unique<Field>(nx, ny, inz, Lx, Ly);
 
 	for(int k=0; k<inz; k++)
 		for(int i = 0; i<nx; i++)
@@ -565,6 +586,7 @@ double Field::yVal(int j)
 	return (ny==1)? 0 : -Ly + 2*Ly/(ny-1)*j;
 }
 
+/* void Field::set(std::string expression_string, std::map<std::string, double> variables) */
 void Field::set(std::string expression_string)
 {
 
@@ -581,13 +603,12 @@ void Field::set(std::string expression_string)
 		for(int j = 0; j < ny; j++)
 			for(int k = 0; k < nz; k++)
 			{
-
 				/* vector = cos(radianTheta) * xVal(i) + sin(radianTheta) * yVal(j); */
 				/* variables["U"] = variables["U0"]*(1-vector/variables["r"]); */
 				variables["x"] = xVal(i);
 				variables["y"] = yVal(j);
-				variables["z"] = dz*k;
-				this->set(i,j,0, Lepton::Parser::parse(e).evaluate(variables));
+				variables["z"] = (double)k * dz;
+				this->set(i,j,k, Lepton::Parser::parse(e).evaluate(variables));
 
 			}
 
@@ -597,4 +618,20 @@ int Field::index(int i, int j, int k)
 {
 	/* return (k + nz*j + nz*ny*i); */
 	return (i + nx*j + nx*ny*k);
+}
+
+/*******************************************************************************************/
+std::unique_ptr<Field> Field::operator=(Field & field)
+{
+	/* Field * newField = new Field(this); */
+	auto newField = std::make_unique<Field>(field);
+
+	for(int i=0; i<field.nx; i++)
+		for(int j=0; j<field.ny; j++)
+			for(int k=0; k<field.nz; k++)
+			{
+				newField->set(i,j,k, field.get(i,j,k) );
+			}
+
+	return newField;
 }

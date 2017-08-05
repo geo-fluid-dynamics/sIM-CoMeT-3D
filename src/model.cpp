@@ -24,6 +24,7 @@
 #include "plot.hpp"
 
 #include "packages/inih/INIReader.h"
+#include "operators.hpp"
 
 /**
  * \brief Constructor for the Model class
@@ -88,35 +89,21 @@ Model::Model(std::string iniPath)
 	hmStar = hm + cpS*(Tm-Tinf);
 	alpha = kL/(rhoL*cpL);
 
-	Tw      = new Field(nx, ny, 1, Lx, Ly);
-	qw      = new Field(nx, ny, 1, Lx, Ly);
-	delta   = new Field(nx, ny, 1, Lx, Ly);
-	p       = new Field(nx, ny, 1, Lx, Ly);
-	qStefan = new Field(nx, ny, 1, Lx, Ly);
-	qNorth  = new Field(nx, ny, 1, Lx, Ly);
-	T       = new Field(nx, ny, nz, Lx, Ly);
-	u       = new Field(nx, ny, nz, Lx, Ly);
-	v       = new Field(nx, ny, nz, Lx, Ly);
-	w       = new Field(nx, ny, nz, Lx, Ly);
+	Tw      = std::make_unique<Field>(nx, ny, 1, Lx, Ly);
+	qw      = std::make_unique<Field>(nx, ny, 1, Lx, Ly);
+	delta   = std::make_unique<Field>(nx, ny, 1, Lx, Ly);
+	p       = std::make_unique<Field>(nx, ny, 1, Lx, Ly);
+	qStefan = std::make_unique<Field>(nx, ny, 1, Lx, Ly);
+	qNorth  = std::make_unique<Field>(nx, ny, 1, Lx, Ly);
+	T       = std::make_unique<Field>(nx, ny, nz, Lx, Ly);
+	u       = std::make_unique<Field>(nx, ny, nz, Lx, Ly);
+	v       = std::make_unique<Field>(nx, ny, nz, Lx, Ly);
+	w       = std::make_unique<Field>(nx, ny, nz, Lx, Ly);
 
 	r = 0.1;
 	U0 = 1e-4;
 
-	/* variables["mu"]     = this->mu; */
-	/* variables["Tm"]     = this->Tm; */
-	/* variables["Tinf"]   = this->Tinf; */
-	/* variables["hm"]     = this->hm; */
-	/* variables["cpL"]    = this->cpL; */
-	/* variables["cpS"]    = this->cpS; */
-	/* variables["rhoL"]   = this->rhoL; */
-	/* variables["rhoS"]   = this->rhoS; */
-	/* variables["kL"]     = this->kL; */
-	/* variables["Fscrew"] = this->Fscrew; */
-	/* variables["hmStar"] = this->hmStar; */
-	/* variables["radianTheta"] = this->radianTheta; */
-	/* variables["U0"] = U0; */
-	/* variables["r"] = r; */
-
+	variables["Lx"] = Lx;
 
 	if(southBC == DIRICHLET)
 		Tw->set(TwExp);
@@ -125,6 +112,21 @@ Model::Model(std::string iniPath)
 
 	qw->set(qwExp);
 
+	bcSouth = (southBC == DIRICHLET) ? Tw->copy() : *qw / (-kL);
+	/* *bcSouth = (southBC == DIRICHLET) ? *Tw : *(*qw / (-kL)); */
+
+	auto num = bcSouth->differentiate(CX2, Y);
+	auto den = bcSouth->differentiate(CX2, X);
+
+	double arg = num->average() / den->average();
+	radianTheta = (std::isnan(arg))? 0 : atan(arg);
+	theta = radianTheta * 180 / M_PI;
+
+	/* vec       = std::make_unique<Field>(nx, ny, 1, Lx, Ly); */
+	/* variables["radianTheta"] = radianTheta; */
+	/* vec->set("cos(radianTheta) * x + sin(radianTheta) * y", variables); */
+	/* U = *(*(*vec/(-r)) + 1.0) * U0; */
+	/* delta = *( *(*Tw - Tm)/(*U) ) * (kL/(rhoS*hmStar)); */
 
 	for(int i=0; i<nx; i++)
 		for(int j=0; j<ny; j++)
@@ -132,17 +134,6 @@ Model::Model(std::string iniPath)
 			delta->set(i,j, kL * (Tw->get(i,j) - Tm)/(rhoS * hmStar * UVal(i,j)));
 		}
 
-	bcSouth = (southBC == DIRICHLET) ? Tw->copy() : qw->copy()->divide(-kL);
-
-	Field * num = bcSouth->differentiate(CX2, Y);
-	Field * den = bcSouth->differentiate(CX2, X);
-
-	double arg = num->average() / den->average();
-	radianTheta = (std::isnan(arg))? 0 : atan(arg);
-	theta = radianTheta * 180 / M_PI;
-
-	delete num;
-	delete den;
 
 }
 
@@ -155,17 +146,6 @@ Model::Model(std::string iniPath)
 
 Model::~Model()
 {
-	delete Tw;
-	delete qw;
-	delete delta;
-	delete p;
-	delete qStefan;
-	delete qNorth;
-	delete T;
-	delete u;
-	delete v;
-	delete w;
-	delete bcSouth;
 }
 
 /**
@@ -203,7 +183,9 @@ void Model::solve()
 	{
 		printf("Main Loop: %d\n", ++iter);
 
+
 		find_U();
+
 		find_r();
 
 		if(std::fabs(Fscrew - F) >= FTol)
@@ -251,10 +233,12 @@ void Model::solve()
 				iter, U0, r, delta->average(), p->average(), T->average(),
 				u->average(),v->average(), w->average(), maxFluxError, relativeMFE);
 
-		plot.image(delta);
+		plot.image(delta.get());
 		/* fprintf(plot.gnu, gnucmd); */
 
 	}
+
+	free(gnucmd);
 
 	if( iter >= maxMainIter )
 	{
@@ -295,11 +279,15 @@ void Model::update_fields()
 {
 	if(recalcDelta == 1)
 	{
+		/* U = *(*(*vec/(-r)) + 1.0) * U0; */
+		/* delta = *( *(*Tw - Tm)/(*U) ) * (kL/(rhoS*hmStar)); */
+
 		for(int i=0; i<nx; i++)
 			for(int j=0; j<ny; j++)
 			{
 				delta->set(i,j, kL * (Tw->get(i,j) - Tm)/(rhoS * hmStar * UVal(i,j)));
 			}
+
 	}
 
 	PSolveWrapper();

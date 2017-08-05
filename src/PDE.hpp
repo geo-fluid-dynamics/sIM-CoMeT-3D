@@ -4,16 +4,16 @@
 
 class PDE {
 	public:
-		Field *xx;
-		Field *yy;
-		Field *zz;
-		Field *xy;
-		Field *yz;
-		Field *zx;
-		Field *x;
-		Field *y;
-		Field *z;
-		Field *rhs;
+		Field * xx;
+		Field * yy;
+		Field * zz;
+		Field * xy;
+		Field * yz;
+		Field * zx;
+		Field * x;
+		Field * y;
+		Field * z;
+		Field * rhs;
 
 		double nx;
 		double ny;
@@ -23,9 +23,9 @@ class PDE {
 		double dy;
 		double dz;
 
-		PDE(Field * field);
 		PDE();
 		PDE(int nx, int ny, int nz, double dx, double dy, double dz);
+		PDE(Field & field);
 		bool isFinite();
 };
 #endif
