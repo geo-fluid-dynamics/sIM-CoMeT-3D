@@ -74,25 +74,27 @@ void Model::find_U()
 void Model::init_uvw()
 {
 
-	auto Dp_Dx     = p->differentiate(CX2, X);
-	auto Dp_Dy     = p->differentiate(CX2, Y);
-	auto D2p_Dx2   = p->differentiate(CXX2, X);
-	auto D2p_Dy2   = p->differentiate(CXX2, Y);
-	auto Ddelta_Dx = delta->differentiate(CX2, X);
-	auto Ddelta_Dy = delta->differentiate(CX2, Y);
-	auto lapl_p = (*D2p_Dx2) + (*D2p_Dy2);
+	/* auto Dp_Dx     = p->differentiate(CX2, X); */
+	/* auto Dp_Dy     = p->differentiate(CX2, Y); */
+	/* auto D2p_Dx2   = p->differentiate(CXX2, X); */
+	/* auto D2p_Dy2   = p->differentiate(CXX2, Y); */
+	/* auto Ddelta_Dx = delta->differentiate(CX2, X); */
+	/* auto Ddelta_Dy = delta->differentiate(CX2, Y); */
+	/* auto lapl_p = (*D2p_Dx2) + (*D2p_Dy2); */
 
-	/* auto Dp_Dx     = p->differentiate(CX2, X)->replicateZ(nz); */
-	/* auto Dp_Dy     = p->differentiate(CX2, Y)->replicateZ(nz); */
-	/* auto D2p_Dx2   = p->differentiate(CXX2, X)->replicateZ(nz); */
-	/* auto D2p_Dy2   = p->differentiate(CXX2, Y)->replicateZ(nz); */
-	/* auto Ddelta_Dx = delta->differentiate(CX2, X)->replicateZ(nz); */
-	/* auto Ddelta_Dy = delta->differentiate(CX2, Y)->replicateZ(nz); */
-	/* auto lapl_p = ((*D2p_Dx2) + (*D2p_Dy2))->replicateZ(nz); */
+	auto Dp_Dx     = p->differentiate(CX2, X)->replicateZ(nz);
+	auto Dp_Dy     = p->differentiate(CX2, Y)->replicateZ(nz);
+	auto D2p_Dx2   = p->differentiate(CXX2, X)->replicateZ(nz);
+	auto D2p_Dy2   = p->differentiate(CXX2, Y)->replicateZ(nz);
+	auto Ddelta_Dx = delta->differentiate(CX2, X)->replicateZ(nz);
+	auto Ddelta_Dy = delta->differentiate(CX2, Y)->replicateZ(nz);
+	auto lapl_p = ((*D2p_Dx2) + (*D2p_Dy2))->replicateZ(nz);
 
-	/* auto z3d = std::make_unique<Field>(*u); */
-	/* z3d->set("z"); */
-	/* z3d = (*z3d) * (*delta); */
+	auto delta_3D = delta->replicateZ(nz);
+
+	auto z3d = std::make_unique<Field>(*u);
+	z3d->set("z", variables);
+	z3d = (*z3d) * (*delta_3D);
 
 	double z;
 	double value;
@@ -102,49 +104,55 @@ void Model::init_uvw()
 	if(nx!=1)
 	{
 
-		for(int i = 0; i < nx; i++)
-			for(int j = 0; j < ny; j++)
-				for(int k = 0; k < nz; k++)
-				{
-					z = (double)k * delta->get(i, j) / (nz-1);
-					value = Dp_Dx->get(i, j) * z * (z - delta->get(i,j)) / (2*mu);
-					u->set(i, j, k, value);
-				}
-		assert(u->isFinite());
-
-		/* u = *(  *( ( *Dp_Dx ) * (*z3d) ) * *(*z3d - *(delta->replicateZ(nz)) ) ) / (2*mu); */
-		/* u->print(); */
-		/* std::cout << z3d->dz << "\n"; */
+		/* for(int i = 0; i < nx; i++) */
+		/* 	for(int j = 0; j < ny; j++) */
+		/* 		for(int k = 0; k < nz; k++) */
+		/* 		{ */
+		/* 			z = (double)k * delta->get(i, j) / (nz-1); */
+		/* 			value = Dp_Dx->get(i, j) * z * (z - delta->get(i,j)) / (2*mu); */
+		/* 			u->set(i, j, k, value); */
+		/* 		} */
 		/* assert(u->isFinite()); */
+
+		u = *(  *( ( *Dp_Dx ) * (*z3d) ) * *(*z3d - *(delta_3D)) ) / (2*mu);
+		assert(u->isFinite());
 
 	}
 
 	if(ny!=1)
 	{
-		for(int i = 0; i < nx; i++)
-			for(int j = 0; j < ny; j++)
-				for(int k = 0; k < nz; k++)
-				{
-					z =(double) k * delta->get(i, j)/(nz-1);
-					value = Dp_Dy->get(i, j) * z * (z - delta->get(i,j)) / (2*mu);
-					v->set(i, j, k, value);
-				}
-		assert(v->isFinite());
+		/* for(int i = 0; i < nx; i++) */
+		/* 	for(int j = 0; j < ny; j++) */
+		/* 		for(int k = 0; k < nz; k++) */
+		/* 		{ */
+		/* 			z =(double) k * delta->get(i, j)/(nz-1); */
+		/* 			value = Dp_Dy->get(i, j) * z * (z - delta->get(i,j)) / (2*mu); */
+		/* 			v->set(i, j, k, value); */
+		/* 		} */
+		/* assert(v->isFinite()); */
+
+		v = *(  *( ( *Dp_Dy ) * (*z3d) ) * *(*z3d - *(delta_3D)) ) / (2*mu);
+		assert(u->isFinite());
+
 
 	}
 
-	for(int i = 0; i < nx; i++)
-		for(int j = 0; j < ny; j++)
-		{
-			fo_term = Dp_Dx->get(i,j) * Ddelta_Dx->get(i,j) + Dp_Dy->get(i,j) * Ddelta_Dy->get(i,j);
-			for(int k = 0; k < nz; k++)
-			{
-				z =(double) k * delta->get(i, j) / (nz-1);
-				value = - (lapl_p->get(i, j) * (pow(z, 3) / 3 - delta->get(i,j) * pow(z, 2) / 2) - pow(z, 2)/2 * fo_term)  / (2*mu);
-				w->set(i,j,k, value);
-			}
+	/* for(int i = 0; i < nx; i++) */
+	/* 	for(int j = 0; j < ny; j++) */
+	/* 	{ */
+	/* 		fo_term = Dp_Dx->get(i,j) * Ddelta_Dx->get(i,j) + Dp_Dy->get(i,j) * Ddelta_Dy->get(i,j); */
+	/* 		for(int k = 0; k < nz; k++) */
+	/* 		{ */
+	/* 			z =(double) k * delta->get(i, j) / (nz-1); */
+	/* 			value = - (lapl_p->get(i, j) * (pow(z, 3) / 3 - delta->get(i,j) * pow(z, 2) / 2) - pow(z, 2)/2 * fo_term)  / (2*mu); */
+	/* 			w->set(i,j,k, value); */
+	/* 		} */
+	/* 	} */
 
-		}
+	auto cross_term = *(*Dp_Dx * *Ddelta_Dx) + *(*Dp_Dy * *Ddelta_Dy);
+	auto first_term = *(*(*z3d^3)/3) - *(*(*z3d^2) * *(*delta_3D/2));
+	w = *( *( *lapl_p * *first_term ) - *( *( *(*z3d^2)/2 ) * *cross_term) ) / (-2*mu);
+
 
 
 }
@@ -156,12 +164,14 @@ void Model::calc_maxFluxError()
 
 	double value;
 
-	for(int i = 0; i < nx; i++)
-		for( int j = 0; j < ny; j++)
-		{
-			value = - hmStar * rhoL * w->get(i,j, nz-1)/kL;
-			qStefan->set(i,j, value);
-		}
+	/* for(int i = 0; i < nx; i++) */
+	/* 	for( int j = 0; j < ny; j++) */
+	/* 	{ */
+	/* 		value = - hmStar * rhoL * w->get(i,j, nz-1)/kL; */
+	/* 		qStefan->set(i,j, value); */
+	/* 	} */
+
+	qStefan = *(w->getSubfield(0,nx-1, 0,ny-1, nz-1, nz-1) ) * (-hmStar*rhoL/kL);
 
 	maxFluxError = 0;
 	double fluxError;
@@ -171,14 +181,19 @@ void Model::calc_maxFluxError()
 	int sy = (ny==1)? 0 : 1;
 	int ey = (ny==1)? 1 : ny-1;
 
+
+	//currently only runs for interior nodes.
+	//because corners are always 0 due to dp/dx and dp/dy = 0 which are used in w
 	for(int i = sx; i < ex; i++)
 		for( int j = sy; j < ey; j++)
 		{
 			fluxError = std::fabs(qStefan->get(i,j) - qNorth->get(i,j));
-			/* printf("%e\n", fluxError ); */
 			if(maxFluxError < fluxError)
 				maxFluxError = fluxError;
 		}
+
+	//to be used when above issue is fixed.
+	//double maxFluxError = (qStefan - qNorth)->max();
 
 	relativeMFE = maxFluxError/qStefan->average();
 
@@ -273,12 +288,14 @@ void Model::TSolveWrapper()
 	alphaField->setAll(alpha);
 
 	auto zeta = std::make_unique<Field>(T.get());
-	for(int i=0; i<zeta->nx; i++)
-		for(int j=0; j<zeta->ny; j++)
-			for(int k=0; k<zeta->nz; k++)
-			{
-				zeta->set(i,j,k, (double)k/(zeta->nz-1));
-			}
+	zeta->set("z", variables);
+
+	/* for(int i=0; i<zeta->nx; i++) */
+	/* 	for(int j=0; j<zeta->ny; j++) */
+	/* 		for(int k=0; k<zeta->nz; k++) */
+	/* 		{ */
+	/* 			zeta->set(i,j,k, (double)k/(zeta->nz-1)); */
+	/* 		} */
 
 	auto delta_3D = delta->replicateZ(nz);
 	auto Ddelta_Dx = delta_3D->differentiate(CX2, X);
@@ -341,12 +358,16 @@ void Model::PSolveWrapper()
 	auto x_coeff    = *(Ddelta_Dx) * (*term);
 	auto y_coeff    = *(Ddelta_Dy) * (*term);
 
-	auto rhs = std::make_unique<Field>(*p);
-	for(int i=0; i < nx; i++)
-		for(int j=0; j<ny; j++)
-		{
-			rhs->set(i,j, -2*mu*rhoS/rhoL*UVal(i,j));
-		}
+
+	U = *(*(*vec/(-r)) + 1.0) * U0;
+	auto rhs = *U * (-2*mu*rhoS/rhoL);
+
+	/* auto rhs = std::make_unique<Field>(*p); */
+	/* for(int i=0; i < nx; i++) */
+	/* 	for(int j=0; j<ny; j++) */
+	/* 	{ */
+	/* 		rhs->set(i,j, -2*mu*rhoS/rhoL*UVal(i,j)); */
+	/* 	} */
 
 	pEqn.xx  = lapl_coeff.get();
 	pEqn.yy  = lapl_coeff.get();

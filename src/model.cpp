@@ -91,7 +91,7 @@ Model::Model(std::string iniPath)
 
 	Tw      = std::make_unique<Field>(nx, ny, 1, Lx, Ly);
 	qw      = std::make_unique<Field>(nx, ny, 1, Lx, Ly);
-	delta   = std::make_unique<Field>(nx, ny, 1, Lx, Ly);
+	/* delta   = std::make_unique<Field>(nx, ny, 1, Lx, Ly); */
 	p       = std::make_unique<Field>(nx, ny, 1, Lx, Ly);
 	qStefan = std::make_unique<Field>(nx, ny, 1, Lx, Ly);
 	qNorth  = std::make_unique<Field>(nx, ny, 1, Lx, Ly);
@@ -106,11 +106,11 @@ Model::Model(std::string iniPath)
 	variables["Lx"] = Lx;
 
 	if(southBC == DIRICHLET)
-		Tw->set(TwExp);
+		Tw->set(TwExp, variables);
 	else
 		Tw->setAll(Tm + 0.1);
 
-	qw->set(qwExp);
+	qw->set(qwExp, variables);
 
 	bcSouth = (southBC == DIRICHLET) ? Tw->copy() : *qw / (-kL);
 	/* *bcSouth = (southBC == DIRICHLET) ? *Tw : *(*qw / (-kL)); */
@@ -122,17 +122,18 @@ Model::Model(std::string iniPath)
 	radianTheta = (std::isnan(arg))? 0 : atan(arg);
 	theta = radianTheta * 180 / M_PI;
 
-	/* vec       = std::make_unique<Field>(nx, ny, 1, Lx, Ly); */
-	/* variables["radianTheta"] = radianTheta; */
-	/* vec->set("cos(radianTheta) * x + sin(radianTheta) * y", variables); */
-	/* U = *(*(*vec/(-r)) + 1.0) * U0; */
-	/* delta = *( *(*Tw - Tm)/(*U) ) * (kL/(rhoS*hmStar)); */
+	vec       = std::make_unique<Field>(nx, ny, 1, Lx, Ly);
+	variables["radianTheta"] = radianTheta;
+	vec->set("cos(radianTheta) * x + sin(radianTheta) * y", variables);
 
-	for(int i=0; i<nx; i++)
-		for(int j=0; j<ny; j++)
-		{
-			delta->set(i,j, kL * (Tw->get(i,j) - Tm)/(rhoS * hmStar * UVal(i,j)));
-		}
+	U = *(*(*vec/(-r)) + 1.0) * U0;
+	delta = *( *(*Tw - Tm)/(*U) ) * (kL/(rhoS*hmStar));
+
+	/* for(int i=0; i<nx; i++) */
+	/* 	for(int j=0; j<ny; j++) */
+	/* 	{ */
+	/* 		delta->set(i,j, kL * (Tw->get(i,j) - Tm)/(rhoS * hmStar * UVal(i,j))); */
+	/* 	} */
 
 
 }
@@ -279,30 +280,30 @@ void Model::update_fields()
 {
 	if(recalcDelta == 1)
 	{
-		/* U = *(*(*vec/(-r)) + 1.0) * U0; */
-		/* delta = *( *(*Tw - Tm)/(*U) ) * (kL/(rhoS*hmStar)); */
 
-		for(int i=0; i<nx; i++)
-			for(int j=0; j<ny; j++)
-			{
-				delta->set(i,j, kL * (Tw->get(i,j) - Tm)/(rhoS * hmStar * UVal(i,j)));
-			}
+		U = *(*(*vec/(-r)) + 1.0) * U0;
+		delta = *( *(*Tw - Tm)/(*U) ) * (kL/(rhoS*hmStar));
+
+		/* for(int i=0; i<nx; i++) */
+		/* 	for(int j=0; j<ny; j++) */
+		/* 	{ */
+		/* 		delta->set(i,j, kL * (Tw->get(i,j) - Tm)/(rhoS * hmStar * UVal(i,j))); */
+		/* 	} */
 
 	}
 
 	PSolveWrapper();
 
-	Field * pv = new Field (nx, ny, 1, Lx, Ly);
+	/* Field * pv = new Field (nx, ny, 1, Lx, Ly); */
+	/* for(int i=0; i<nx; i++) */
+	/* 	for(int j=0; j<ny; j++) */
+	/* 	{ */
+	/* 		pv->set(i, j, p->get(i,j,0)*( cos(radianTheta) * xVal(i)) + sin(radianTheta) * yVal(j) )  ; */
+	/* 	} */
 
-	for(int i=0; i<nx; i++)
-		for(int j=0; j<ny; j++)
-		{
-			pv->set(i, j, p->get(i,j,0)*( cos(radianTheta) * xVal(i)) + sin(radianTheta) * yVal(j) )  ;
-		}
+	auto pv = *p * *vec;
 
 	Mtheta = pv->integrateXY();
-
-	delete pv;
 
 }
 

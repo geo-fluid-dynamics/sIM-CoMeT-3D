@@ -586,13 +586,13 @@ double Field::yVal(int j)
 	return (ny==1)? 0 : -Ly + 2*Ly/(ny-1)*j;
 }
 
-/* void Field::set(std::string expression_string, std::map<std::string, double> variables) */
-void Field::set(std::string expression_string)
+void Field::set(std::string expression_string, std::map<std::string, double> variables)
+/* void Field::set(std::string expression_string) */
 {
 
 	const std::string e = expression_string;
 
-	std::map<std::string, double> variables;
+	/* std::map<std::string, double> variables; */
 	variables["Lx"]     = this->Lx;
 	variables["Ly"]     = this->Ly;
 

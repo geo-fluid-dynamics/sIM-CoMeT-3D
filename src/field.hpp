@@ -45,8 +45,8 @@ class Field {
 		void set(int i, int j, int k, double value);
 		void set(Side side, double value);
 		void set(int i, int j, double value);
-		void set(std::string expression_string);
-		/* void set(std::string expression_string, std::map<std::string, double> variables); */
+		/* void set(std::string expression_string); */
+		void set(std::string expression_string, std::map<std::string, double> variables);
 		void setSubfield(int i1, int i2, int j1, int j2, int k1, int k2, Field & field);
 		void setAll(double value);
 		void print();

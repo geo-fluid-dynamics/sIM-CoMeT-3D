@@ -87,6 +87,7 @@ class Model {
 		~Model();
 		void solve();
 		void printInputs();
+		void printOutputs();
 		void combinedUpdate();
 		void combinedUpdate2();
 
@@ -107,7 +108,6 @@ class Model {
 		void TSolveWrapper();
 		void PSolveWrapper();
 
-		void printOutputs();
 
 };
 #endif
