@@ -84,6 +84,19 @@ std::unique_ptr<Field> operator/(Field & f1, double value)
 	return newField;
 }
 
+std::unique_ptr<Field> operator/(double value, Field & f1)
+{
+	auto newField = std::make_unique<Field>(f1);
+	for(int i=0; i<f1.nx; i++)
+		for(int j=0; j<f1.ny; j++)
+			for(int k=0; k<f1.nz; k++)
+			{
+				newField->set(i,j,k, value/f1.get(i,j,k));
+			}
+
+	return newField;
+}
+
 std::unique_ptr<Field> operator^(Field & f1, double n)
 {
 

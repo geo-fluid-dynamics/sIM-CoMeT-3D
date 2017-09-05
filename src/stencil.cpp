@@ -41,15 +41,15 @@ void Stencil::reset()
 
 void Stencil::discretize(double coeff, dMode mode, dDir dir)
 {
-
-	std::vector<double> vec = coeffs[mode];
-	double h = (mode == CXX2 || mode == FXX1 || mode == BXX1) ? 2 : 1;
-
 	if(mode == ONE)
 	{
 		_stencil[2][2][2] += 1;
 		return;
 	}
+
+	std::vector<double> vec = coeffs[mode];
+	double h = (mode == CXX2 || mode == FXX1 || mode == BXX1) ? 2 : 1;
+
 
 	switch(dir)
 	{

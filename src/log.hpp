@@ -8,8 +8,10 @@ class Log
 {
 	public:
 		std::string filename;
-		FILE * ptr;
+		FILE * logPTR;
+		FILE * inputsPTR;
 		Log();
+		Log(std::string filepath);
 		~Log();
 		void writeHeader();
 		void writeFooter();

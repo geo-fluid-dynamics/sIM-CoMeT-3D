@@ -32,7 +32,7 @@ run: all
 clean:
 	$(RM) $(OBJ)
 	$(RM) $(EXE)
-	$(RM) outputs/* logs/*
+	$(RM) -r outputs/* logs/*
 
 # .PHONY: test
 # test:	$(BASE) test_main.c

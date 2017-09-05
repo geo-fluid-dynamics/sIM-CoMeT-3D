@@ -5,11 +5,13 @@
 #include "enum.hpp"
 #include "field.hpp"
 #include <memory>
+#include <map>
 
 class Model {
 
 	public:
 		std::map<std::string, double> variables;
+		std::string modelID;
 
 		double mu;
 		double Tm;
@@ -65,6 +67,8 @@ class Model {
 		std::unique_ptr<Field> vec;
 		std::unique_ptr<Field> U;
 
+		std::unique_ptr<Field> sensorFilter;
+
 		double U0;
 		double r;
 		double Mx;
@@ -81,6 +85,13 @@ class Model {
 
 		double maxFluxError;
 		double relativeMFE;
+		double relativeU0;
+
+		int exitVarFlag;
+		std::map< std::string, Field * > fieldMap;
+
+		std::unique_ptr<Field> radianThetaField;
+		std::unique_ptr<Field> vecField;
 
 		/* Model(); */
 		Model(std::string iniPath);
@@ -90,6 +101,8 @@ class Model {
 		void printOutputs();
 		void combinedUpdate();
 		void combinedUpdate2();
+		void Plot_FU();
+		void Plot_Mr();
 
 	private:
 		double xVal(int i);
@@ -107,6 +120,12 @@ class Model {
 
 		void TSolveWrapper();
 		void PSolveWrapper();
+
+		void updateMap();
+
+		void parseINI(std::string iniPath);
+
+		std::unique_ptr<Field> get_rhsDdelta();
 
 
 };

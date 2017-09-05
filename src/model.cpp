@@ -16,6 +16,7 @@
 #include <vector>
 #include <assert.h>
 #include <time.h>
+#include <stdlib.h>
 
 #include "PDE.hpp"
 #include "solver.hpp"
@@ -25,6 +26,9 @@
 
 #include "packages/inih/INIReader.h"
 #include "operators.hpp"
+
+#include <sys/types.h>
+#include <sys/stat.h>
 
 /**
  * \brief Constructor for the Model class
@@ -41,46 +45,7 @@
 Model::Model(std::string iniPath)
 {
 
-	INIReader reader(iniPath);
-
-	if (reader.ParseError() < 0) {
-		std::cout << "Can't load 'test.ini'\n";
-		exit(-1);
-	}
-
-	mu     = reader.GetReal("constants", "mu"    , 0.001  );
-	Tm     = reader.GetReal("constants", "Tm"    , 0      );
-	Tinf   = reader.GetReal("constants", "Tinf"  , -20    );
-	hm     = reader.GetReal("constants", "hm"    , 3.337e5);
-	cpL    = reader.GetReal("constants", "cpL"   , 4222.22);
-	cpS    = reader.GetReal("constants", "cpS"   , 2049.41);
-	rhoL   = reader.GetReal("constants", "rhoL"  , 1000   );
-	rhoS   = reader.GetReal("constants", "rhoS"  , 920    );
-	kL     = reader.GetReal("constants", "kL"    , 0.57   );
-	Lx     = reader.GetReal("constants", "Lx"    , 0.075  );
-	Ly     = reader.GetReal("constants", "Ly"    , 0.075  );
-	Fscrew = reader.GetReal("constants", "Fscrew", 375    );
-
-	southBC = reader.GetBoundary("boundaryConditions", "southBC", DIRICHLET);
-	sidesBC = reader.GetBoundary("boundaryConditions", "sidesBC", NEUMANN);
-
-	TwExp   = reader.Get("boundaryConditions", "TwExp", "40+10*(x/Lx+y/Ly)");
-	qwExp   = reader.Get("boundaryConditions", "qwExp", "10");
-
-	nx = reader.GetInteger("gridSizes", "nx", 30);
-	ny = reader.GetInteger("gridSizes", "ny", 30);
-	nz = reader.GetInteger("gridSizes", "nz", 30);
-
-	maxFindIter         = reader.GetInteger("parameters", "maxFindIter"     , 100);
-	maxMainIter         = reader.GetInteger("parameters", "maxMainIter"     , 9999);
-
-	MTol                = reader.GetReal("parameters", "MTol"               , 1e-10);
-	FTol                = reader.GetReal("parameters", "FTol"               , 1e-6 );
-	allowedMaxFluxError = reader.GetReal("parameters", "allowedMaxFluxError", 100  );
-	allowedRelativeMFE  = reader.GetReal("parameters", "allowedRelativeMFE" , 1e-6 );
-	deltaCoeffMin       = reader.GetReal("parameters", "deltaCoeffMin"      , 0.7  );
-	deltaCoeffMax       = reader.GetReal("parameters", "deltaCoeffMax"      , 1.3  );
-	deltaRelax          = reader.GetReal("parameters", "deltaRelax"         , 0.05 );
+	parseINI(iniPath);
 
 	dx = 2.0*Lx/(nx-1);
 	dy = 2.0*Ly/(ny-1);
@@ -91,7 +56,6 @@ Model::Model(std::string iniPath)
 
 	Tw      = std::make_unique<Field>(nx, ny, 1, Lx, Ly);
 	qw      = std::make_unique<Field>(nx, ny, 1, Lx, Ly);
-	/* delta   = std::make_unique<Field>(nx, ny, 1, Lx, Ly); */
 	p       = std::make_unique<Field>(nx, ny, 1, Lx, Ly);
 	qStefan = std::make_unique<Field>(nx, ny, 1, Lx, Ly);
 	qNorth  = std::make_unique<Field>(nx, ny, 1, Lx, Ly);
@@ -100,10 +64,8 @@ Model::Model(std::string iniPath)
 	v       = std::make_unique<Field>(nx, ny, nz, Lx, Ly);
 	w       = std::make_unique<Field>(nx, ny, nz, Lx, Ly);
 
-	r = 0.1;
-	U0 = 1e-4;
 
-	variables["Lx"] = Lx;
+	variables["pi"] = M_PI;
 
 	if(southBC == DIRICHLET)
 		Tw->set(TwExp, variables);
@@ -113,7 +75,6 @@ Model::Model(std::string iniPath)
 	qw->set(qwExp, variables);
 
 	bcSouth = (southBC == DIRICHLET) ? Tw->copy() : *qw / (-kL);
-	/* *bcSouth = (southBC == DIRICHLET) ? *Tw : *(*qw / (-kL)); */
 
 	auto num = bcSouth->differentiate(CX2, Y);
 	auto den = bcSouth->differentiate(CX2, X);
@@ -122,19 +83,36 @@ Model::Model(std::string iniPath)
 	radianTheta = (std::isnan(arg))? 0 : atan(arg);
 	theta = radianTheta * 180 / M_PI;
 
+	radianThetaField = std::make_unique<Field>(nx, ny, 1, Lx, Ly);
+	vecField = std::make_unique<Field>(nx, ny, 1, Lx, Ly);
+
+	auto argField = *num/ *den;
+	double val;
+	for(int i=0; i<nx; i++)
+		for(int j=0; j<ny; j++)
+		{
+			val = argField->get(i,j);
+			radianThetaField->set(i,j, std::isnan(val)? 0 : atan(val));
+		}
+
+	for(int i=0; i<nx; i++)
+		for(int j=0; j<ny; j++)
+		{
+			vecField->set(i,j, cos(radianThetaField->get(i,j))*xVal(i) + sin(radianThetaField->get(i,j))*yVal(j) );
+ 		}
+
+
+
+
+
+
 	vec       = std::make_unique<Field>(nx, ny, 1, Lx, Ly);
 	variables["radianTheta"] = radianTheta;
 	vec->set("cos(radianTheta) * x + sin(radianTheta) * y", variables);
 
 	U = *(*(*vec/(-r)) + 1.0) * U0;
+	/* U = *(*(*vecField/(-r)) + 1.0) * U0; */
 	delta = *( *(*Tw - Tm)/(*U) ) * (kL/(rhoS*hmStar));
-
-	/* for(int i=0; i<nx; i++) */
-	/* 	for(int j=0; j<ny; j++) */
-	/* 	{ */
-	/* 		delta->set(i,j, kL * (Tw->get(i,j) - Tm)/(rhoS * hmStar * UVal(i,j))); */
-	/* 	} */
-
 
 }
 
@@ -168,26 +146,59 @@ void Model::solve()
 {
 	clock_t start = clock();
 
-	Log log;
-	fprintf(log.ptr, "iter\t\t\t\tU0\t\t\t\tr\t\t\t\tdelta\t\t\t\tp\t\t\t\tT\t\t\t\tu\t\t\t\tv\t\t\t\tw\t\t\t\tMFE\t\t\t\trelMFE\n");
+	char * timestr = (char*)malloc(16);
+	time_t timestamp = time(NULL);
+	strftime(timestr, 16, "%Y%m%d_%H%M%S", localtime(&timestamp));
+	assert(timestr);
+	std::string solveID(timestr);
+	free(timestr);
+
+	std::string directory = "outputs/" + solveID;
+	std::string avgDir = directory + "/avg";
+	std::string fieldsDir = directory + "/fields";
+
+	struct stat st = {0};
+	if (stat(directory.c_str(), &st) == -1)
+		mkdir(directory.c_str(), 0755);
+	if (stat(avgDir.c_str(), &st) == -1)
+		mkdir(avgDir.c_str(), 0755);
+	if (stat(fieldsDir.c_str(), &st) == -1)
+		mkdir(fieldsDir.c_str(), 0755);
+
+	std::vector<std::string> logColumns = {"NULL", "iter", "U0", "r", "delta", "p", "T", "u", "v", "w", "qStefan", "qNorth","MFE", "RMFE", "RU0"};
+
+	/* Log log; */
+	Log log(directory);
+	/* fprintf(log.logPTR, "iter\t\t\t\tU0\t\t\t\tr\t\t\t\tdelta\t\t\t\tp\t\t\t\tT\t\t\t\tu\t\t\t\tv\t\t\t\tw\t\t\t\tMFE\t\t\t\trelMFE\n"); */
 
 	Plot plot;
 
-	char * gnucmd = (char*)malloc(100);
-	snprintf(gnucmd, 100, "plot '%s' using 1:10 w l\n", log.filename.c_str());
+	int index_var = 10;
+	std::string gnucmd = "plot '" + log.filename +"' using 1:" + std::to_string(index_var) + " w l\n";
 
 	int iter=0;
 
 	int itsolve=0;
+
+	double oldU0;
+
+	double * allowedExitVarPtr = (exitVarFlag == 0)? &allowedMaxFluxError : &allowedRelativeMFE;
+	double * exitVarPtr = (exitVarFlag == 0)? &maxFluxError : &relativeMFE;
+
+	/* fprintf(plot.gnu, "set terminal gif animate delay 100\n"); */
+	/* fprintf(plot.gnu, "set output 'test.gif'\n"); */
 
 	while(iter < maxMainIter)
 	{
 		printf("Main Loop: %d\n", ++iter);
 
 
+		oldU0 = U0;
 		find_U();
+		relativeU0 = fabs(U0 - oldU0)/U0;
 
 		find_r();
+
 
 		if(std::fabs(Fscrew - F) >= FTol)
 		{
@@ -201,45 +212,55 @@ void Model::solve()
 		{
 			TSolveWrapper();
 			itsolve++;
-
 		}
 
 		calc_maxFluxError();
 
-		/* break based on absolute MFE */
-		if(maxFluxError <= allowedMaxFluxError)
+
+		//break loop
+		if(*exitVarPtr<= *allowedExitVarPtr)
 		{
 			TSolveWrapper();
 			itsolve++;
 			calc_maxFluxError();
-			if(maxFluxError <= allowedMaxFluxError)
+			if(*exitVarPtr<= *allowedExitVarPtr)
 			{
 				printf("Breaking with MFE = %f\n", maxFluxError);
 				break;
 			}
 		}
 
-		/* if(relativeMFE <= allowedRelativeMFE) */
-		/* { */
-		/* 	printf("Breaking with MFE = %f\n", maxFluxError); */
-		/* 	break; */
-		/* } */
-
-
 		adjustDelta();
 		recalcDelta = 0;
 		printOutputs();
 
-		fprintf(log.ptr, "%4d\t%e\t%e\t%e\t%e\t%e\t%e\t%e\t%e\t%e\t%e\n",
+		fprintf(log.logPTR, "%4d\t%e\t%e\t%e\t%e\t%e\t%e\t%e\t%e\t%e\t%e\t%e\t%e\t%e\n",
 				iter, U0, r, delta->average(), p->average(), T->average(),
-				u->average(),v->average(), w->average(), maxFluxError, relativeMFE);
+				u->average(),v->average(), w->average(), qStefan->average(), qNorth->average(), maxFluxError, relativeMFE, relativeU0);
 
-		plot.image(delta.get());
-		/* fprintf(plot.gnu, gnucmd); */
+		/* plot.image(delta.get()); */
+		plot.setSurface();
+		plot.surface(delta.get());
+		/* fprintf(plot.gnu, gnucmd.c_str()); */
 
 	}
 
-	free(gnucmd);
+	//render average plots
+	fflush(log.logPTR);
+	fprintf(plot.gnu, "unset output\n");
+	fprintf(plot.gnu, "set terminal png\n");
+	for(int i=2; i<=14; i++)
+	{
+		fprintf(plot.gnu, "set output '%s/plot%02d.png'\n", avgDir.c_str(), i);
+		fprintf(plot.gnu, "set title '%s'\n", logColumns[i].c_str());
+		fprintf(plot.gnu, "plot '%s' using 1:%d w l\n", log.filename.c_str(), i );
+		fflush(plot.gnu);
+	}
+
+	updateMap();
+	plot.saveImage(fieldMap, fieldsDir);
+	/* plot.saveSurface(fieldMap, fieldsDir); */
+
 
 	if( iter >= maxMainIter )
 	{
@@ -249,9 +270,6 @@ void Model::solve()
 	double duration = (double) (clock() - start)/CLOCKS_PER_SEC;
 	printf("Time of Exec = %.2fs\n", duration);
 	printf("solved temp %d times\n", itsolve);
-
-	/* log.writeHeader(); */
-	/* log.writeFooter(); */
 
 }
 
@@ -280,28 +298,15 @@ void Model::update_fields()
 {
 	if(recalcDelta == 1)
 	{
-
 		U = *(*(*vec/(-r)) + 1.0) * U0;
+		/* U = *(*(*vecField/(-r)) + 1.0) * U0; */
 		delta = *( *(*Tw - Tm)/(*U) ) * (kL/(rhoS*hmStar));
-
-		/* for(int i=0; i<nx; i++) */
-		/* 	for(int j=0; j<ny; j++) */
-		/* 	{ */
-		/* 		delta->set(i,j, kL * (Tw->get(i,j) - Tm)/(rhoS * hmStar * UVal(i,j))); */
-		/* 	} */
-
 	}
 
 	PSolveWrapper();
 
-	/* Field * pv = new Field (nx, ny, 1, Lx, Ly); */
-	/* for(int i=0; i<nx; i++) */
-	/* 	for(int j=0; j<ny; j++) */
-	/* 	{ */
-	/* 		pv->set(i, j, p->get(i,j,0)*( cos(radianTheta) * xVal(i)) + sin(radianTheta) * yVal(j) )  ; */
-	/* 	} */
-
 	auto pv = *p * *vec;
+	/* auto pv = *p * *vecField; */
 
 	Mtheta = pv->integrateXY();
 
@@ -358,3 +363,92 @@ void Model::printInputs()
 	cout << "theta = " << theta << "\n";
 
 }
+
+void Model::parseINI(std::string iniPath)
+{
+	INIReader reader(iniPath);
+
+	if (reader.ParseError() < 0) {
+		std::cout << "Can't load 'test.ini'\n";
+		exit(-1);
+	}
+
+	mu     = reader.GetReal("constants", "mu"    , 0.001  );
+	Tm     = reader.GetReal("constants", "Tm"    , 0      );
+	Tinf   = reader.GetReal("constants", "Tinf"  , -20    );
+	hm     = reader.GetReal("constants", "hm"    , 3.337e5);
+	cpL    = reader.GetReal("constants", "cpL"   , 4222.22);
+	cpS    = reader.GetReal("constants", "cpS"   , 2049.41);
+	rhoL   = reader.GetReal("constants", "rhoL"  , 1000   );
+	rhoS   = reader.GetReal("constants", "rhoS"  , 920    );
+	kL     = reader.GetReal("constants", "kL"    , 0.57   );
+	Lx     = reader.GetReal("constants", "Lx"    , 0.075  );
+	Ly     = reader.GetReal("constants", "Ly"    , 0.075  );
+	Fscrew = reader.GetReal("constants", "Fscrew", 375    );
+
+	southBC = reader.GetBoundary("boundaryConditions", "southBC", DIRICHLET);
+	sidesBC = reader.GetBoundary("boundaryConditions", "sidesBC", NEUMANN);
+
+	TwExp   = reader.Get("boundaryConditions", "TwExp", "40+10*(x/Lx+y/Ly)");
+	qwExp   = reader.Get("boundaryConditions", "qwExp", "10");
+
+	nx = reader.GetInteger("gridSizes", "nx", 30);
+	ny = reader.GetInteger("gridSizes", "ny", 30);
+	nz = reader.GetInteger("gridSizes", "nz", 30);
+
+	r = reader.GetReal("initialValues", "r", 0.1);
+	U0 = reader.GetReal("initialValues", "U0", 1e-4);
+
+	maxFindIter         = reader.GetInteger("parameters", "maxFindIter"     , 100);
+	maxMainIter         = reader.GetInteger("parameters", "maxMainIter"     , 9999);
+
+	MTol                = reader.GetReal("parameters", "MTol"               , 1e-10);
+	FTol                = reader.GetReal("parameters", "FTol"               , 1e-6 );
+	allowedMaxFluxError = reader.GetReal("parameters", "allowedMaxFluxError", 100  );
+	allowedRelativeMFE  = reader.GetReal("parameters", "allowedRelativeMFE" , 1e-6 );
+	deltaCoeffMin       = reader.GetReal("parameters", "deltaCoeffMin"      , 0.7  );
+	deltaCoeffMax       = reader.GetReal("parameters", "deltaCoeffMax"      , 1.3  );
+	deltaRelax          = reader.GetReal("parameters", "deltaRelax"         , 0.05 );
+
+	exitVarFlag         = reader.GetInteger("flags", "exitVarFlag"     , 0);
+
+}
+
+void Model::updateMap()
+{
+
+	fieldMap = {
+		{ "Tw", Tw.get()},
+		{ "qw", qw.get()},
+		{ "bcSouth", bcSouth.get()},
+		{ "p", p.get()},
+		{ "qStefan", qStefan.get()},
+		{ "qNorth", qNorth.get()},
+		{ "delta", delta.get()}
+	};
+
+}
+
+
+
+/* if(relativeMFE <= allowedRelativeMFE) */
+/* { */
+/* 	printf("Breaking with MFE = %f\n", maxFluxError); */
+/* 	break; */
+/* } */
+
+
+/* if(relativeU0 <= 1e-10) */
+/* { */
+/* 	TSolveWrapper(); */
+/* 	itsolve++; */
+/* 	calc_maxFluxError(); */
+/* 	adjustDelta(); */
+/* 	recalcDelta=0; */
+/* 	find_U(); */
+/* 	if(relativeU0 <= 1e-10) */
+/* 	{ */
+/* 		printf("Breaking with MFE = %f\n", maxFluxError); */
+/* 		break; */
+/* 	} */
+/* } */

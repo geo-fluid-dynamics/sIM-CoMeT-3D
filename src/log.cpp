@@ -23,22 +23,22 @@ Log::Log()
 	if (stat("outputs", &st) == -1)
 		mkdir("outputs", 0755);
 
-	ptr = fopen(logFileName, "w");
+	logPTR = fopen(logFileName, "w");
 	filename = std::string(logFileName);
 	free(logFileName);
 
 
 }
 
-Log::~Log()
+Log::Log(std::string filepath)
 {
-	fclose(ptr);
-}
+	filename = filepath + "/log.dat";
+	logPTR = fopen(filename.c_str(), "w");
 
-void Log::writeHeader()
-{
+	std::string inputsFileName = filepath + "/inputs.dat";
+	inputsPTR = fopen(inputsFileName.c_str(), "w");
 
-	fprintf(ptr, "##### BEGIN HEADER #####\n");
+	fprintf(inputsPTR, "##### BEGIN HEADER #####\n");
 	FILE *inputFile;
 
 	/*write inputs as header in log file*/
@@ -48,15 +48,41 @@ void Log::writeHeader()
 	{
 		while((ch = fgetc(inputFile)) != EOF)
 		{
-			fputc(ch, ptr);
+			fputc(ch, inputsPTR);
 		}
 	}
 	fclose(inputFile);
-	fprintf(ptr, "##### END HEADER #####\n\n");
+	fprintf(inputsPTR, "##### END HEADER #####\n\n");
+
+}
+
+Log::~Log()
+{
+	fclose(logPTR);
+}
+
+void Log::writeHeader()
+{
+
+	fprintf(logPTR, "##### BEGIN HEADER #####\n");
+	FILE *inputFile;
+
+	/*write inputs as header in log file*/
+	inputFile = fopen( "inputs.ini", "r");
+	char ch;
+	if(inputFile)
+	{
+		while((ch = fgetc(inputFile)) != EOF)
+		{
+			fputc(ch, logPTR);
+		}
+	}
+	fclose(inputFile);
+	fprintf(logPTR, "##### END HEADER #####\n\n");
 
 }
 
 void Log::writeFooter()
 {
-	fprintf(ptr, "\n***** EOF *****");
+	fprintf(logPTR, "\n***** EOF *****");
 }

@@ -73,6 +73,8 @@ void Solver::init()
 
 			}
 
+	/* A->print(); */
+
 
 
 
@@ -92,8 +94,8 @@ void Solver::init()
 					//a bithack to shorten the code for boundary values in constructing A
 					//involves a specifically numbered enum set and an edge case if statement in stencil.discretize()
 					//aside from the bithack in the following line.
-					stencil.discretize(1, static_cast<dMode>((pointSide%2+1) & (int)(BCFlag->get(i,j,k))), static_cast<dDir>(pointSide/2));
-					/* printf("%d\n", pointSide/2); */
+					stencil.discretize(1, static_cast<dMode>(((pointSide%2)+1) & (int)(BCFlag->get(i,j,k))), static_cast<dDir>(pointSide/2));
+					/* printf("(%d,%d,%d)\t%d\t%d\n", i,j,k, ((pointSide%2) + 1) & (int)(BCFlag->get(i,j,k)), pointSide/2); */
 
 					A->pushStencil(stencil, row);
 					(*b)[row] = field->get(i,j,k);
@@ -101,6 +103,8 @@ void Solver::init()
 			}
 
 	assert(A->isFinite());
+
+	/* A->print(); */
 
 	/* for(int i=0; i<field->nx; i++) */
 	/* 	for(int j=0; j<field->ny; j++) */
