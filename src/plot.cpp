@@ -2,8 +2,8 @@
 
 Plot::Plot()
 {
-	/* gnu = popen("gnuplot -p 2> /dev/null", "w"); */
-	gnu = popen("gnuplot 2> /dev/null", "w");
+	gnu = popen("gnuplot -p 2> /dev/null", "w");
+	/* gnu = popen("gnuplot 2> /dev/null", "w"); */
 }
 
 Plot::~Plot()
@@ -14,9 +14,9 @@ Plot::~Plot()
 void Plot::image(Field * field)
 {
 	fprintf(gnu, "plot '-' u 1:2:3 with image pixels\n");
-	for(int i = 1; i<field->nx-1; i++)
+	for(int i = 0; i<field->nx; i++)
 	{
-		for(int j=1; j<field->ny-1; j++)
+		for(int j=0; j<field->ny; j++)
 		{
 			fprintf(gnu, "%d %d %e\n", i, j, field->get(i,j));
 		}

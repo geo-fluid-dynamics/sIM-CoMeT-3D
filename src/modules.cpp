@@ -6,6 +6,7 @@
 #include "solver.hpp"
 #include "estimator.hpp"
 #include <assert.h>
+#include "plot.hpp"
 
 #include "operators.hpp"
 
@@ -30,6 +31,7 @@ void Model::find_U()
 		{
 			std::cout << "Negative Force\n";
 			printf("AVERAGE p = %e\n", p->average());
+			printOutputs();
 			exit(-1);
 		}
 
@@ -88,7 +90,14 @@ void Model::init_uvw()
 	auto D2p_Dy2   = p->differentiate(CXX2, Y)->replicateZ(nz);
 	auto Ddelta_Dx = delta->differentiate(CX2, X)->replicateZ(nz);
 	auto Ddelta_Dy = delta->differentiate(CX2, Y)->replicateZ(nz);
-	auto lapl_p = ((*D2p_Dx2) + (*D2p_Dy2))->replicateZ(nz);
+	auto lapl_p = ((*D2p_Dx2) + (*D2p_Dy2));
+
+	lapl_p->set(0,0, (lapl_p->get(0,1)+lapl_p->get(1,0) + lapl_p->get(1,1))/3);
+	lapl_p->set(0,ny-1, (lapl_p->get(0,ny-2)+lapl_p->get(1,ny-1)+lapl_p->get(1, ny-2))/3);
+	lapl_p->set(nx-1,0, (lapl_p->get(nx-1,1)+lapl_p->get(nx-2,0)+lapl_p->get(nx-2, 1))/3);
+	lapl_p->set(nx-1,ny-1, (lapl_p->get(nx-1,ny-2)+lapl_p->get(nx-2,ny-1)+lapl_p->get(nx-2, ny-2))/3);
+
+	lapl_p = lapl_p->replicateZ(nz);
 
 	auto delta_3D = delta->replicateZ(nz);
 
@@ -99,6 +108,13 @@ void Model::init_uvw()
 	double z;
 	double value;
 	double fo_term;
+
+	assert(Dp_Dx->isFinite());
+	assert(Dp_Dy->isFinite());
+	assert(D2p_Dx2->isFinite());
+	assert(D2p_Dy2->isFinite());
+	assert(Ddelta_Dx->isFinite());
+	assert(Ddelta_Dy->isFinite());
 
 
 	if(nx!=1)
@@ -149,9 +165,17 @@ void Model::init_uvw()
 	/* 		} */
 	/* 	} */
 
+
+	/* lapl_p->print(); */
+	/* exit(0); */
+
 	auto cross_term = *(*Dp_Dx * *Ddelta_Dx) + *(*Dp_Dy * *Ddelta_Dy);
 	auto first_term = *(*(*z3d^3)/3) - *(*(*z3d^2) * *(*delta_3D/2));
 	w = *( *( *lapl_p * *first_term ) - *( *( *(*z3d^2)/2 ) * *cross_term) ) / (-2*mu);
+
+
+	/* w->print(); */
+	/* exit(0); */
 
 
 
@@ -162,25 +186,28 @@ void Model::calc_maxFluxError()
 	auto DT_Dz = T->differentiate(BX2, Z);
 	qNorth = *( *(DT_Dz->getSubfield(0, nx-1, 0, ny-1, nz-1, nz-1)) / *delta ) * -1;
 
-	double value;
-
-	/* for(int i = 0; i < nx; i++) */
-	/* 	for( int j = 0; j < ny; j++) */
-	/* 	{ */
-	/* 		value = - hmStar * rhoL * w->get(i,j, nz-1)/kL; */
-	/* 		qStefan->set(i,j, value); */
-	/* 	} */
+	auto q = T->differentiate(FX2, Z);
+	q = q->getSubfield(0,nx-1, 0,ny-1, 0,0);
+	q = *(*q * (-kL) ) / *delta;
+	Q = q->integrateXY();
 
 	qStefan = *(w->getSubfield(0,nx-1, 0,ny-1, nz-1, nz-1) ) * (-hmStar*rhoL/kL);
 
+	double qNorthInt = qNorth->integrateXY();
+	double qStefanInt= qStefan->integrateXY();
+	intFE = std::fabs(qStefanInt - qNorthInt);
+	intFR = qNorthInt/qStefanInt;
+
 	maxFluxError = 0;
+	avgFluxError = 0;
+
 	double fluxError;
+	double sum=0;
 
 	int sx = (nx==1)? 0 : 1;
 	int ex = (nx==1)? 1 : nx-1;
 	int sy = (ny==1)? 0 : 1;
 	int ey = (ny==1)? 1 : ny-1;
-
 
 	//currently only runs for interior nodes.
 	//because corners are always 0 due to dp/dx and dp/dy = 0 which are used in w
@@ -188,9 +215,12 @@ void Model::calc_maxFluxError()
 		for( int j = sy; j < ey; j++)
 		{
 			fluxError = std::fabs(qStefan->get(i,j) - qNorth->get(i,j));
+			sum+=fluxError;
 			if(maxFluxError < fluxError)
 				maxFluxError = fluxError;
 		}
+
+	avgFluxError = sum/((ex-sx)*(ey-sy));
 
 	//to be used when above issue is fixed.
 	//double maxFluxError = (qStefan - qNorth)->max();
@@ -203,6 +233,9 @@ void Model::adjustDelta()
 {
 	double coeff, tempvar, value;
 
+	assert(qNorth->isFinite());
+	assert(qStefan->isFinite());
+
 	for(int i = 0; i < nx; i++)
 		for(int j = 0; j < ny; j++)
 		{
@@ -211,8 +244,10 @@ void Model::adjustDelta()
 			coeff = tempvar > deltaCoeffMin? tempvar : deltaCoeffMin;
 
 			value = (1 + deltaRelax * (coeff-1)) * delta->get(i,j);
+
 			delta->set(i,j, value);
 		}
+
 }
 
 void Model::find_r()
@@ -227,9 +262,6 @@ void Model::find_r()
 	while(iter < maxFindIter)
 	{
 		iter++;
-		update_fields();
-
-
 		/* printf("r[%d]:\t%e\t%e\t%e\t%e\n", iter, r, Mx, My, Mtheta); */
 
 		Mthetas.push_back(Mtheta);
@@ -255,6 +287,8 @@ void Model::find_r()
 
 			}
 		}
+
+		update_fields();
 
 	}
 
@@ -292,13 +326,6 @@ void Model::TSolveWrapper()
 
 	auto zeta = std::make_unique<Field>(T.get());
 	zeta->set("z", variables);
-
-	/* for(int i=0; i<zeta->nx; i++) */
-	/* 	for(int j=0; j<zeta->ny; j++) */
-	/* 		for(int k=0; k<zeta->nz; k++) */
-	/* 		{ */
-	/* 			zeta->set(i,j,k, (double)k/(zeta->nz-1)); */
-	/* 		} */
 
 	auto delta_3D = delta->replicateZ(nz);
 	auto Ddelta_Dx = delta_3D->differentiate(CX2, X);
@@ -349,7 +376,6 @@ void Model::TSolveWrapper()
 
 void Model::PSolveWrapper()
 {
-
 	auto zero = std::make_unique<Field>(*p);
 
 	PDE pEqn(*p);
@@ -363,15 +389,7 @@ void Model::PSolveWrapper()
 
 
 	U = *(*(*vec/(-r)) + 1.0) * U0;
-	/* U = *(*(*vecField/(-r)) + 1.0) * U0; */
 	auto rhs = *U * (-2*mu*rhoS/rhoL);
-
-	/* auto rhs = std::make_unique<Field>(*p); */
-	/* for(int i=0; i < nx; i++) */
-	/* 	for(int j=0; j<ny; j++) */
-	/* 	{ */
-	/* 		rhs->set(i,j, -2*mu*rhoS/rhoL*UVal(i,j)); */
-	/* 	} */
 
 	pEqn.xx  = lapl_coeff.get();
 	pEqn.yy  = lapl_coeff.get();
@@ -398,7 +416,6 @@ void Model::combinedUpdate()
 		if(recalcDelta == 1)
 		{
 			U = *(*(*vec/(-r)) + 1.0) * U0;
-			/* U = *(*(*vecField/(-r)) + 1.0) * U0; */
 			delta = *( *(*Tw - Tm)/(*U) ) * (kL/(rhoS*hmStar));
 		}
 

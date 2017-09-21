@@ -23,6 +23,7 @@
 #include "estimator.hpp"
 #include "log.hpp"
 #include "plot.hpp"
+#include "functions.hpp"
 
 #include "packages/inih/INIReader.h"
 #include "operators.hpp"
@@ -44,8 +45,13 @@
  */
 Model::Model(std::string iniPath)
 {
-
 	parseINI(iniPath);
+}
+
+void Model::init()
+{
+	if(!curvilinearMelting)
+		r = 1.0/0.0;
 
 	dx = 2.0*Lx/(nx-1);
 	dy = 2.0*Ly/(ny-1);
@@ -64,6 +70,7 @@ Model::Model(std::string iniPath)
 	v       = std::make_unique<Field>(nx, ny, nz, Lx, Ly);
 	w       = std::make_unique<Field>(nx, ny, nz, Lx, Ly);
 
+	/* q      = std::make_unique<Field>(nx, ny, 1, Lx, Ly); */
 
 	variables["pi"] = M_PI;
 
@@ -98,17 +105,14 @@ Model::Model(std::string iniPath)
 	for(int i=0; i<nx; i++)
 		for(int j=0; j<ny; j++)
 		{
-			vecField->set(i,j, cos(radianThetaField->get(i,j))*xVal(i) + sin(radianThetaField->get(i,j))*yVal(j) );
+			val = cos(radianThetaField->get(i,j))*xVal(i) + sin(radianThetaField->get(i,j))*yVal(j);
+			vecField->set(i,j, val );
  		}
-
-
-
-
-
 
 	vec       = std::make_unique<Field>(nx, ny, 1, Lx, Ly);
 	variables["radianTheta"] = radianTheta;
 	vec->set("cos(radianTheta) * x + sin(radianTheta) * y", variables);
+
 
 	U = *(*(*vec/(-r)) + 1.0) * U0;
 	/* U = *(*(*vecField/(-r)) + 1.0) * U0; */
@@ -172,18 +176,20 @@ void Model::solve()
 	/* fprintf(log.logPTR, "iter\t\t\t\tU0\t\t\t\tr\t\t\t\tdelta\t\t\t\tp\t\t\t\tT\t\t\t\tu\t\t\t\tv\t\t\t\tw\t\t\t\tMFE\t\t\t\trelMFE\n"); */
 
 	Plot plot;
+	Plot plot2;
+	Plot realTime;
 
-	int index_var = 10;
 	std::string gnucmd = "plot '" + log.filename +"' using 1:" + std::to_string(index_var) + " w l\n";
 
 	int iter=0;
-
 	int itsolve=0;
 
-	double oldU0;
 
-	double * allowedExitVarPtr = (exitVarFlag == 0)? &allowedMaxFluxError : &allowedRelativeMFE;
-	double * exitVarPtr = (exitVarFlag == 0)? &maxFluxError : &relativeMFE;
+	/* double * allowedExitVarPtr = (exitVarFlag == 0)? &allowedMaxFluxError : &allowedRelativeMFE; */
+	/* double * exitVarPtr = (exitVarFlag == 0)? &maxFluxError : &relativeMFE; */
+
+	double * allowedExitVarPtr = (exitVarFlag == 0)? &allowedMaxFluxError : &allowedMaxFluxError;
+	double * exitVarPtr = (exitVarFlag == 0)? &maxFluxError : &intFE;
 
 	/* fprintf(plot.gnu, "set terminal gif animate delay 100\n"); */
 	/* fprintf(plot.gnu, "set output 'test.gif'\n"); */
@@ -193,9 +199,7 @@ void Model::solve()
 		printf("Main Loop: %d\n", ++iter);
 
 
-		oldU0 = U0;
 		find_U();
-		relativeU0 = fabs(U0 - oldU0)/U0;
 
 		find_r();
 
@@ -220,30 +224,41 @@ void Model::solve()
 		//break loop
 		if(*exitVarPtr<= *allowedExitVarPtr)
 		{
+			if(itsolve == maxTempSolve)
+				break;
 			TSolveWrapper();
 			itsolve++;
 			calc_maxFluxError();
 			if(*exitVarPtr<= *allowedExitVarPtr)
 			{
+				printOutputs();
 				printf("Breaking with MFE = %f\n", maxFluxError);
 				break;
 			}
 		}
 
+		/* double oldDeltaAvg = delta->average(); */
 		adjustDelta();
 		recalcDelta = 0;
+
 		printOutputs();
 
 		fprintf(log.logPTR, "%4d\t%e\t%e\t%e\t%e\t%e\t%e\t%e\t%e\t%e\t%e\t%e\t%e\t%e\n",
 				iter, U0, r, delta->average(), p->average(), T->average(),
 				u->average(),v->average(), w->average(), qStefan->average(), qNorth->average(), maxFluxError, relativeMFE, relativeU0);
 
-		/* plot.image(delta.get()); */
-		plot.setSurface();
-		plot.surface(delta.get());
-		/* fprintf(plot.gnu, gnucmd.c_str()); */
+		plot.image(qStefan.get());
+		plot2.image(qNorth.get());
+		/* plot.setSurface(); */
+		/* plot.surface(delta.get()); */
+		fprintf(realTime.gnu, gnucmd.c_str());
 
 	}
+
+	auto DT_Dz = T->differentiate(FX2, Z) ;
+	q = DT_Dz->getSubfield(0,nx-1, 0,ny-1, 0,0) ;
+	q = *(*q * (-kL) ) / *delta;
+	Q = q->integrateXY();
 
 	//render average plots
 	fflush(log.logPTR);
@@ -309,11 +324,13 @@ void Model::update_fields()
 	/* auto pv = *p * *vecField; */
 
 	Mtheta = pv->integrateXY();
+	/* F = p->integrateXY(); */
 
 }
 
 void Model::printOutputs()
 {
+
 	printf("\n<<<<<<<<<< STARTING DUMP >>>>>>>>>>\n");
 	printf("r = %e\tM = %e\n", r, Mtheta);
 	printf("U0 = %e\tF = %e\tFeff = %e\n", U0, F, Fscrew);
@@ -324,6 +341,7 @@ void Model::printOutputs()
 	printf("stefan = %e\n", qStefan->average());
 	printf("northflux= %e\n", qNorth->average());
 	printf("delta = %e\n", delta->average());
+	printf("theta = %.2f\n", theta);
 	printf("<<<<<<<<<<<<< END OF DUMP >>>>>>>>>>>\n\n");
 
 }
@@ -401,6 +419,7 @@ void Model::parseINI(std::string iniPath)
 
 	maxFindIter         = reader.GetInteger("parameters", "maxFindIter"     , 100);
 	maxMainIter         = reader.GetInteger("parameters", "maxMainIter"     , 9999);
+	maxTempSolve		= reader.GetInteger("parameters", "maxTempSolve"	, 10   );
 
 	MTol                = reader.GetReal("parameters", "MTol"               , 1e-10);
 	FTol                = reader.GetReal("parameters", "FTol"               , 1e-6 );
@@ -411,6 +430,10 @@ void Model::parseINI(std::string iniPath)
 	deltaRelax          = reader.GetReal("parameters", "deltaRelax"         , 0.05 );
 
 	exitVarFlag         = reader.GetInteger("flags", "exitVarFlag"     , 0);
+	index_var			= reader.GetInteger("flags", "index_var"     , 12);
+
+	printOutputsToScreen = reader.GetBoolean("flags", "printOutputsToScreen", true);
+	curvilinearMelting = reader.GetBoolean("flags", "curvilinearMelting", true);
 
 }
 
@@ -429,26 +452,235 @@ void Model::updateMap()
 
 }
 
+void Model::solve2()
+{
+	clock_t start = clock();
+
+	std::vector<std::string> dirs = setup_directory();
+
+	std::vector<std::string> logColumns = {"NULL", "iter", "U0", "r", "delta",
+		"p", "T", "u", "v", "w", "qStefan", "qNorth","MFE", "RMFE", "RU0", "intFR"};
+
+	Log log(dirs[0]);
+
+	Plot plot, plot2;
+	Plot realTime;
+	updateMap();
+	plot.saveImage(fieldMap, dirs[2]);
+	plot2.image(bcSouth.get());
+
+	std::string gnucmd = "plot '" + log.filename +"' using 1:" + std::to_string(index_var) + " w l\n";
+
+	int iter=0;
+	int itsolve=0;
+
+	double * allowedExitVarPtr = (exitVarFlag == 0)? &allowedMaxFluxError : &allowedMaxFluxError;
+	double * exitVarPtr = (exitVarFlag == 0)? &maxFluxError : &avgFluxError;
+
+	find_U();
+	if(curvilinearMelting)
+		find_r();
+	init_uvw();
+	recalcDelta=0;
+
+	double oldTMFE = 0;
+	double TMFE = maxFluxError;
+	double relTMFE = 0;
+
+	do
+	{
+		TSolveWrapper();
+		itsolve++;
+		oldTMFE = TMFE;
+		calc_maxFluxError();
+		TMFE = maxFluxError;
+		relTMFE = fabs(TMFE - oldTMFE) / TMFE;
+
+		while(*exitVarPtr > *allowedExitVarPtr)
+		{
+			++iter;
+			find_U();
+
+			if(curvilinearMelting)
+				find_r();
+
+			if(std::fabs(Fscrew - F) >= FTol)
+			{
+				printf("Continuing!\n");
+				continue;
+			}
+			init_uvw();
+			calc_maxFluxError();
+			adjustDelta();
+
+			if(printOutputsToScreen)
+			{
+				printf("Main Loop: %d\n", iter);
+				printOutputs();
+			}
+
+			fprintf(log.logPTR, "%4d\t%e\t%e\t%e\t%e\t%e\t%e\t%e\t%e\t%e\t%e\t%e\t%e\t%e\t%e\n",
+					iter, U0, r, delta->average(), p->average(), T->average(),
+					u->average(),v->average(), w->average(), qStefan->average(),
+					qNorth->average(), maxFluxError, relativeMFE, relativeU0, intFR);
+
+			fprintf(realTime.gnu, gnucmd.c_str());
+
+		}
+
+		/* exit(0); */
+
+	}
+	while( (relTMFE > 1e-2) && (TMFE > allowedMaxFluxError) && (itsolve < maxTempSolve));
+
+	/* auto f = *(delta->differentiate(CX2, X)) + *(delta->differentiate(CX2, Y)); */
+	/* auto bcd = *(qNorth->differentiate(CX2, X)) + *(qNorth->differentiate(CX2, Y)); */
+	/* auto g = *(*f / f->average()) - *(*bcd / bcd->average()); */
+	/* plot2.image(g.get()); */
+	/* g->print(); */
+
+	fflush(log.logPTR);
+	fprintf(plot.gnu, "unset output\n");
+	fprintf(plot.gnu, "set terminal png\n");
+	for(int i=2; i<=15; i++)
+	{
+		fprintf(plot.gnu, "set output '%s/%s.png'\n", dirs[1].c_str(), logColumns[i].c_str());
+		fprintf(plot.gnu, "set title '%s'\n", logColumns[i].c_str());
+		fprintf(plot.gnu, "plot '%s' using 1:%d w l\n", log.filename.c_str(), i );
+		fflush(plot.gnu);
+	}
+
+	updateMap();
+	plot.saveImage(fieldMap, dirs[2]);
+
+	double duration = (double) (clock() - start)/CLOCKS_PER_SEC;
+	printf("Time of Exec = %.2fs\n", duration);
+	printf("solved temp %d times\n", itsolve);
+	printf("relTMFE = %e\n", relTMFE);
+
+}
+
+void Model::solve3()
+{
+	clock_t start = clock();
+
+	std::vector<std::string> dirs = setup_directory();
+
+	std::vector<std::string> logColumns = {"NULL", "iter", "U0", "r", "delta",
+		"p", "T", "u", "v", "w", "qStefan", "qNorth","MFE", "RMFE", "RU0", "intFR"};
+
+	Log log(dirs[0]);
+
+	Plot plot, plot2;
+	Plot realTime;
+	updateMap();
+	plot.saveImage(fieldMap, dirs[2]);
+
+	std::string gnucmd = "plot '" + log.filename +"' using 1:" + std::to_string(index_var) + " w l\n";
+
+	int iter=0;
+	int itsolve=0;
+
+	double * allowedExitVarPtr = (exitVarFlag == 0)? &allowedMaxFluxError : &allowedMaxFluxError;
+	double * exitVarPtr = (exitVarFlag == 0)? &maxFluxError : &avgFluxError;
+
+	find_U();
+	if(curvilinearMelting)
+		find_r();
+	init_uvw();
+	TSolveWrapper();
+	recalcDelta=0;
+
+	double oldTMFE = 0;
+	double TMFE = maxFluxError;
+	double relTMFE = 0;
+
+	do
+	{
+
+		while(*exitVarPtr > *allowedExitVarPtr)
+		{
+			++iter;
+			/* find_U(); */
+
+			/* if(curvilinearMelting) */
+			/* 	find_r(); */
+
+			/* if(std::fabs(Fscrew - F) >= FTol) */
+			/* { */
+			/* 	printf("Continuing!\n"); */
+			/* 	continue; */
+			/* } */
+			update_fields();
+			F = p->integrateXY();
+			init_uvw();
+			calc_maxFluxError();
+			adjustDelta();
+
+			if(printOutputsToScreen)
+			{
+				printf("Main Loop: %d\n", iter);
+				printOutputs();
+			}
+
+			fprintf(log.logPTR, "%4d\t%e\t%e\t%e\t%e\t%e\t%e\t%e\t%e\t%e\t%e\t%e\t%e\t%e\t%e\n",
+					iter, U0, r, delta->average(), p->average(), T->average(),
+					u->average(),v->average(), w->average(), qStefan->average(),
+					qNorth->average(), maxFluxError, relativeMFE, relativeU0, intFR);
 
 
-/* if(relativeMFE <= allowedRelativeMFE) */
-/* { */
-/* 	printf("Breaking with MFE = %f\n", maxFluxError); */
-/* 	break; */
-/* } */
+			fprintf(realTime.gnu, gnucmd.c_str());
+
+		}
+
+		find_U();
+
+		if(curvilinearMelting)
+			find_r();
+
+		if(std::fabs(Fscrew - F) >= FTol)
+		{
+			printf("Continuing!\n");
+			continue;
+		}
+
+		init_uvw();
+
+		/* TSolveWrapper(); */
+		/* itsolve++; */
+		/* oldTMFE = TMFE; */
+		calc_maxFluxError();
+		/* TMFE = maxFluxError; */
+		/* relTMFE = fabs(TMFE - oldTMFE) / TMFE; */
+		/* exit(0); */
 
 
-/* if(relativeU0 <= 1e-10) */
-/* { */
-/* 	TSolveWrapper(); */
-/* 	itsolve++; */
-/* 	calc_maxFluxError(); */
-/* 	adjustDelta(); */
-/* 	recalcDelta=0; */
-/* 	find_U(); */
-/* 	if(relativeU0 <= 1e-10) */
-/* 	{ */
-/* 		printf("Breaking with MFE = %f\n", maxFluxError); */
-/* 		break; */
-/* 	} */
-/* } */
+	}
+	while( *exitVarPtr > *allowedExitVarPtr);
+
+	/* auto f = *(delta->differentiate(CX2, X)) + *(delta->differentiate(CX2, Y)); */
+	/* auto bcd = *(qNorth->differentiate(CX2, X)) + *(qNorth->differentiate(CX2, Y)); */
+	/* auto g = *(*f / f->average()) - *(*bcd / bcd->average()); */
+	/* plot2.image(g.get()); */
+	/* g->print(); */
+
+	fflush(log.logPTR);
+	fprintf(plot.gnu, "unset output\n");
+	fprintf(plot.gnu, "set terminal png\n");
+	for(int i=2; i<=15; i++)
+	{
+		fprintf(plot.gnu, "set output '%s/%s.png'\n", dirs[1].c_str(), logColumns[i].c_str());
+		fprintf(plot.gnu, "set title '%s'\n", logColumns[i].c_str());
+		fprintf(plot.gnu, "plot '%s' using 1:%d w l\n", log.filename.c_str(), i );
+		fflush(plot.gnu);
+	}
+
+	updateMap();
+	plot.saveImage(fieldMap, dirs[2]);
+
+	double duration = (double) (clock() - start)/CLOCKS_PER_SEC;
+	printf("Time of Exec = %.2fs\n", duration);
+	printf("solved temp %d times\n", itsolve);
+	printf("relTMFE = %e\n", relTMFE);
+
+}

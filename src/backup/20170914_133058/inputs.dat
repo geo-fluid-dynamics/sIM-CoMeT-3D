@@ -1,0 +1,70 @@
+##### BEGIN HEADER #####
+; Input file for sim-comet-cpp
+; Comments start with the ';' character.
+; Inline comments are allowed as long as there is a space after the input value
+
+[constants]             ; Physical Constants
+mu          = 0.001       ; (Nsm^-2) dynamic viscosity of the liquid
+Tm          = 0         ; (C) melting temperature of the ice
+Tinf        = -20       ; (C) ambient temperature of the ice
+hm          = 3.337e5   ; (J/kg) latent heat of melting.
+cpL         = 4222.22   ; (J/kg/K) specific heat capacity of the liquid
+cpS         = 2049.41   ; (J/kg/K) specific heat capacity of the solid
+rhoL        = 1000      ; (kg/m^3) density of the liquid
+rhoS        = 920       ; (kg/m^3) density of the solid
+kL          = 0.57      ; (W/m/K) thermal conductivity of the liquid
+Lx          = 0.075     ; (m) half-width of the probe's heated surface
+Ly          = 0.075     ; (m) half-width of the probe's heated surface
+Fscrew      = 375       ; (N) force exerted by the ice-screw
+
+[boundaryConditions]		; either DIRICHLET or NEUMANN
+southBC = DIRICHLET
+; southBC = NEUMANN
+sidesBC = NEUMANN
+
+; accepted variables in expressions: x, Lx, y, Ly
+
+; TwExp = (cos(2*pi*x/(Lx)) + cos(2*pi*y/(Ly)))*10 + 50 
+
+; qwExp = 400000 + exp(-10000*(x^2))*40000
+; TwExp = 40 + 8*exp(-10000*(x^2 + y^2))
+
+; TwExp = 30+exp(-10000*(x^2))*30
+; qwExp   = 40000+10000*(x/Lx + y/Ly)
+;
+; TwExp = 40 + 20*x/Lx 
+
+; TwExp = 0.1
+; qwExp = 10000
+
+[gridSizes]			; Number segments in the FDM implementation of Melt-Film
+nx = 32 			; x direction number of nodes. 
+ny = 32				; y direction number of nodes. Set ny = 1 for 2D simulation.
+nz = 22				; z direction number of nodes. In the direction of depth.
+
+[initialValues]
+r = 0.1
+U0 = 1e-4
+
+[parameters]
+maxMainIter         = 9999			; Max allowed iterations of the main loop in the program
+maxFindIter         = 100			; Max allowed iterations of the find loop for U0 and r
+maxTempSolve		= 10
+MTol                = 1e-10 		; Tolerance for M_int ~ 0
+FTol                = 1e-6		    ; Tolerance for F ~ F_screw
+allowedMaxFluxError = 1000		    ; Allowed Heat Flux Difference in the solution
+allowedRelativeMFE  = 1e-3
+deltaCoeffMin       = 0.5
+deltaCoeffMax       = 1.5
+deltaRelax          = 0.01
+
+[flags]
+; velocityConstrainedExit = false
+; useRelativeMFE = false
+; outputs = false
+; exitVarFlag may take integer values of 0 = MFE, other = RMFE
+exitVarFlag = 1
+index_var = 12
+realTimeOutput = MFE
+##### END HEADER #####
+

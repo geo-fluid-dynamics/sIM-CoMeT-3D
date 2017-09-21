@@ -40,6 +40,7 @@ class Model {
 		int recalcDelta = 1;
 		int maxMainIter;
 		int maxFindIter;
+		int maxTempSolve;
 
 		double MTol;
 		double FTol;
@@ -60,6 +61,8 @@ class Model {
 		std::unique_ptr<Field> qStefan;
 		std::unique_ptr<Field> bcSouth;
 
+		std::unique_ptr<Field> q;
+
 		std::unique_ptr<Field> T;
 		std::unique_ptr<Field> u;
 		std::unique_ptr<Field> v;
@@ -69,12 +72,16 @@ class Model {
 
 		std::unique_ptr<Field> sensorFilter;
 
+		int index_var;
+
 		double U0;
 		double r;
 		double Mx;
 		double My;
 		double Mtheta;
 		double F;
+
+		double Q;
 
 		double dx = 2.0*Lx/(nx-1);
 		double dy = 2.0*Ly/(ny-1);
@@ -84,11 +91,17 @@ class Model {
 		double alpha = kL/(rhoL*cpL);
 
 		double maxFluxError;
+		double avgFluxError;
 		double relativeMFE;
 		double relativeU0;
+		double intFE;
+		double intFR;
 
 		int exitVarFlag;
 		std::map< std::string, Field * > fieldMap;
+
+		bool printOutputsToScreen;
+		bool curvilinearMelting;
 
 		std::unique_ptr<Field> radianThetaField;
 		std::unique_ptr<Field> vecField;
@@ -96,21 +109,24 @@ class Model {
 		/* Model(); */
 		Model(std::string iniPath);
 		~Model();
+		void init();
 		void solve();
+		void solve2();
+		void solve3();
 		void printInputs();
 		void printOutputs();
 		void combinedUpdate();
 		void combinedUpdate2();
 		void Plot_FU();
 		void Plot_Mr();
+		void update_fields();
 
-	private:
+	/* private: */
 		double xVal(int i);
 		double yVal(int j)  ;
 		double zVal(int i, int j, int k) ;
 		double UVal(int i, int j) ;
 
-		void update_fields();
 
 		void find_U();
 		void find_r();

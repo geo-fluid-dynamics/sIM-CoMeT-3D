@@ -23,7 +23,10 @@ class PDE {
 		double dy;
 		double dz;
 
+		std::unique_ptr<Field> zero;
+
 		PDE();
+		/* ~PDE(); */
 		PDE(int nx, int ny, int nz, double dx, double dy, double dz);
 		PDE(Field & field);
 		bool isFinite();

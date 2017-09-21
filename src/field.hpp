@@ -58,6 +58,7 @@ class Field {
 
 		bool isFinite();
 
+		std::unique_ptr<Field> fabs();
 		std::unique_ptr<Field> getSubfield(int i1, int i2, int j1, int j2, int k1, int k2);
 		std::unique_ptr<Field> differentiate(dMode mode, dDir dir);
 		std::unique_ptr<Field> add(Field & field);

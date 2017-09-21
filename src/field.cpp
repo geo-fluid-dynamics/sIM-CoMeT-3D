@@ -62,9 +62,13 @@ Field::Field(Field & field)
 	Lx = field.Lx;
 	Ly = field.Ly;
 
-	dx = 2*Lx/(nx-1);
-	dy = 2*Ly/(ny-1);
-	dz = 1.0/(nz-1);
+	dx = field.dx;
+	dy = field.dy;
+	dz = field.dz;
+
+	/* dx = 2*Lx/(nx-1); */
+	/* dy = 2*Ly/(ny-1); */
+	/* dz = 1.0/(nz-1); */
 
 	values.reserve(nx*ny*nz);
 	this->setAll(0);
@@ -142,7 +146,10 @@ double Field::get(int i, int j)
 std::unique_ptr<Field> Field::getSubfield(int i1, int i2, int j1, int j2, int k1, int k2)
 {
 	/* Field * subfield = new Field(i2-i1+1, j2-j1+1, k2-k1+1, 0, 0); */
-	auto subfield = std::make_unique<Field>(i2-i1+1, j2-j1+1, k2-k1+1, 0, 0);
+	auto subfield = std::make_unique<Field>(i2-i1+1, j2-j1+1, k2-k1+1, Lx, Ly);
+	subfield->dx = dx;
+	subfield->dy = dy;
+	subfield->dz = dz;
 
 	for(int i = i1; i <= i2; i++)
 		for(int j = j1; j <= j2; j++)
@@ -189,6 +196,21 @@ bool Field::isFinite()
 
 
 	return true;
+}
+
+std::unique_ptr<Field> Field::fabs()
+{
+	auto newField = std::make_unique<Field>(this);
+
+	for(int i=0; i<this->nx; i++)
+		for(int j=0; j<this->ny; j++)
+			for(int k=0; k<this->nz; k++)
+			{
+				newField->set(i,j,k, std::fabs(this->get(i,j,k)));
+			}
+
+	return  newField;
+
 }
 
 /*
@@ -324,7 +346,6 @@ double Field::integrateXY()
 	double integ=0;
 	if(ny != 1 && nx != 1)
 	{
-
 		integ += dx * dy * ( this->get(0, 0) + this->get(0, ny-1) + this->get(nx-1, 0) + this->get( nx-1, ny-1) ) / 4;
 
 		for(int i = 1; i < this->nx-1; i++)
@@ -333,15 +354,15 @@ double Field::integrateXY()
 			integ += dx * dy * this->get(i, ny-1) / 2;
 		}
 
-		for(int j = 1; j < ny-1; j++)
+		for(int j = 1; j < this->ny-1; j++)
 		{
 			integ += dx * dy * this->get(0, j)/2;
 			integ += dx * dy * this->get(nx-1, j)/2;
 
 		}
 
-		for(int i = 1; i < nx-1; i++)
-			for(int j = 1; j < ny-1; j++)
+		for(int i = 1; i < this->nx-1; i++)
+			for(int j = 1; j < this->ny-1; j++)
 			{
 				integ += dx * dy * this->get(i, j);
 			}

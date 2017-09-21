@@ -78,6 +78,7 @@ void Solver::init()
 
 
 
+
 	//boundaries
 	//set BC from field.
 	for(int i=0; i<field->nx; i++)
